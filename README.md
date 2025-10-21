@@ -1,9 +1,36 @@
-Proyecto Intermodular 2025-26 de estudiantes de DAM
+# Proyecto Intermodular 2025-26 📚
 
-Participantes:
+## Información del Proyecto
 
-Company Pastor, Adrià
-Alemany Espert, Arnau
-Centro: IES Eduardo Primo Marques
+Proyecto desarrollado por estudiantes de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.
 
-Contacto tutor: montesinos_iva61@ieseduardoprimo.es
+---
+
+## 👥 Participantes
+
+- **Company Pastor, Adrià**
+- **Alemany Espert, Arnau**
+
+---
+
+## 🏫 Centro Educativo
+
+**IES Eduardo Primo Marqués**
+
+---
+
+## 📧 Contacto
+
+**Tutor del proyecto:** [montesinos_iva61@ieseduardoprimo.es](mailto:montesinos_iva61@ieseduardoprimo.es)
+
+---
+
+## 📄 Licencia
+
+Este proyecto está desarrollado con fines educativos como parte del módulo intermodular del ciclo formativo de DAM.
+
+---
+
+<p align="center">
+  <img src="https://www.gettyimages.es/fotos/codigos-de-programacion" alt="Programming" width="100%"/>
+</p>
