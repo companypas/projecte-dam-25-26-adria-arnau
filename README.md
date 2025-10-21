@@ -32,5 +32,5 @@ Este proyecto está desarrollado con fines educativos como parte del módulo int
 ---
 
 <p align="center">
-  <img src="https://www.gettyimages.es/fotos/codigos-de-programacion" alt="Programming" width="100%"/>
+  <img src="[https://www.gettyimages.es/fotos/codigos-de-programacion](https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200)" alt="Programming" width="100%"/>
 </p>
