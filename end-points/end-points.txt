@@ -1,0 +1,66 @@
+Autenticación
+POST   /auth/register          - Registrar nuevo usuario
+POST   /auth/login             - Iniciar sesión
+POST   /auth/logout            - Cerrar sesión
+GET    /auth/me                - Obtener usuario actual
+
+Usuarios
+GET    /usuarios/{id}          				- Obtener perfil de usuario
+PUT    /usuarios/{id}          				- Actualizar perfil
+DELETE /usuarios/{id}          				- Eliminar cuenta
+GET    /usuarios/{id}/productos-venta      	- Productos en venta del usuario
+GET    /usuarios/{id}/productos-vendidos   	- Productos vendidos
+GET    /usuarios/{id}/productos-comprados  	- Productos comprados
+GET    /usuarios/{id}/valoraciones         	- Valoraciones del usuario
+
+Productos
+GET    /productos              			- Listar productos (con filtros)
+POST   /productos              			- Crear nuevo producto
+GET    /productos/{id}         			- Obtener detalle de producto
+PUT    /productos/{id}         			- Modificar producto
+DELETE /productos/{id}         			- Eliminar producto
+GET    /productos/{id}/comentarios     	- Comentarios del producto
+GET    /productos/{id}/valoraciones     - Valoraciones del producto
+
+Categorías
+GET    /categorias             			- Listar todas las categorías
+GET    /categorias/{id}        			- Obtener categoría específica
+GET    /categorias/{id}/productos		- Productos de una categoría
+
+Compras
+POST   /compras                - Procesar nueva compra
+GET    /compras/{id}           - Obtener detalle de compra
+PUT    /compras/{id}/confirmar - Confirmar compra
+GET    /usuarios/{id}/compras  - Historial de compras del usuario
+
+Chat
+GET    /chats                  - Listar conversaciones del usuario
+GET    /chats/{id}             - Obtener historial de chat
+POST   /chats                  - Iniciar nueva conversación
+POST   /chats/{id}/mensajes    - Enviar mensaje
+
+Valoraciones
+POST   /valoraciones           			- Crear valoración
+PUT    /valoraciones/{id}      			- Modificar valoración
+DELETE /valoraciones/{id}      			- Eliminar valoración
+GET    /productos/{id}/valoraciones		- Valoraciones de un producto
+
+Comentarios
+POST   /comentarios            - Publicar comentario en producto
+PUT    /comentarios/{id}       - Editar comentario
+DELETE /comentarios/{id}       - Eliminar comentario
+
+Reportes
+POST   /reportes               - Crear reporte (usuario o producto)
+GET    /reportes               - Listar reportes (solo empleados)
+GET    /reportes/{id}          - Obtener detalle de reporte
+PUT    /reportes/{id}          - Procesar/actualizar reporte
+
+Empleados (Admin)
+GET    /admin/reportes         - Gestionar reportes
+DELETE /admin/usuarios/{id}    - Eliminar usuario
+DELETE /admin/productos/{id}   - Eliminar producto
+GET    /admin/estadisticas     - Dashboard de estadísticas
+
+Búsqueda
+GET    /buscar                 - Búsqueda general de productos
