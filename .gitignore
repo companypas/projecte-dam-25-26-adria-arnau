@@ -1,8 +1,5 @@
-odoo/volumesOdoo/*
-!odoo/volumesOdoo/addons/
-!odoo/volumesOdoo/addons/**
-
-!odoo/docker-compose.yml
+odoo/volumesOdoo/dataPostgreSQL/
+odoo/volumesOdoo/odoo/
 
 *.log
 .env
