@@ -1,6 +1,10 @@
-# Ignorar todo en odoo excepto addons y .yml
-odoo/*
-!odoo/addons/
-!odoo/addons/**
-!odoo/*.yml
-!odoo/*.yaml
+# Ignorar todo en odoo excepto addons.
+odoo/volumesOdoo/*
+!odoo/volumesOdoo/addons/
+!odoo/volumesOdoo/addons/**
+
+# Extensiones ignoradas
+*.log
+.env
+.DS_Store
+Thumbs.db
