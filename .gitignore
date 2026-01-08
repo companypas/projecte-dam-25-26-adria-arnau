@@ -1,7 +1,7 @@
 # Ignorar todo en odoo excepto addons.
-odoo/volumesOdoo/*
-!odoo/volumesOdoo/addons/
-!odoo/volumesOdoo/addons/**
+odoo/volumesOdoo/dataPostgreSQL
+odoo/volumesOdoo/odoo
+
 
 # Extensiones ignoradas
 *.log
