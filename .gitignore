@@ -1,6 +1,10 @@
-# Ignorar todo en odoo excepto addons.
-odoo/volumesOdoo/dataPostgreSQL
-odoo/volumesOdoo/odoo
+# Ignorar TODO en volumesOdoo EXCEPTO addons
+odoo/volumesOdoo/*
+!odoo/volumesOdoo/addons/
+!odoo/volumesOdoo/addons/**
+
+# Archivos de config (SI incluir)
+!odoo/docker-compose.yml
 
 
 # Extensiones ignoradas
