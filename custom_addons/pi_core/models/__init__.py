@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import models
 from . import pi_categoria
 from . import pi_comentario
 from . import pi_compra
