@@ -1,3 +1,5 @@
+from odoo import models, fields, api
+
 class piEtiqueta(models.Model):
     _name = 'pi.etiqueta'
     _description = 'Etiquetas de Productos'
@@ -10,10 +12,7 @@ class piEtiqueta(models.Model):
     
     # Relaciones
     productos_ids = fields.Many2many('pi.producto', string='Productos')
-    
-    # Campos computados
-    total_productos = fields.Integer(string='Productos con esta Etiqueta', compute='_compute_total_productos')
-    
+
     @api.depends('productos_ids')
     def _compute_total_productos(self):
         for record in self:

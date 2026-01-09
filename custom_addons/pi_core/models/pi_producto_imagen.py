@@ -1,3 +1,5 @@
+from odoo import models, fields
+
 class piProductoImagen(models.Model):
     _name = 'pi.producto.imagen'
     _description = 'Imágenes del Producto'
