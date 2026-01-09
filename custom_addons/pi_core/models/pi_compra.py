@@ -8,7 +8,6 @@ class piCompra(models.Model):
     _order = 'fecha desc'
     
     fecha = fields.Datetime(string='Fecha de Compra', default=fields.Datetime.now, required=True, readonly=True)
-    monto = fields.Float(string='Monto (€)', required=True, readonly=True)
     
     # Relaciones
     comprador_id = fields.Many2one('pi.usuario', string='Comprador', required=True, ondelete='restrict')
@@ -21,9 +20,7 @@ class piCompra(models.Model):
         ('procesando', 'Procesando'),
         ('confirmada', 'Confirmada'),
         ('valorada_comprador', 'Valorada por Comprador'),
-        ('valorada_vendedor', 'Valorada por Vendedor'),
-        ('valorada_ambos', 'Valorada por Ambos'),
-        ('cancelada', 'Cancelada')
+        ('valorada_vendedor', 'Valorada por Vendedor')
     ], string='Estado', default='pendiente', required=True, tracking=True)
     
     # Valoraciones
