@@ -8,14 +8,10 @@ class piCategoria(models.Model):
     nombre = fields.Char(string='Nombre de la Categoría', required=True)
     descripcion = fields.Text(string='Descripción')
     imagen = fields.Binary(string='Imagen de la Categoría', attachment=True)
-    activo = fields.Boolean(string='Activo', default=True)
     
     # Relaciones
     productos_ids = fields.One2many('pi.producto', 'categoria_id', string='Productos')
     
-    # Campos computados
-    total_productos = fields.Integer(string='Total de Productos', compute='_compute_total_productos')
-    productos_activos = fields.Integer(string='Productos Disponibles', compute='_compute_productos_activos')
     
     @api.model
     def create(self, vals):
@@ -46,30 +42,4 @@ class piCategoria(models.Model):
     _sql_constraints = [
         ('nombre_unique', 'unique(nombre)', 'El nombre de la categoría debe ser único.'),
         ('id_categoria_unique', 'unique(id_categoria)', 'El ID de categoría debe ser único.')
-    ]
-
-
-class piEtiqueta(models.Model):
-    _name = 'pi.etiqueta'
-    _description = 'Etiquetas de Productos'
-    _order = 'nombre'
-    
-    nombre = fields.Char(string='Etiqueta', required=True)
-    descripcion = fields.Char(string='Descripción')
-    color = fields.Integer(string='Color')
-    activo = fields.Boolean(string='Activo', default=True)
-    
-    # Relaciones
-    productos_ids = fields.Many2many('pi.producto', string='Productos')
-    
-    # Campos computados
-    total_productos = fields.Integer(string='Productos con esta Etiqueta', compute='_compute_total_productos')
-    
-    @api.depends('productos_ids')
-    def _compute_total_productos(self):
-        for record in self:
-            record.total_productos = len(record.productos_ids)
-    
-    _sql_constraints = [
-        ('nombre_unique', 'unique(nombre)', 'El nombre de la etiqueta debe ser único.')
     ]

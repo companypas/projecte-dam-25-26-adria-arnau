@@ -13,19 +13,17 @@ class piProducto(models.Model):
     antiguedad_producto = fields.Integer(string='Antigüedad del Producto (meses)', required=True)
     estado = fields.Selection([
         ('nuevo', 'Nuevo'),
-        ('como_nuevo', 'Como Nuevo'),
-        ('buen_estado', 'Buen Estado'),
-        ('aceptable', 'Aceptable'),
-        ('para_reparar', 'Para Reparar')
-    ], string='Estado del Producto', required=True, default='buen_estado')
+        ('segunda_mano', 'Segunda Mano'),
+    ], string='Estado del Producto', required=True, default='nuevo')
     precio = fields.Float(string='Precio (€)', required=True, tracking=True)
-    ubicacion = fields.Char(string='Ubicación', required=True)
+    latitude = fields.Float(string='Latitud', digits=(10, 8))
+    longitude = fields.Float(string='Longitud', digits=(10, 8))
     fecha_publicacion = fields.Datetime(string='Fecha de Publicación', default=fields.Datetime.now, readonly=True)
     
     # Relaciones
     propietario_id = fields.Many2one('pi.usuario', string='Propietario', required=True, ondelete='cascade')
     categoria_id = fields.Many2one('pi.categoria', string='Categoría', required=True, ondelete='restrict')
-    etiquetas_ids = fields.Many2many('pi.etiqueta', string='Etiquetas')
+    etiquetas_ids = fields.Many2many('pi.etiqueta', string='Etiquetas') #Crear módulo etiqueta
     imagenes_ids = fields.One2many('pi.producto.imagen', 'producto_id', string='Imágenes')
     comentarios_ids = fields.One2many('pi.comentario', 'producto_id', string='Comentarios')
     compra_id = fields.One2many('pi.compra', 'producto_id', string='Compra')
@@ -123,12 +121,3 @@ class piProducto(models.Model):
     ]
 
 
-class piProductoImagen(models.Model):
-    _name = 'pi.producto.imagen'
-    _description = 'Imágenes del Producto'
-    _order = 'sequence, id'
-    
-    producto_id = fields.Many2one('pi.producto', string='Producto', required=True, ondelete='cascade')
-    imagen = fields.Binary(string='Imagen', required=True, attachment=True)
-    nombre = fields.Char(string='Nombre de Archivo')
-    sequence = fields.Integer(string='Secuencia', default=10)

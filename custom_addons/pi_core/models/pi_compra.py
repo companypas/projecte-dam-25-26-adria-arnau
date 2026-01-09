@@ -87,12 +87,6 @@ class piCompra(models.Model):
             # Enviar notificaciones para valorar
             self._enviar_notificacion_valoracion()
     
-    def action_cancelar_compra(self):
-        self.ensure_one()
-        self.estado = 'cancelada'
-        # Devolver producto a disponible
-        self.producto_id.estado_venta = 'disponible'
-    
     def action_valorar_vendedor(self):
         return {
             'type': 'ir.actions.act_window',
