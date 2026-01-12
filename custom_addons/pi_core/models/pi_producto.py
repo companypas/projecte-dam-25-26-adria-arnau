@@ -8,6 +8,7 @@ class piProducto(models.Model):
     _order = 'fecha_publicacion desc'
     
     # Campos básicos
+    id_producto = fields.Char(string='ID Producto', required=True, copy=False, readonly=True, default='Nuevo')
     nombre_producto = fields.Char(string='Nombre del Producto', required=True, tracking=True)
     descripcion = fields.Text(string='Descripción', required=True)
     antiguedad_producto = fields.Integer(string='Antigüedad del Producto (meses)', required=True)
@@ -16,14 +17,13 @@ class piProducto(models.Model):
         ('segunda_mano', 'Segunda Mano'),
     ], string='Estado del Producto', required=True, default='nuevo')
     precio = fields.Float(string='Precio (€)', required=True, tracking=True)
-    latitude = fields.Float(string='Latitud', digits=(10, 8))
-    longitude = fields.Float(string='Longitud', digits=(10, 8))
+    ubicacion = fields.Char(string='Ubicación', required=True)
     fecha_publicacion = fields.Datetime(string='Fecha de Publicación', default=fields.Datetime.now, readonly=True)
     
     # Relaciones
     propietario_id = fields.Many2one('pi.usuario', string='Propietario', required=True, ondelete='cascade')
     categoria_id = fields.Many2one('pi.categoria', string='Categoría', required=True, ondelete='restrict')
-    etiquetas_ids = fields.Many2many('pi.etiqueta', string='Etiquetas') #Crear módulo etiqueta
+    etiquetas_ids = fields.Many2many('pi.etiqueta', string='Etiquetas')
     imagenes_ids = fields.One2many('pi.producto.imagen', 'producto_id', string='Imágenes')
     comentarios_ids = fields.One2many('pi.comentario', 'producto_id', string='Comentarios')
     compra_id = fields.One2many('pi.compra', 'producto_id', string='Compra')
@@ -33,7 +33,6 @@ class piProducto(models.Model):
     estado_venta = fields.Selection([
         ('disponible', 'Disponible'),
         ('vendido', 'Vendido'),
-        ('eliminado', 'Eliminado')
     ], string='Estado de Venta', default='disponible', required=True, tracking=True)
     
     # Campos computados
@@ -110,6 +109,53 @@ class piProducto(models.Model):
             }
         }
     
+    def action_iniciar_chat(self):
+        """Abre o crea un chat entre el usuario actual y el vendedor del producto"""
+        self.ensure_one()
+        
+        # Obtener el usuario actual
+        current_user = self.env.user
+        vendedor_user = self.propietario_id.user_ids[0] if self.propietario_id.user_ids else False
+        
+        if not vendedor_user:
+            raise ValidationError('El vendedor no tiene un usuario asociado.')
+        
+        if current_user == vendedor_user:
+            raise ValidationError('No puedes iniciar un chat contigo mismo.')
+        
+        # Buscar si ya existe un canal entre estos usuarios para este producto
+        channel_name = f'Producto: {self.nombre_producto}'
+        channel = self.env['mail.channel'].search([
+            ('name', '=', channel_name),
+            ('channel_partner_ids', 'in', [current_user.partner_id.id, vendedor_user.partner_id.id])
+        ], limit=1)
+        
+        # Si no existe, crear uno nuevo
+        if not channel:
+            channel = self.env['mail.channel'].create({
+                'name': channel_name,
+                'description': f'Chat sobre el producto: {self.nombre_producto}',
+                'channel_type': 'chat',  # 'chat' para conversación privada
+                'channel_partner_ids': [(4, current_user.partner_id.id), (4, vendedor_user.partner_id.id)],
+            })
+            
+            # Enviar mensaje inicial
+            channel.message_post(
+                body=f'{current_user.partner_id.name} está interesado en tu producto: {self.nombre_producto}',
+                message_type='notification',
+                subtype_xmlid='mail.mt_comment',
+            )
+        
+        # Abrir el chat
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'Chat - {self.nombre_producto}',
+            'res_model': 'mail.channel',
+            'res_id': channel.id,
+            'view_mode': 'form',
+            'target': 'current',
+        }
+    
     def action_marcar_vendido(self):
         self.estado_venta = 'vendido'
     
@@ -119,5 +165,3 @@ class piProducto(models.Model):
     _sql_constraints = [
         ('id_producto_unique', 'unique(id_producto)', 'El ID de producto debe ser único.')
     ]
-
-
