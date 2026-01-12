@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Tree View -->
-    <record id="view_pi_reporte_tree" model="ir.ui.view">
-        <field name="name">pi.reporte.tree</field>
+    <!-- LIST VIEW -->
+    <record id="view_pi_reporte_list" model="ir.ui.view">
+        <field name="name">pi.reporte.list</field>
         <field name="model">pi.reporte</field>
         <field name="arch" type="xml">
-            <tree decoration-success="estado=='resuelto'" 
-                  decoration-danger="estado=='rechazado'"
-                  decoration-warning="estado=='en_revision'">
-                <field name="display_name" widget="badge"/>
-                <field name="estado" widget="badge" decoration-bf="estado=='pendiente'"/>
-                <field name="tipo_reporte"/>
-                <field name="referencia"/>
-                <field name="fecha"/>
-                <field name="fecha_resolucion" string="Resuelto"/>
-            </tree>
+            <list decoration-success="estado=='resuelto'" 
+                  decoration-warning="estado=='en_revision'"
+                  decoration-danger="estado=='rechazado'">
+                <field name="display_name" width="150"/>
+                <field name="estado" widget="badge" 
+                       decoration-bf="estado=='pendiente'"
+                       width="100"/>
+                <field name="tipo_reporte" width="120"/>
+                <field name="referencia" width="200"/>
+                <field name="fecha" width="120"/>
+                <field name="fecha_resolucion" string="Resuelto" width="140"/>
+            </list>
         </field>
     </record>
 
-    <!-- Form View -->
+    <!-- FORM VIEW -->
     <record id="view_pi_reporte_form" model="ir.ui.view">
         <field name="name">pi.reporte.form</field>
         <field name="model">pi.reporte</field>
@@ -28,31 +30,31 @@
                     <button name="action_marcar_en_revision" 
                             string="🔍 En Revisión" 
                             type="object" 
-                            class="oe_highlight"
+                            class="oe_highlight btn-primary"
                             attrs="{'invisible': [('estado', '!=', 'pendiente')]}"/>
                     <button name="action_resolver_reporte" 
                             string="✅ Resolver" 
                             type="object" 
-                            class="oe_highlight"
+                            class="oe_highlight btn-success"
                             attrs="{'invisible': [('estado', 'not in', ['pendiente', 'en_revision'])]}"/>
                     <button name="action_rechazar_reporte" 
                             string="❌ Rechazar" 
-                            type="object"
+                            type="object" 
+                            class="btn-danger"
                             attrs="{'invisible': [('estado', '!=', 'pendiente')]}"/>
-                    <field name="estado" widget="statusbar" statusbar_visible="pendiente,en_revision,resuelto,rechazado"/>
+                    <field name="estado" widget="statusbar" 
+                           statusbar_visible="pendiente,en_revision,resuelto,rechazado"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
-                        <h1>
-                            <field name="display_name" readonly="1"/>
-                        </h1>
+                        <h1><field name="display_name" readonly="1"/></h1>
                     </div>
                     <group>
                         <group>
                             <field name="fecha"/>
-                            <field name="tipo_reporte"/>
-                            <field name="referencia"/>
-                            <field name="reportado_por_id" readonly="1"/>
+                            <field name="tipo_reporte" readonly="1"/>
+                            <field name="referencia" readonly="1"/>
+                            <field name="reportado_por_id" options="{'no_create': True}"/>
                             <field name="nombre_reportado_por"/>
                         </group>
                         <group>
@@ -61,11 +63,12 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Motivo">
-                            <field name="motivo" readonly="1"/>
+                        <page string="📝 Motivo">
+                            <field name="motivo" nolabel="1" readonly="1"/>
                         </page>
-                        <page string="Resolución" attrs="{'invisible': [('estado', 'in', ['pendiente', 'en_revision'])]}">
-                            <field name="notas_resolucion" readonly="1"/>
+                        <page string="📋 Resolución" 
+                              attrs="{'invisible': [('estado', 'in', ['pendiente', 'en_revision'])]}">
+                            <field name="notas_resolucion" nolabel="1" readonly="1"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -78,27 +81,22 @@
         </field>
     </record>
 
-    <!-- Action -->
+    <!-- ACTION -->
     <record id="action_pi_reporte" model="ir.actions.act_window">
         <field name="name">Reportes</field>
         <field name="res_model">pi.reporte</field>
-        <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_estado_pendiente': 1}</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_pendientes': 1}</field>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                ¡No hay reportes pendientes!
-            </p>
-            <p>
-                Los reportes aparecerán aquí automáticamente cuando los usuarios reporten 
-                productos, usuarios o comentarios.
-            </p>
+            <p class="o_view_nocontent_smiling_face">🎉 ¡No hay reportes pendientes!</p>
+            <p>Los reportes aparecerán aquí cuando los usuarios reporten contenido.</p>
         </field>
     </record>
 
-    <!-- Menu (solo para empleados PI) -->
+    <!-- MENÚ -->
     <menuitem id="menu_pi_reportes_root"
-              name="Reportes"
-              parent="pi_c2c.menu_pi_c2c_root"
+              name="📋 Reportes"
               action="action_pi_reporte"
-              groups="pi_c2c.group_pi_employee"/>
+              parent="base.menu_administration"
+              sequence="10"/>
 </odoo>

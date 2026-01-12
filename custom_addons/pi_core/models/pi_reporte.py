@@ -69,10 +69,13 @@ class PiReporte(models.Model):
             else:
                 record.referencia = 'Sin referencia'
     
-    @api.depends('id', 'tipo_reporte', 'referencia')
+    @api.depends('tipo_reporte', 'referencia')
     def _compute_display_name(self):
         for record in self:
-            record.display_name = f"#{record.id} - {record.referencia}"
+            if record.id:
+                record.display_name = f"#{record.id} - {record.referencia}"
+            else:
+                record.display_name = f"Nuevo - {record.referencia}"
     
     @api.model
     def create(self, vals):
@@ -135,17 +138,21 @@ class PiReporte(models.Model):
             self.usuario_reportado_id.activo = False
     
     def _enviar_notificacion_empleados(self):
-        grupo = self.env.ref('pi_c2c.group_pi_employee')
-        empleados = self.env['res.users'].search([('groups_id', 'in', [grupo.id])])
+        # TODO: Crear el grupo de empleados si es necesario
+        # grupo = self.env.ref('pi_core.group_pi_employee', raise_if_not_found=False)
+        # if not grupo:
+        #     return
+        # empleados = self.env['res.users'].search([('groups_id', 'in', [grupo.id])])
         
-        if empleados:
-            partner_ids = [emp.partner_id.id for emp in empleados if emp.partner_id]
+        # Por ahora, notificar al usuario admin
+        admin_user = self.env.ref('base.user_admin', raise_if_not_found=False)
+        if admin_user and admin_user.partner_id:
             self.message_post(
                 body=f'NUEVO REPORTE #{self.id}<br/>'
                      f'<b>Tipo:</b> {dict(self._fields["tipo_reporte"].selection)[self.tipo_reporte]}<br/>'
                      f'<b>Referencia:</b> {self.referencia}<br/>'
                      f'<b>Motivo:</b> {self.motivo[:100]}...',
-                partner_ids=partner_ids,
+                partner_ids=[admin_user.partner_id.id],
                 message_type='notification',
                 subtype_xmlid='mail.mt_comment',
             )
