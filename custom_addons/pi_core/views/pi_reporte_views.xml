@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- LIST VIEW -->
+
     <record id="view_pi_reporte_list" model="ir.ui.view">
         <field name="name">pi.reporte.list</field>
         <field name="model">pi.reporte</field>
@@ -20,7 +20,6 @@
         </field>
     </record>
 
-    <!-- FORM VIEW -->
     <record id="view_pi_reporte_form" model="ir.ui.view">
         <field name="name">pi.reporte.form</field>
         <field name="model">pi.reporte</field>
@@ -81,7 +80,6 @@
         </field>
     </record>
 
-    <!-- ACTION -->
     <record id="action_pi_reporte" model="ir.actions.act_window">
         <field name="name">Reportes</field>
         <field name="res_model">pi.reporte</field>
@@ -93,10 +91,9 @@
         </field>
     </record>
 
-    <!-- MENÚ -->
     <menuitem id="menu_pi_reportes_root"
               name="📋 Reportes"
               action="action_pi_reporte"
               parent="base.menu_administration"
               sequence="10"/>
-</odoo>
+</odoo> -->

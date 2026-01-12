@@ -1,9 +1,9 @@
 from odoo import models, fields, api
 
-class MarketplaceUsuario(models.Model):
-    _name = 'marketplace.usuario'
+class PiUsuario(models.Model):
+    _name = 'pi.usuario'
     _description = 'Usuario del Marketplace'
-    _inherit = ['res.partner', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['res.partner']
     
     # Campos básicos específicos del marketplace
     id_usuario = fields.Char(string='ID Usuario', required=True, copy=False, readonly=True, default='Nuevo')
@@ -12,14 +12,14 @@ class MarketplaceUsuario(models.Model):
     es_usuario_marketplace = fields.Boolean(string='Es Usuario Marketplace', default=True)
     
     # Relaciones
-    valoraciones_recibidas = fields.One2many('marketplace.valoracion', 'usuario_valorado_id', string='Valoraciones Recibidas')
-    valoraciones_realizadas = fields.One2many('marketplace.valoracion', 'usuario_valorador_id', string='Valoraciones Realizadas')
-    productos_venta = fields.One2many('marketplace.producto', 'propietario_id', string='Productos en Venta', 
-                                      domain=[('estado_venta', '=', 'disponible')])
-    productos_vendidos = fields.One2many('marketplace.compra', 'vendedor_id', string='Productos Vendidos')
-    productos_comprados = fields.One2many('marketplace.compra', 'comprador_id', string='Productos Comprados')
-    reportes_realizados = fields.One2many('marketplace.reporte', 'reportado_por_id', string='Reportes Realizados')
-    reportes_recibidos = fields.One2many('marketplace.reporte', 'usuario_reportado_id', string='Reportes Recibidos')
+    # valoraciones_recibidas = fields.One2many('pi.valoracion', 'usuario_valorado_id', string='Valoraciones Recibidas')
+    # valoraciones_realizadas = fields.One2many('pi.valoracion', 'usuario_valorador_id', string='Valoraciones Realizadas')
+    # productos_venta = fields.One2many('pi.producto', 'propietario_id', string='Productos en Venta', 
+    #                                   domain=[('estado_venta', '=', 'disponible')])
+    # productos_vendidos = fields.One2many('pi.compra', 'vendedor_id', string='Productos Vendidos')
+    # productos_comprados = fields.One2many('pi.compra', 'comprador_id', string='Productos Comprados')
+    # reportes_realizados = fields.One2many('pi.reporte', 'reportado_por_id', string='Reportes Realizados')
+    # reportes_recibidos = fields.One2many('pi.reporte', 'usuario_reportado_id', string='Reportes Recibidos')
     
     # Campos computados para estadísticas
     valoracion_promedio = fields.Float(string='Valoración Promedio', compute='_compute_valoracion_promedio', store=True)
@@ -31,8 +31,8 @@ class MarketplaceUsuario(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('id_usuario', 'Nuevo') == 'Nuevo':
-            vals['id_usuario'] = self.env['ir.sequence'].next_by_code('marketplace.usuario') or 'USR-NEW'
-        return super(MarketplaceUsuario, self).create(vals)
+            vals['id_usuario'] = self.env['ir.sequence'].next_by_code('pi.usuario') or 'USR-NEW'
+        return super(PiUsuario, self).create(vals)
     
     @api.depends('fecha_registro')
     def _compute_antiguedad(self):
@@ -65,7 +65,7 @@ class MarketplaceUsuario(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Reportar Usuario',
-            'res_model': 'marketplace.reporte',
+            'res_model': 'pi.reporte',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -78,7 +78,7 @@ class MarketplaceUsuario(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': f'Perfil de {self.name}',
-            'res_model': 'marketplace.usuario',
+            'res_model': 'pi.usuario',
             'view_mode': 'form',
             'res_id': self.id,
             'target': 'current',

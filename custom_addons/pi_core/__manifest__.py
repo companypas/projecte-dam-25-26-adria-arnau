@@ -22,9 +22,9 @@ Long description of module's purpose
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
-        'views/pi_reporte_views.xml',
-        'views/pi_reporte_wizard_views.xml',
+        # 'security/ir.model.access.csv',
+        # 'views/pi_reporte_views.xml',
+        # 'views/pi_reporte_wizard_views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
