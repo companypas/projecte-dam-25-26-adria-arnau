@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
     <record id="view_pi_reporte_list" model="ir.ui.view">
@@ -96,4 +96,4 @@
               action="action_pi_reporte"
               parent="base.menu_administration"
               sequence="10"/>
-</odoo> -->
+</odoo>
