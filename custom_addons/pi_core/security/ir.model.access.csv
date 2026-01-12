@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_pi_core_pi_core,pi_core.pi_core,model_pi_core_pi_core,base.group_user,1,1,1,1
+access_pi_reporte_user,pi.reporte.user,model_pi_reporte,pi_c2c.group_pi_employee,1,1,1,0
+access_pi_reporte_admin,pi.reporte.admin,model_pi_reporte,base.group_system,1,1,1,1
+access_pi_reporte_wizard,pi.reporte.resolver.wizard.user,model_pi_reporte_resolver_wizard,pi_c2c.group_pi_employee,1,1,1,1
