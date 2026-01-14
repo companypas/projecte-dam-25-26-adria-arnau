@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Formulario -->
+    <record id="view_pi_compra_form" model="ir.ui.view">
+        <field name="name">pi.compra.form</field>
+        <field name="model">pi.compra</field>
+        <field name="arch" type="xml">
+            <form string="Compra">
+                <header>
+                    <button name="action_procesar_compra" 
+                            string="Procesar" 
+                            type="object" 
+                            class="oe_highlight"
+                            attrs="{'invisible': [('estado', '!=', 'pendiente')]}"/>
+                    
+                    <button name="action_confirmar_compra" 
+                            string="Confirmar Compra" 
+                            type="object" 
+                            class="oe_highlight"
+                            attrs="{'invisible': [('estado', 'not in', ['pendiente', 'procesando'])]}"/>
+                    
+                    <button name="action_valorar_vendedor" 
+                            string="Valorar Vendedor" 
+                            type="object" 
+                            class="btn-primary"
+                            attrs="{'invisible': ['|', ('estado', 'not in', ['confirmada', 'valorada_vendedor']), ('vendedor_valorado', '=', True)]}"/>
+                    
+                    <button name="action_valorar_comprador" 
+                            string="Valorar Comprador" 
+                            type="object" 
+                            class="btn-primary"
+                            attrs="{'invisible': ['|', ('estado', 'not in', ['confirmada', 'valorada_comprador']), ('comprador_valorado', '=', True)]}"/>
+                    
+                    <field name="estado" widget="statusbar" 
+                           statusbar_visible="pendiente,procesando,confirmada,valorada_comprador,valorada_vendedor"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="id" readonly="1"/>
+                            <field name="fecha" readonly="1"/>
+                            <field name="comprador_id" options="{'no_create': True}"/>
+                            <field name="vendedor_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="producto_id" options="{'no_create': True}"/>
+                            <field name="monto" widget="monetary"/>
+                            <field name="comprador_valorado" invisible="1"/>
+                            <field name="vendedor_valorado" invisible="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Valoraciones">
+                            <group>
+                                <group string="Valoración del Vendedor">
+                                    <field name="valoracion_comprador_id" 
+                                           context="{'form_view_ref': 'tu_modulo.view_pi_valoracion_form'}"
+                                           options="{'no_create': True}"/>
+                                </group>
+                                <group string="Valoración del Comprador">
+                                    <field name="valoracion_vendedor_id"
+                                           context="{'form_view_ref': 'tu_modulo.view_pi_valoracion_form'}"
+                                           options="{'no_create': True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                        <page string="Información Adicional">
+                            <group>
+                                <field name="create_uid" readonly="1"/>
+                                <field name="create_date" readonly="1"/>
+                                <field name="write_uid" readonly="1"/>
+                                <field name="write_date" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de Lista -->
+    <record id="view_pi_compra_tree" model="ir.ui.view">
+        <field name="name">pi.compra.tree</field>
+        <field name="model">pi.compra</field>
+        <field name="arch" type="xml">
+            <tree string="Compras" 
+                  decoration-info="estado == 'pendiente'" 
+                  decoration-warning="estado == 'procesando'"
+                  decoration-success="estado in ['confirmada', 'valorada_comprador', 'valorada_vendedor']">
+                <field name="id"/>
+                <field name="fecha"/>
+                <field name="comprador_id"/>
+                <field name="vendedor_id"/>
+                <field name="producto_id"/>
+                <field name="monto" widget="monetary" sum="Total"/>
+                <field name="estado" widget="badge" 
+                       decoration-info="estado == 'pendiente'"
+                       decoration-warning="estado == 'procesando'"
+                       decoration-success="estado == 'confirmada'"
+                       decoration-primary="estado in ['valorada_comprador', 'valorada_vendedor']"/>
+                <field name="comprador_valorado" invisible="1"/>
+                <field name="vendedor_valorado" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_pi_compra_search" model="ir.ui.view">
+        <field name="name">pi.compra.search</field>
+        <field name="model">pi.compra</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Compras">
+                <field name="id"/>
+                <field name="comprador_id"/>
+                <field name="vendedor_id"/>
+                <field name="producto_id"/>
+                <field name="estado"/>
+                
+                <filter string="Pendientes" name="pendientes" domain="[('estado', '=', 'pendiente')]"/>
+                <filter string="En Proceso" name="procesando" domain="[('estado', '=', 'procesando')]"/>
+                <filter string="Confirmadas" name="confirmadas" domain="[('estado', '=', 'confirmada')]"/>
+                <filter string="Pendientes de Valorar" name="pendientes_valorar" 
+                        domain="['|', ('comprador_valorado', '=', False), ('vendedor_valorado', '=', False)]"/>
+                
+                <separator/>
+                <filter string="Mis Compras" name="mis_compras" 
+                        domain="[('comprador_id.user_id', '=', uid)]"/>
+                <filter string="Mis Ventas" name="mis_ventas" 
+                        domain="[('vendedor_id.user_id', '=', uid)]"/>
+                
+                <separator/>
+                <filter string="Este Mes" name="este_mes" 
+                        domain="[('fecha', '>=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="Este Año" name="este_anio" 
+                        domain="[('fecha', '>=', context_today().strftime('%Y-01-01'))]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Estado" name="group_estado" context="{'group_by': 'estado'}"/>
+                    <filter string="Comprador" name="group_comprador" context="{'group_by': 'comprador_id'}"/>
+                    <filter string="Vendedor" name="group_vendedor" context="{'group_by': 'vendedor_id'}"/>
+                    <filter string="Producto" name="group_producto" context="{'group_by': 'producto_id'}"/>
+                    <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana -->
+    <record id="action_pi_compra" model="ir.actions.act_window">
+        <field name="name">Compras</field>
+        <field name="res_model">pi.compra</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_pi_compra_search"/>
+        <field name="context">{'search_default_este_mes': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear una nueva compra
+            </p>
+            <p>
+                Aquí podrás gestionar todas las compras realizadas entre usuarios.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="menu_pi_compra"
+              name="Compras"
+              parent="tu_modulo.menu_pi_root"
+              action="action_pi_compra"
+              sequence="20"/>
+</odoo>
