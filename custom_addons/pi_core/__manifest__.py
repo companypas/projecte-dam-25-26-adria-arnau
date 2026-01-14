@@ -25,6 +25,7 @@ Long description of module's purpose
         # 'security/ir.model.access.csv',
         # 'views/pi_reporte_views.xml',
         # 'views/pi_reporte_wizard_views.xml'
+        'views/pi_compra_views.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
