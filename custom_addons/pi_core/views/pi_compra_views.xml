@@ -11,25 +11,25 @@
                             string="Procesar" 
                             type="object" 
                             class="oe_highlight"
-                            attrs="{'invisible': [('estado', '!=', 'pendiente')]}"/>
+                            invisible="estado != 'pendiente'"/>
                     
                     <button name="action_confirmar_compra" 
                             string="Confirmar Compra" 
                             type="object" 
                             class="oe_highlight"
-                            attrs="{'invisible': [('estado', 'not in', ['pendiente', 'procesando'])]}"/>
+                            invisible="estado not in ['pendiente', 'procesando']"/>
                     
                     <button name="action_valorar_vendedor" 
                             string="Valorar Vendedor" 
                             type="object" 
                             class="btn-primary"
-                            attrs="{'invisible': ['|', ('estado', 'not in', ['confirmada', 'valorada_vendedor']), ('vendedor_valorado', '=', True)]}"/>
+                            invisible="estado not in ['confirmada', 'valorada_vendedor'] or vendedor_valorado"/>
                     
                     <button name="action_valorar_comprador" 
                             string="Valorar Comprador" 
                             type="object" 
                             class="btn-primary"
-                            attrs="{'invisible': ['|', ('estado', 'not in', ['confirmada', 'valorada_comprador']), ('comprador_valorado', '=', True)]}"/>
+                            invisible="estado not in ['confirmada', 'valorada_comprador'] or comprador_valorado"/>
                     
                     <field name="estado" widget="statusbar" 
                            statusbar_visible="pendiente,procesando,confirmada,valorada_comprador,valorada_vendedor"/>
@@ -44,7 +44,7 @@
                     
                     <group>
                         <group>
-                            <field name="id" readonly="1"/>
+                            <field name="id_compra" readonly="1"/>
                             <field name="fecha" readonly="1"/>
                             <field name="comprador_id" options="{'no_create': True}"/>
                             <field name="vendedor_id" readonly="1"/>
@@ -62,12 +62,12 @@
                             <group>
                                 <group string="Valoración del Vendedor">
                                     <field name="valoracion_comprador_id" 
-                                           context="{'form_view_ref': 'tu_modulo.view_pi_valoracion_form'}"
+                                           context="{'form_view_ref': 'pi_core.view_pi_valoracion_form'}"
                                            options="{'no_create': True}"/>
                                 </group>
                                 <group string="Valoración del Comprador">
                                     <field name="valoracion_vendedor_id"
-                                           context="{'form_view_ref': 'tu_modulo.view_pi_valoracion_form'}"
+                                           context="{'form_view_ref': 'pi_core.view_pi_valoracion_form'}"
                                            options="{'no_create': True}"/>
                                 </group>
                             </group>
@@ -94,15 +94,15 @@
     </record>
 
     <!-- Vista de Lista -->
-    <record id="view_pi_compra_tree" model="ir.ui.view">
-        <field name="name">pi.compra.tree</field>
+    <record id="view_pi_compra_list" model="ir.ui.view">
+        <field name="name">pi.compra.list</field>
         <field name="model">pi.compra</field>
         <field name="arch" type="xml">
-            <tree string="Compras" 
+            <list string="Compras" 
                   decoration-info="estado == 'pendiente'" 
                   decoration-warning="estado == 'procesando'"
                   decoration-success="estado in ['confirmada', 'valorada_comprador', 'valorada_vendedor']">
-                <field name="id"/>
+                <field name="id_compra"/>
                 <field name="fecha"/>
                 <field name="comprador_id"/>
                 <field name="vendedor_id"/>
@@ -115,7 +115,7 @@
                        decoration-primary="estado in ['valorada_comprador', 'valorada_vendedor']"/>
                 <field name="comprador_valorado" invisible="1"/>
                 <field name="vendedor_valorado" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -125,7 +125,7 @@
         <field name="model">pi.compra</field>
         <field name="arch" type="xml">
             <search string="Buscar Compras">
-                <field name="id"/>
+                <field name="id_compra"/>
                 <field name="comprador_id"/>
                 <field name="vendedor_id"/>
                 <field name="producto_id"/>
@@ -164,7 +164,7 @@
     <record id="action_pi_compra" model="ir.actions.act_window">
         <field name="name">Compras</field>
         <field name="res_model">pi.compra</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="view_pi_compra_search"/>
         <field name="context">{'search_default_este_mes': 1}</field>
         <field name="help" type="html">
@@ -180,7 +180,6 @@
     <!-- Menú -->
     <menuitem id="menu_pi_compra"
               name="Compras"
-              parent="tu_modulo.menu_pi_root"
               action="action_pi_compra"
               sequence="20"/>
 </odoo>

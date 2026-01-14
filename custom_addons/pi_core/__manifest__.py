@@ -22,10 +22,15 @@ Long description of module's purpose
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        # 'views/pi_reporte_views.xml',
-        # 'views/pi_reporte_wizard_views.xml'
-        'views/pi_compra_views.xml'
+        'security/ir.model.access.csv',
+        'views/pi_usuario_views.xml',
+        'views/pi_categoria_views.xml',
+        'views/pi_etiqueta_views.xml',
+        'views/pi_producto_views.xml',
+        'views/pi_comentario_views.xml',
+        'views/pi_valoracion_views.xml',
+        'views/pi_compra_views.xml',
+        'views/pi_reporte_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

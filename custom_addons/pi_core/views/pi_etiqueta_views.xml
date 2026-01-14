@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Formulario -->
+    <record id="view_pi_etiqueta_form" model="ir.ui.view">
+        <field name="name">pi.etiqueta.form</field>
+        <field name="model">pi.etiqueta</field>
+        <field name="arch" type="xml">
+            <form string="Etiqueta">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nombre" placeholder="Nombre de la etiqueta..."/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="descripcion"/>
+                            <field name="color" widget="color"/>
+                            <field name="activo"/>
+                        </group>
+                        <group>
+                            <field name="total_productos" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Productos" name="productos">
+                            <field name="productos_ids">
+                                <list>
+                                    <field name="nombre_producto"/>
+                                    <field name="categoria_id"/>
+                                    <field name="precio"/>
+                                    <field name="estado_venta"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de Lista -->
+    <record id="view_pi_etiqueta_list" model="ir.ui.view">
+        <field name="name">pi.etiqueta.list</field>
+        <field name="model">pi.etiqueta</field>
+        <field name="arch" type="xml">
+            <list string="Etiquetas">
+                <field name="nombre"/>
+                <field name="descripcion"/>
+                <field name="color" widget="color"/>
+                <field name="total_productos"/>
+                <field name="activo"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_pi_etiqueta_search" model="ir.ui.view">
+        <field name="name">pi.etiqueta.search</field>
+        <field name="model">pi.etiqueta</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Etiquetas">
+                <field name="nombre"/>
+                <field name="descripcion"/>
+                
+                <filter string="Activas" name="activas" domain="[('activo', '=', True)]"/>
+                <filter string="Inactivas" name="inactivas" domain="[('activo', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana -->
+    <record id="action_pi_etiqueta" model="ir.actions.act_window">
+        <field name="name">Etiquetas</field>
+        <field name="res_model">pi.etiqueta</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_activas': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Crear una nueva etiqueta
+            </p>
+            <p>
+                Las etiquetas permiten clasificar productos con palabras clave.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="menu_pi_etiqueta"
+              name="Etiquetas"
+              action="action_pi_etiqueta"
+              sequence="40"/>
+</odoo>

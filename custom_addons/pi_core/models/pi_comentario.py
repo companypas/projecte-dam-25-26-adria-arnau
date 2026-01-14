@@ -20,7 +20,7 @@ class piComentario(models.Model):
     
     # Campos computados
     nombre_usuario = fields.Char(string='Usuario', related='usuario_id.name', readonly=True)
-    total_reportes = fields.Integer(string='Total Reportes', compute='_compute_total_reportes')
+    total_reportes = fields.Integer(string='Total Reportes', compute='_compute_total_reportes', store=True)
     
     @api.model
     def create(self, vals):

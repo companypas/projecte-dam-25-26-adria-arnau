@@ -19,6 +19,7 @@ class piProducto(models.Model):
     precio = fields.Float(string='Precio (€)', required=True, tracking=True)
     ubicacion = fields.Char(string='Ubicación', required=True)
     fecha_publicacion = fields.Datetime(string='Fecha de Publicación', default=fields.Datetime.now, readonly=True)
+    company_currency_id = fields.Many2one('res.currency', string='Moneda', default=lambda self: self.env.company.currency_id)
     
     # Relaciones
     propietario_id = fields.Many2one('pi.usuario', string='Propietario', required=True, ondelete='cascade')

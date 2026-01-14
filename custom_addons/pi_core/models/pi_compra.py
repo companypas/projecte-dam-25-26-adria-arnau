@@ -7,7 +7,12 @@ class piCompra(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'fecha desc'
     
+    # Campos básicos
+    id_compra = fields.Char(string='ID Compra', required=True, copy=False, readonly=True, default='Nuevo')
     fecha = fields.Datetime(string='Fecha de Compra', default=fields.Datetime.now, required=True, readonly=True)
+    monto = fields.Monetary(string='Monto', currency_field='currency_id', required=True)
+    currency_id = fields.Many2one('res.currency', string='Moneda', default=lambda self: self.env.company.currency_id)
+    active = fields.Boolean(string='Activo', default=True)
     
     # Relaciones
     comprador_id = fields.Many2one('pi.usuario', string='Comprador', required=True, ondelete='restrict')
@@ -28,8 +33,8 @@ class piCompra(models.Model):
     valoracion_vendedor_id = fields.Many2one('pi.valoracion', string='Valoración del Vendedor', readonly=True)
     
     # Campos computados
-    comprador_valorado = fields.Boolean(string='Comprador Valorado', compute='_compute_valoraciones_estado')
-    vendedor_valorado = fields.Boolean(string='Vendedor Valorado', compute='_compute_valoraciones_estado')
+    comprador_valorado = fields.Boolean(string='Comprador Valorado', compute='_compute_valoraciones_estado', store=True)
+    vendedor_valorado = fields.Boolean(string='Vendedor Valorado', compute='_compute_valoraciones_estado', store=True)
     
     @api.model
     def create(self, vals):

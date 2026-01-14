@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Formulario -->
+    <record id="view_pi_valoracion_form" model="ir.ui.view">
+        <field name="name">pi.valoracion.form</field>
+        <field name="model">pi.valoracion</field>
+        <field name="arch" type="xml">
+            <form string="Valoración">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="valoracion" widget="priority"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Información de la Valoración">
+                            <field name="tipo_valoracion"/>
+                            <field name="usuario_valorado_id"/>
+                            <field name="usuario_valorador_id"/>
+                            <field name="compra_id"/>
+                            <field name="fecha" readonly="1"/>
+                        </group>
+                        <group string="Detalles">
+                            <field name="valoracion_numerica" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Comentario">
+                        <field name="comentario" nolabel="1" placeholder="Escribe un comentario sobre esta transacción..."/>
+                    </group>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de Lista -->
+    <record id="view_pi_valoracion_list" model="ir.ui.view">
+        <field name="name">pi.valoracion.list</field>
+        <field name="model">pi.valoracion</field>
+        <field name="arch" type="xml">
+            <list string="Valoraciones">
+                <field name="fecha"/>
+                <field name="tipo_valoracion" widget="badge"/>
+                <field name="usuario_valorador_id"/>
+                <field name="usuario_valorado_id"/>
+                <field name="valoracion" widget="priority"/>
+                <field name="valoracion_numerica"/>
+                <field name="compra_id"/>
+                <field name="comentario"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_pi_valoracion_search" model="ir.ui.view">
+        <field name="name">pi.valoracion.search</field>
+        <field name="model">pi.valoracion</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Valoraciones">
+                <field name="usuario_valorado_id"/>
+                <field name="usuario_valorador_id"/>
+                <field name="compra_id"/>
+                <field name="comentario"/>
+                
+                <filter string="5 Estrellas" name="cinco_estrellas" domain="[('valoracion', '=', '5')]"/>
+                <filter string="4 Estrellas" name="cuatro_estrellas" domain="[('valoracion', '=', '4')]"/>
+                <filter string="3 Estrellas o menos" name="tres_o_menos" domain="[('valoracion', 'in', ['1', '2', '3'])]"/>
+                
+                <separator/>
+                <filter string="Valoraciones a Compradores" name="compradores" domain="[('tipo_valoracion', '=', 'comprador')]"/>
+                <filter string="Valoraciones a Vendedores" name="vendedores" domain="[('tipo_valoracion', '=', 'vendedor')]"/>
+                
+                <separator/>
+                <filter string="Mis Valoraciones Recibidas" name="mis_recibidas" 
+                        domain="[('usuario_valorado_id.user_id', '=', uid)]"/>
+                <filter string="Mis Valoraciones Realizadas" name="mis_realizadas" 
+                        domain="[('usuario_valorador_id.user_id', '=', uid)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Usuario Valorado" name="group_valorado" context="{'group_by': 'usuario_valorado_id'}"/>
+                    <filter string="Usuario Valorador" name="group_valorador" context="{'group_by': 'usuario_valorador_id'}"/>
+                    <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo_valoracion'}"/>
+                    <filter string="Valoración" name="group_valoracion" context="{'group_by': 'valoracion'}"/>
+                    <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana -->
+    <record id="action_pi_valoracion" model="ir.actions.act_window">
+        <field name="name">Valoraciones</field>
+        <field name="res_model">pi.valoracion</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay valoraciones
+            </p>
+            <p>
+                Las valoraciones se crean después de completar una compra en el marketplace.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="menu_pi_valoracion"
+              name="Valoraciones"
+              action="action_pi_valoracion"
+              sequence="60"/>
+</odoo>

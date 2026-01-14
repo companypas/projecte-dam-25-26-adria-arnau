@@ -3,7 +3,15 @@ from odoo import models, fields, api
 class PiUsuario(models.Model):
     _name = 'pi.usuario'
     _description = 'Usuario del Marketplace'
-    _inherit = ['res.partner']
+    _inherits = {'res.partner': 'partner_id'}
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    
+    # Campo requerido para la herencia por delegación
+    partner_id = fields.Many2one('res.partner', string='Partner', required=True, ondelete='cascade', auto_join=True)
+    
+    # Relación con usuario del sistema
+    user_id = fields.Many2one('res.users', string='Usuario Odoo', ondelete='cascade',
+                              help='Usuario del sistema Odoo vinculado a este usuario del marketplace')
     
     # Campos básicos específicos del marketplace
     id_usuario = fields.Char(string='ID Usuario', required=True, copy=False, readonly=True, default='Nuevo')
@@ -12,21 +20,21 @@ class PiUsuario(models.Model):
     es_usuario_marketplace = fields.Boolean(string='Es Usuario Marketplace', default=True)
     
     # Relaciones
-    # valoraciones_recibidas = fields.One2many('pi.valoracion', 'usuario_valorado_id', string='Valoraciones Recibidas')
-    # valoraciones_realizadas = fields.One2many('pi.valoracion', 'usuario_valorador_id', string='Valoraciones Realizadas')
-    # productos_venta = fields.One2many('pi.producto', 'propietario_id', string='Productos en Venta', 
-    #                                   domain=[('estado_venta', '=', 'disponible')])
-    # productos_vendidos = fields.One2many('pi.compra', 'vendedor_id', string='Productos Vendidos')
-    # productos_comprados = fields.One2many('pi.compra', 'comprador_id', string='Productos Comprados')
-    # reportes_realizados = fields.One2many('pi.reporte', 'reportado_por_id', string='Reportes Realizados')
-    # reportes_recibidos = fields.One2many('pi.reporte', 'usuario_reportado_id', string='Reportes Recibidos')
+    valoraciones_recibidas = fields.One2many('pi.valoracion', 'usuario_valorado_id', string='Valoraciones Recibidas')
+    valoraciones_realizadas = fields.One2many('pi.valoracion', 'usuario_valorador_id', string='Valoraciones Realizadas')
+    productos_venta = fields.One2many('pi.producto', 'propietario_id', string='Productos en Venta', 
+                                     domain=[('estado_venta', '=', 'disponible')])
+    productos_vendidos = fields.One2many('pi.compra', 'vendedor_id', string='Productos Vendidos')
+    productos_comprados = fields.One2many('pi.compra', 'comprador_id', string='Productos Comprados')
+    reportes_realizados = fields.One2many('pi.reporte', 'reportado_por_id', string='Reportes Realizados')
+    reportes_recibidos = fields.One2many('pi.reporte', 'usuario_reportado_id', string='Reportes Recibidos')
     
     # Campos computados para estadísticas
     valoracion_promedio = fields.Float(string='Valoración Promedio', compute='_compute_valoracion_promedio', store=True)
     total_valoraciones = fields.Integer(string='Total Valoraciones', compute='_compute_valoracion_promedio', store=True)
-    total_productos_venta = fields.Integer(string='Productos en Venta', compute='_compute_estadisticas')
-    total_productos_vendidos = fields.Integer(string='Productos Vendidos', compute='_compute_estadisticas')
-    total_productos_comprados = fields.Integer(string='Productos Comprados', compute='_compute_estadisticas')
+    total_productos_venta = fields.Integer(string='Productos en Venta', compute='_compute_estadisticas', store=True)
+    total_productos_vendidos = fields.Integer(string='Productos Vendidos', compute='_compute_estadisticas', store=True)
+    total_productos_comprados = fields.Integer(string='Productos Comprados', compute='_compute_estadisticas', store=True)
     
     @api.model
     def create(self, vals):

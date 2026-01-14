@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Formulario -->
+    <record id="view_pi_reporte_form" model="ir.ui.view">
+        <field name="name">pi.reporte.form</field>
+        <field name="model">pi.reporte</field>
+        <field name="arch" type="xml">
+            <form string="Reporte">
+                <header>
+                    <button name="action_marcar_en_revision" 
+                            string="Marcar En Revisión" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="estado != 'pendiente'"/>
+                    
+                    <button name="action_resolver_reporte" 
+                            string="Resolver" 
+                            type="object" 
+                            class="oe_highlight"
+                            invisible="estado not in ['pendiente', 'en_revision']"/>
+                    
+                    <button name="action_rechazar_reporte" 
+                            string="Rechazar" 
+                            type="object" 
+                            class="btn-danger"
+                            invisible="estado not in ['pendiente', 'en_revision']"/>
+                    
+                    <field name="estado" widget="statusbar" 
+                           statusbar_visible="pendiente,en_revision,resuelto,rechazado"/>
+                </header>
+                
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                        <h3>
+                            <field name="tipo_reporte" widget="badge"/>
+                        </h3>
+                    </div>
+                    
+                    <group>
+                        <group string="Información del Reporte">
+                            <field name="nombre_reportado_por" readonly="1"/>
+                            <field name="reportado_por_id"/>
+                            <field name="fecha" readonly="1"/>
+                            <field name="referencia" readonly="1"/>
+                        </group>
+                        <group string="Elemento Reportado">
+                            <field name="producto_reportado_id" invisible="tipo_reporte != 'producto'"/>
+                            <field name="usuario_reportado_id" invisible="tipo_reporte != 'usuario'"/>
+                            <field name="comentario_reportado_id" invisible="tipo_reporte != 'comentario'"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Motivo">
+                        <field name="motivo" nolabel="1"/>
+                    </group>
+                    
+                    <group string="Resolución" invisible="estado not in ['resuelto', 'rechazado']">
+                        <group>
+                            <field name="fecha_resolucion" readonly="1"/>
+                            <field name="accion_tomada"/>
+                        </group>
+                        <group>
+                            <field name="notas_resolucion"/>
+                        </group>
+                    </group>
+                </sheet>
+                
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de Lista -->
+    <record id="view_pi_reporte_list" model="ir.ui.view">
+        <field name="name">pi.reporte.list</field>
+        <field name="model">pi.reporte</field>
+        <field name="arch" type="xml">
+            <list string="Reportes" 
+                  decoration-info="estado == 'pendiente'" 
+                  decoration-warning="estado == 'en_revision'"
+                  decoration-success="estado == 'resuelto'"
+                  decoration-muted="estado == 'rechazado'">
+                <field name="display_name"/>
+                <field name="tipo_reporte" widget="badge"/>
+                <field name="nombre_reportado_por"/>
+                <field name="referencia"/>
+                <field name="motivo"/>
+                <field name="fecha"/>
+                <field name="estado" widget="badge" 
+                       decoration-info="estado == 'pendiente'"
+                       decoration-warning="estado == 'en_revision'"
+                       decoration-success="estado == 'resuelto'"
+                       decoration-muted="estado == 'rechazado'"/>
+                <field name="accion_tomada"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de Búsqueda -->
+    <record id="view_pi_reporte_search" model="ir.ui.view">
+        <field name="name">pi.reporte.search</field>
+        <field name="model">pi.reporte</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Reportes">
+                <field name="reportado_por_id"/>
+                <field name="motivo"/>
+                <field name="referencia"/>
+                
+                <filter string="Pendientes" name="pendientes" domain="[('estado', '=', 'pendiente')]"/>
+                <filter string="En Revisión" name="en_revision" domain="[('estado', '=', 'en_revision')]"/>
+                <filter string="Resueltos" name="resueltos" domain="[('estado', '=', 'resuelto')]"/>
+                <filter string="Rechazados" name="rechazados" domain="[('estado', '=', 'rechazado')]"/>
+                
+                <separator/>
+                <filter string="Reportes de Productos" name="productos" domain="[('tipo_reporte', '=', 'producto')]"/>
+                <filter string="Reportes de Usuarios" name="usuarios" domain="[('tipo_reporte', '=', 'usuario')]"/>
+                <filter string="Reportes de Comentarios" name="comentarios" domain="[('tipo_reporte', '=', 'comentario')]"/>
+                
+                <separator/>
+                <filter string="Mis Reportes" name="mis_reportes" 
+                        domain="[('reportado_por_id.user_id', '=', uid)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Estado" name="group_estado" context="{'group_by': 'estado'}"/>
+                    <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo_reporte'}"/>
+                    <filter string="Reportado Por" name="group_reportado_por" context="{'group_by': 'reportado_por_id'}"/>
+                    <filter string="Acción Tomada" name="group_accion" context="{'group_by': 'accion_tomada'}"/>
+                    <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana -->
+    <record id="action_pi_reporte" model="ir.actions.act_window">
+        <field name="name">Reportes</field>
+        <field name="res_model">pi.reporte</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_pendientes': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay reportes
+            </p>
+            <p>
+                Los reportes permiten a los usuarios alertar sobre contenido inapropiado.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="menu_pi_reporte"
+              name="Reportes"
+              action="action_pi_reporte"
+              sequence="70"/>
+</odoo>

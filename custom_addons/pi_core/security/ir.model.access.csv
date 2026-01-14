@@ -1,3 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_pi_reporte,pi.reporte.user,model_pi_reporte,base.group_user,1,1,1,0
+access_pi_usuario,pi.usuario.user,model_pi_usuario,base.group_user,1,1,1,1
+access_pi_compra,pi.compra.user,model_pi_compra,base.group_user,1,1,1,1
+access_pi_producto,pi.producto.user,model_pi_producto,base.group_user,1,1,1,1
+access_pi_categoria,pi.categoria.user,model_pi_categoria,base.group_user,1,1,1,1
+access_pi_etiqueta,pi.etiqueta.user,model_pi_etiqueta,base.group_user,1,1,1,1
+access_pi_valoracion,pi.valoracion.user,model_pi_valoracion,base.group_user,1,1,1,1
+access_pi_comentario,pi.comentario.user,model_pi_comentario,base.group_user,1,1,1,1
+access_pi_reporte,pi.reporte.user,model_pi_reporte,base.group_user,1,1,1,1
+access_pi_producto_imagen,pi.producto.imagen.user,model_pi_producto_imagen,base.group_user,1,1,1,1
 access_pi_reporte_wizard,pi.reporte.wizard.user,model_pi_reporte_resolver_wizard,base.group_user,1,1,1,1

@@ -51,7 +51,7 @@ class PiReporte(models.Model):
     # Campos computados
     nombre_reportado_por = fields.Char(
         string='Reportado Por', 
-        related='reportado_por_id.partner_id.name', 
+        related='reportado_por_id.name', 
         readonly=True
     )
     referencia = fields.Char(string='Referencia', compute='_compute_referencia')
@@ -63,7 +63,7 @@ class PiReporte(models.Model):
             if record.tipo_reporte == 'producto' and record.producto_reportado_id:
                 record.referencia = record.producto_reportado_id.nombre_producto
             elif record.tipo_reporte == 'usuario' and record.usuario_reportado_id:
-                record.referencia = record.usuario_reportado_id.partner_id.name
+                record.referencia = record.usuario_reportado_id.name
             elif record.tipo_reporte == 'comentario' and record.comentario_reportado_id:
                 record.referencia = f"Comentario: {record.comentario_reportado_id.texto[:50]}..."
             else:
