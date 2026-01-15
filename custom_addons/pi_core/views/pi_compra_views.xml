@@ -160,11 +160,23 @@
         </field>
     </record>
 
+    <!-- Vista Graph -->
+    <record id="view_pi_compra_graph" model="ir.ui.view">
+        <field name="name">pi.compra.graph</field>
+        <field name="model">pi.compra</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Compras" type="line">
+                <field name="fecha" type="row" interval="month"/>
+                <field name="monto" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <!-- Acción de Ventana -->
     <record id="action_pi_compra" model="ir.actions.act_window">
         <field name="name">Compras</field>
         <field name="res_model">pi.compra</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,graph</field>
         <field name="search_view_id" ref="view_pi_compra_search"/>
         <field name="context">{'search_default_este_mes': 1}</field>
         <field name="help" type="html">

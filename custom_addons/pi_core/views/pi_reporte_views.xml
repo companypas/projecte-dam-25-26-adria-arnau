@@ -138,11 +138,23 @@
         </field>
     </record>
 
+    <!-- Vista Graph -->
+    <record id="view_pi_reporte_graph" model="ir.ui.view">
+        <field name="name">pi.reporte.graph</field>
+        <field name="model">pi.reporte</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Reportes" type="bar">
+                <field name="estado" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <!-- Acción de Ventana -->
     <record id="action_pi_reporte" model="ir.actions.act_window">
         <field name="name">Reportes</field>
         <field name="res_model">pi.reporte</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,graph</field>
         <field name="context">{'search_default_pendientes': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

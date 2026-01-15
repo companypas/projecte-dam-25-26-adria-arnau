@@ -94,11 +94,23 @@
         </field>
     </record>
 
+    <!-- Vista Graph -->
+    <record id="view_pi_valoracion_graph" model="ir.ui.view">
+        <field name="name">pi.valoracion.graph</field>
+        <field name="model">pi.valoracion</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Valoraciones" type="pie">
+                <field name="valoracion" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <!-- Acción de Ventana -->
     <record id="action_pi_valoracion" model="ir.actions.act_window">
         <field name="name">Valoraciones</field>
         <field name="res_model">pi.valoracion</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 No hay valoraciones

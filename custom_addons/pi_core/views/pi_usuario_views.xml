@@ -246,11 +246,23 @@
         </field>
     </record>
 
+    <!-- Vista Graph -->
+    <record id="view_pi_usuario_graph" model="ir.ui.view">
+        <field name="name">pi.usuario.graph</field>
+        <field name="model">pi.usuario</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Usuarios" type="bar">
+                <field name="fecha_registro" type="row" interval="month"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <!-- Acción de Ventana -->
     <record id="action_pi_usuario" model="ir.actions.act_window">
         <field name="name">Usuarios</field>
         <field name="res_model">pi.usuario</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,list,form,graph</field>
         <field name="search_view_id" ref="view_pi_usuario_search"/>
         <field name="context">{'search_default_marketplace': 1}</field>
         <field name="help" type="html">

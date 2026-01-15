@@ -255,11 +255,23 @@
         </field>
     </record>
 
+    <!-- Vista Graph -->
+    <record id="view_pi_producto_graph" model="ir.ui.view">
+        <field name="name">pi.producto.graph</field>
+        <field name="model">pi.producto</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Productos" type="bar">
+                <field name="categoria_id" type="row"/>
+                <field name="precio" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <!-- Acción de Ventana -->
     <record id="action_pi_producto" model="ir.actions.act_window">
         <field name="name">Productos</field>
         <field name="res_model">pi.producto</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,list,form,graph</field>
         <field name="search_view_id" ref="view_pi_producto_search"/>
         <field name="context">{'search_default_disponibles': 1}</field>
         <field name="help" type="html">

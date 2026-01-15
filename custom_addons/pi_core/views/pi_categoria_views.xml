@@ -64,11 +64,23 @@
         </field>
     </record>
 
+    <!-- Vista Graph -->
+    <record id="view_pi_categoria_graph" model="ir.ui.view">
+        <field name="name">pi.categoria.graph</field>
+        <field name="model">pi.categoria</field>
+        <field name="arch" type="xml">
+            <graph string="Análisis de Categorías" type="pie">
+                <field name="nombre" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
     <!-- Acción de Ventana -->
     <record id="action_pi_categoria" model="ir.actions.act_window">
         <field name="name">Categorías</field>
         <field name="res_model">pi.categoria</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,graph</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Crear una nueva categoría
