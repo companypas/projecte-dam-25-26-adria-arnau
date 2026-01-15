@@ -38,8 +38,21 @@ class PiUsuario(models.Model):
     
     @api.model
     def create(self, vals):
+        # Si no se proporciona un partner_id, crear uno automáticamente
+        if not vals.get('partner_id'):
+            partner_vals = {
+                'name': vals.get('name', 'Nuevo Usuario'),
+                'email': vals.get('email', False),
+                'phone': vals.get('phone', False),
+                'is_company': False,
+            }
+            partner = self.env['res.partner'].create(partner_vals)
+            vals['partner_id'] = partner.id
+        
+        # Generar ID de usuario si es necesario
         if vals.get('id_usuario', 'Nuevo') == 'Nuevo':
             vals['id_usuario'] = self.env['ir.sequence'].next_by_code('pi.usuario') or 'USR-NEW'
+        
         return super(PiUsuario, self).create(vals)
     
     @api.depends('fecha_registro')

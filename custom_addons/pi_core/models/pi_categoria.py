@@ -5,12 +5,17 @@ class piCategoria(models.Model):
     _description = 'Categoría de Productos'
     _order = 'nombre'
     
+    id_categoria = fields.Char(string='ID Categoría', required=True, copy=False, readonly=True, default='Nuevo')
     nombre = fields.Char(string='Nombre de la Categoría', required=True)
     descripcion = fields.Text(string='Descripción')
     imagen = fields.Binary(string='Imagen de la Categoría', attachment=True)
     
     # Relaciones
     productos_ids = fields.One2many('pi.producto', 'categoria_id', string='Productos')
+    
+    # Campos computados
+    total_productos = fields.Integer(string='Total de Productos', compute='_compute_total_productos', store=True)
+    productos_activos = fields.Integer(string='Productos Activos', compute='_compute_productos_activos', store=True)
     
     @api.model
     def create(self, vals):

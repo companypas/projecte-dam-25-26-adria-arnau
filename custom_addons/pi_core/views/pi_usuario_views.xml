@@ -36,7 +36,7 @@
                         <group string="Información Personal">
                             <field name="email"/>
                             <field name="phone"/>
-                            <field name="partner_id" readonly="1"/>
+                            <field name="partner_id" invisible="1"/>
                             <field name="user_id"/>
                         </group>
                         <group string="Información del Marketplace">
