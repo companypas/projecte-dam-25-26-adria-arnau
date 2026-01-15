@@ -58,8 +58,17 @@
         <field name="model">pi.categoria</field>
         <field name="arch" type="xml">
             <search string="Buscar Categorías">
+                <!-- Campos de búsqueda -->
                 <field name="nombre"/>
                 <field name="descripcion"/>
+                
+                <!-- Filtros adicionales -->
+                <filter string="Con Productos" name="con_productos" domain="[('productos_ids', '!=', False)]"/>
+                <filter string="Sin Productos" name="sin_productos" domain="[('productos_ids', '=', False)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Nombre" name="group_nombre" context="{'group_by': 'nombre'}"/>
+                </group>
             </search>
         </field>
     </record>

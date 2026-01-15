@@ -216,23 +216,32 @@
         <field name="model">pi.usuario</field>
         <field name="arch" type="xml">
             <search string="Buscar Usuarios">
+                <!-- Campos de búsqueda -->
                 <field name="id_usuario"/>
                 <field name="name"/>
                 <field name="email"/>
                 <field name="phone"/>
                 
+                <!-- Filtros principales -->
                 <filter string="Usuarios Marketplace" name="marketplace" domain="[('es_usuario_marketplace', '=', True)]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por actividad -->
                 <filter string="Con Productos en Venta" name="con_productos" domain="[('total_productos_venta', '&gt;', 0)]"/>
                 <filter string="Con Ventas" name="con_ventas" domain="[('total_productos_vendidos', '&gt;', 0)]"/>
                 <filter string="Con Compras" name="con_compras" domain="[('total_productos_comprados', '&gt;', 0)]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por valoración -->
                 <filter string="Bien Valorados (>80%)" name="bien_valorados" domain="[('valoracion_promedio', '&gt;=', 0.8)]"/>
                 <filter string="Con Valoraciones" name="con_valoraciones" domain="[('total_valoraciones', '&gt;', 0)]"/>
+                <filter string="Sin Valoraciones" name="sin_valoraciones" domain="[('total_valoraciones', '=', 0)]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por fecha -->
                 <filter string="Registrados Este Mes" name="este_mes" 
                         domain="[('fecha_registro', '&gt;=', (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
                 <filter string="Registrados Este Año" name="este_anio" 
@@ -241,6 +250,7 @@
                 <group expand="0" string="Agrupar Por">
                     <filter string="Fecha Registro" name="group_fecha" context="{'group_by': 'fecha_registro'}"/>
                     <filter string="Usuario Odoo" name="group_user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Valoración Promedio" name="group_valoracion" context="{'group_by': 'valoracion_promedio'}"/>
                 </group>
             </search>
         </field>

@@ -219,25 +219,43 @@
         <field name="model">pi.producto</field>
         <field name="arch" type="xml">
             <search string="Buscar Productos">
+                <!-- Campos de búsqueda -->
                 <field name="id_producto"/>
                 <field name="nombre_producto"/>
+                <field name="descripcion"/>
                 <field name="propietario_id"/>
                 <field name="categoria_id"/>
                 <field name="etiquetas_ids"/>
                 <field name="ubicacion"/>
+                <field name="precio"/>
                 
+                <!-- Filtros por Estado de Venta -->
                 <filter string="Disponibles" name="disponibles" domain="[('estado_venta', '=', 'disponible')]"/>
                 <filter string="Vendidos" name="vendidos" domain="[('estado_venta', '=', 'vendido')]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por Estado del Producto -->
                 <filter string="Nuevos" name="nuevos" domain="[('estado', '=', 'nuevo')]"/>
                 <filter string="Segunda Mano" name="segunda_mano" domain="[('estado', '=', 'segunda_mano')]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por Precio -->
+                <filter string="Menos de 50€" name="precio_menos_50" domain="[('precio', '&lt;', 50)]"/>
+                <filter string="Entre 50€ y 200€" name="precio_50_200" domain="[('precio', '&gt;=', 50), ('precio', '&lt;=', 200)]"/>
+                <filter string="Entre 200€ y 500€" name="precio_200_500" domain="[('precio', '&gt;=', 200), ('precio', '&lt;=', 500)]"/>
+                <filter string="Más de 500€" name="precio_mas_500" domain="[('precio', '&gt;', 500)]"/>
+                
+                <separator/>
+                
+                <!-- Filtros personales -->
                 <filter string="Mis Productos" name="mis_productos" 
                         domain="[('propietario_id.user_id', '=', uid)]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por fecha -->
                 <filter string="Última Semana" name="ultima_semana" 
                         domain="[('fecha_publicacion', '&gt;=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
                 <filter string="Último Mes" name="ultimo_mes" 
@@ -250,6 +268,7 @@
                     <filter string="Estado" name="group_estado" context="{'group_by': 'estado'}"/>
                     <filter string="Ubicación" name="group_ubicacion" context="{'group_by': 'ubicacion'}"/>
                     <filter string="Fecha Publicación" name="group_fecha" context="{'group_by': 'fecha_publicacion'}"/>
+                    <filter string="Precio" name="group_precio" context="{'group_by': 'precio'}"/>
                 </group>
             </search>
         </field>

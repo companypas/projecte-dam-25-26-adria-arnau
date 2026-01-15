@@ -62,11 +62,24 @@
         <field name="model">pi.etiqueta</field>
         <field name="arch" type="xml">
             <search string="Buscar Etiquetas">
+                <!-- Campos de búsqueda -->
                 <field name="nombre"/>
                 <field name="descripcion"/>
                 
+                <!-- Filtros por estado -->
                 <filter string="Activas" name="activas" domain="[('activo', '=', True)]"/>
                 <filter string="Inactivas" name="inactivas" domain="[('activo', '=', False)]"/>
+                
+                <separator/>
+                
+                <!-- Filtros por uso -->
+                <filter string="Con Productos" name="con_productos" domain="[('productos_ids', '!=', False)]"/>
+                <filter string="Sin Productos" name="sin_productos" domain="[('productos_ids', '=', False)]"/>
+                
+                <group expand="0" string="Agrupar Por">
+                    <filter string="Nombre" name="group_nombre" context="{'group_by': 'nombre'}"/>
+                    <filter string="Estado" name="group_activo" context="{'group_by': 'activo'}"/>
+                </group>
             </search>
         </field>
     </record>

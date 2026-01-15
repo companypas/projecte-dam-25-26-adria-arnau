@@ -64,30 +64,55 @@
         <field name="model">pi.valoracion</field>
         <field name="arch" type="xml">
             <search string="Buscar Valoraciones">
+                <!-- Campos de búsqueda -->
                 <field name="usuario_valorado_id"/>
                 <field name="usuario_valorador_id"/>
                 <field name="compra_id"/>
+                <field name="compra_id.producto_id" string="Producto"/>
                 <field name="comentario"/>
                 
+                <!-- Filtros por Estrellas -->
                 <filter string="5 Estrellas" name="cinco_estrellas" domain="[('valoracion', '=', '5')]"/>
                 <filter string="4 Estrellas" name="cuatro_estrellas" domain="[('valoracion', '=', '4')]"/>
+                <filter string="3 Estrellas" name="tres_estrellas" domain="[('valoracion', '=', '3')]"/>
+                <filter string="2 Estrellas" name="dos_estrellas" domain="[('valoracion', '=', '2')]"/>
+                <filter string="1 Estrella" name="una_estrella" domain="[('valoracion', '=', '1')]"/>
                 <filter string="3 Estrellas o menos" name="tres_o_menos" domain="[('valoracion', 'in', ['1', '2', '3'])]"/>
+                <filter string="4 o 5 Estrellas" name="cuatro_o_cinco" domain="[('valoracion', 'in', ['4', '5'])]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por Tipo -->
                 <filter string="Valoraciones a Compradores" name="compradores" domain="[('tipo_valoracion', '=', 'comprador')]"/>
                 <filter string="Valoraciones a Vendedores" name="vendedores" domain="[('tipo_valoracion', '=', 'vendedor')]"/>
                 
                 <separator/>
+                
+                <!-- Filtros por Producto -->
+                <filter string="Con Producto" name="con_producto" domain="[('compra_id.producto_id', '!=', False)]"/>
+                
+                <separator/>
+                
+                <!-- Filtros personales -->
                 <filter string="Mis Valoraciones Recibidas" name="mis_recibidas" 
                         domain="[('usuario_valorado_id.user_id', '=', uid)]"/>
                 <filter string="Mis Valoraciones Realizadas" name="mis_realizadas" 
                         domain="[('usuario_valorador_id.user_id', '=', uid)]"/>
+                
+                <separator/>
+                
+                <!-- Filtros por fecha -->
+                <filter string="Este Mes" name="este_mes" 
+                        domain="[('fecha', '&gt;=', (context_today() - datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Este Año" name="este_anio" 
+                        domain="[('fecha', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
                 
                 <group expand="0" string="Agrupar Por">
                     <filter string="Usuario Valorado" name="group_valorado" context="{'group_by': 'usuario_valorado_id'}"/>
                     <filter string="Usuario Valorador" name="group_valorador" context="{'group_by': 'usuario_valorador_id'}"/>
                     <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo_valoracion'}"/>
                     <filter string="Valoración" name="group_valoracion" context="{'group_by': 'valoracion'}"/>
+                    <filter string="Producto" name="group_producto" context="{'group_by': 'compra_id.producto_id'}"/>
                     <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
                 </group>
             </search>
