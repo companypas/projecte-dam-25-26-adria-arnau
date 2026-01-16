@@ -18,12 +18,6 @@
                             type="object" 
                             class="btn-primary"
                             icon="fa-user"/>
-                    
-                    <button name="%(action_report_usuario_info)d" 
-                            string="Imprimir Información" 
-                            type="action" 
-                            class="oe_stat_button"
-                            icon="fa-print"/>
                 </header>
                 
                 <sheet>

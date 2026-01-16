@@ -11,15 +11,18 @@ Long description of module's purpose
     'author': "My Company",
     'website': "https://www.yourcompany.com",
 
+    # Categories can be used to filter modules in modules listing
+    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
+    # for the full list
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base','mail','web'],
+    # any module necessary for this one to work correctly
+    'depends': ['base','mail'],
 
+    # always loaded
     'data': [
-        'data/ir_sequence.xml',
         'security/ir.model.access.csv',
-        'reports/pi_reportes.xml',
         'views/pi_usuario_views.xml',
         'views/pi_categoria_views.xml',
         'views/pi_etiqueta_views.xml',
@@ -29,6 +32,7 @@ Long description of module's purpose
         'views/pi_compra_views.xml',
         'views/pi_reporte_views.xml',
     ],
+    # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],

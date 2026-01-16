@@ -47,7 +47,7 @@
                             <field name="id_compra" readonly="1"/>
                             <field name="fecha" readonly="1"/>
                             <field name="comprador_id" options="{'no_create': True}"/>
-                            <field name="vendedor_id" readonly="1"/>
+                            <field name="vendedor_id" options="{'no_create': True}"/>
                         </group>
                         <group>
                             <field name="producto_id" options="{'no_create': True}"/>
