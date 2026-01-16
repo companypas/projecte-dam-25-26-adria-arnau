@@ -236,7 +236,7 @@
                                                 <tr>
                                                     <td style="padding: 8px;" t-esc="producto.id_producto"/>
                                                     <td style="padding: 8px;" t-esc="producto.nombre_producto"/>
-                                                    <td style="padding: 8px;" t-esc="producto.categoria_id.name if producto.categoria_id else 'Sin categoría'"/>
+                                                    <td style="padding: 8px;" t-esc="producto.categoria_id.nombre if producto.categoria_id else 'Sin categoría'"/>
                                                     <td style="text-align: right; padding: 8px;">
                                                         <span t-esc="'{:.2f}'.format(producto.precio)"/>
                                                     </td>
