@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reporte: Categorías Más Vendidas -->
+    <record id="action_report_categorias_mas_vendidas" model="ir.actions.report">
+        <field name="name">Categorías Más Vendidas</field>
+        <field name="model">pi.reporte.categoria</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pi_core.report_categorias_mas_vendidas</field>
+        <field name="report_file">pi_core.report_categorias_mas_vendidas</field>
+        <field name="print_report_name">'Categorías Más Vendidas - %s' % (datetime.datetime.now().strftime('%Y-%m-%d'))</field>
+    </record>
+
+    <!-- Plantilla QWeb: Categorías Más Vendidas -->
+    <template id="report_categorias_mas_vendidas">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="text-center">Reporte de Categorías Más Vendidas</h1>
+                                <p class="text-center">
+                                    <strong>Fecha del Reporte:</strong> 
+                                    <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y %H:%M')"/>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr style="background-color: #f0f0f0;">
+                                            <th style="text-align: center; padding: 10px;">#</th>
+                                            <th style="text-align: left; padding: 10px;">Categoría</th>
+                                            <th style="text-align: center; padding: 10px;">Total Ventas</th>
+                                            <th style="text-align: right; padding: 10px;">Monto Total (€)</th>
+                                            <th style="text-align: center; padding: 10px;">Productos Vendidos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="categorias" t-value="doc.get_categorias_mas_vendidas()"/>
+                                        <t t-set="contador" t-value="1"/>
+                                        <t t-foreach="categorias" t-as="categoria">
+                                            <tr>
+                                                <td style="text-align: center; padding: 8px;">
+                                                    <span t-esc="contador"/>
+                                                </td>
+                                                <td style="text-align: left; padding: 8px;">
+                                                    <strong t-esc="categoria['categoria'].nombre"/>
+                                                    <br/>
+                                                    <small t-esc="categoria['categoria'].descripcion or ''"/>
+                                                </td>
+                                                <td style="text-align: center; padding: 8px;">
+                                                    <span t-esc="categoria['total_ventas']"/>
+                                                </td>
+                                                <td style="text-align: right; padding: 8px;">
+                                                    <strong t-esc="'{:.2f}'.format(categoria['total_monto'])"/>
+                                                </td>
+                                                <td style="text-align: center; padding: 8px;">
+                                                    <span t-esc="len(categoria['productos_vendidos'])"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="contador" t-value="contador + 1"/>
+                                        </t>
+                                        <t t-if="not categorias">
+                                            <tr>
+                                                <td colspan="5" style="text-align: center; padding: 20px;">
+                                                    <em>No hay datos de ventas disponibles</em>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Detalle de productos por categoría -->
+                        <t t-set="categorias" t-value="doc.get_categorias_mas_vendidas()"/>
+                        <t t-foreach="categorias[:5]" t-as="categoria">
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <h3>
+                                        <span t-esc="categoria['categoria'].nombre"/>
+                                        <small class="text-muted">- Detalle de Productos Vendidos</small>
+                                    </h3>
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr style="background-color: #f8f9fa;">
+                                                <th style="text-align: left; padding: 8px;">Producto</th>
+                                                <th style="text-align: right; padding: 8px;">Precio (€)</th>
+                                                <th style="text-align: center; padding: 8px;">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="categoria['productos_vendidos']" t-as="producto">
+                                                <tr>
+                                                    <td style="text-align: left; padding: 6px;">
+                                                        <span t-esc="producto.nombre_producto"/>
+                                                    </td>
+                                                    <td style="text-align: right; padding: 6px;">
+                                                        <span t-esc="'{:.2f}'.format(producto.precio)"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 6px;">
+                                                        <span t-esc="dict(producto._fields['estado_venta'].selection).get(producto.estado_venta, producto.estado_venta)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Reporte: Información de Usuario -->
+    <record id="action_report_usuario_info" model="ir.actions.report">
+        <field name="name">Información de Usuario</field>
+        <field name="model">pi.usuario</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pi_core.report_usuario_info</field>
+        <field name="report_file">pi_core.report_usuario_info</field>
+        <field name="print_report_name">'Información de Usuario - %s' % (object.name or 'Usuario')</field>
+    </record>
+
+    <!-- Plantilla QWeb: Información de Usuario -->
+    <template id="report_usuario_info">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="usuario">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        
+                        <!-- Encabezado del Usuario -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="text-center">Información de Usuario</h1>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <t t-if="usuario.image_1920">
+                                    <img t-att-src="'data:image/png;base64,%s' % usuario.image_1920" 
+                                         style="max-width: 150px; max-height: 150px; border-radius: 50%;"/>
+                                </t>
+                            </div>
+                            <div class="col-9">
+                                <h2 t-esc="usuario.name or 'Sin nombre'"/>
+                                <p>
+                                    <strong>ID Usuario:</strong> <span t-esc="usuario.id_usuario"/>
+                                </p>
+                                <p>
+                                    <strong>Email:</strong> <span t-esc="usuario.email or 'No disponible'"/>
+                                </p>
+                                <p>
+                                    <strong>Teléfono:</strong> <span t-esc="usuario.phone or 'No disponible'"/>
+                                </p>
+                                <p>
+                                    <strong>Fecha de Registro:</strong> 
+                                    <span t-esc="usuario.fecha_registro.strftime('%d/%m/%Y') if usuario.fecha_registro else 'No disponible'"/>
+                                </p>
+                                <p>
+                                    <strong>Antigüedad:</strong> 
+                                    <span t-esc="'%d días' % usuario.antiguedad if usuario.antiguedad else '0 días'"/>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Estadísticas -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Estadísticas</h3>
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 25%; padding: 10px;"><strong>Valoración Promedio</strong></td>
+                                            <td style="padding: 10px;">
+                                                <span t-esc="'{:.1f}/5.0'.format(usuario.valoracion_promedio) if usuario.valoracion_promedio else 'Sin valoraciones'"/>
+                                                <t t-if="usuario.total_valoraciones">
+                                                    <small class="text-muted">
+                                                        (<span t-esc="usuario.total_valoraciones"/> valoraciones)
+                                                    </small>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px;"><strong>Productos en Venta</strong></td>
+                                            <td style="padding: 10px;">
+                                                <span t-esc="usuario.total_productos_venta"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px;"><strong>Productos Vendidos</strong></td>
+                                            <td style="padding: 10px;">
+                                                <span t-esc="usuario.total_productos_vendidos"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 10px;"><strong>Productos Comprados</strong></td>
+                                            <td style="padding: 10px;">
+                                                <span t-esc="usuario.total_productos_comprados"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Productos en Venta -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Productos en Venta</h3>
+                                <t t-if="usuario.productos_venta">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style="background-color: #f0f0f0;">
+                                                <th style="text-align: left; padding: 10px;">ID Producto</th>
+                                                <th style="text-align: left; padding: 10px;">Nombre</th>
+                                                <th style="text-align: left; padding: 10px;">Categoría</th>
+                                                <th style="text-align: right; padding: 10px;">Precio (€)</th>
+                                                <th style="text-align: center; padding: 10px;">Estado</th>
+                                                <th style="text-align: center; padding: 10px;">Fecha Publicación</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="usuario.productos_venta" t-as="producto">
+                                                <tr>
+                                                    <td style="padding: 8px;" t-esc="producto.id_producto"/>
+                                                    <td style="padding: 8px;" t-esc="producto.nombre_producto"/>
+                                                    <td style="padding: 8px;" t-esc="producto.categoria_id.name if producto.categoria_id else 'Sin categoría'"/>
+                                                    <td style="text-align: right; padding: 8px;">
+                                                        <span t-esc="'{:.2f}'.format(producto.precio)"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="dict(producto._fields['estado_venta'].selection).get(producto.estado_venta, producto.estado_venta)"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="producto.fecha_publicacion.strftime('%d/%m/%Y') if producto.fecha_publicacion else 'N/A'"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                                <t t-if="not usuario.productos_venta">
+                                    <p><em>No tiene productos en venta actualmente</em></p>
+                                </t>
+                            </div>
+                        </div>
+                        
+                        <!-- Productos Vendidos -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Productos Vendidos</h3>
+                                <t t-if="usuario.productos_vendidos">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style="background-color: #f0f0f0;">
+                                                <th style="text-align: left; padding: 10px;">ID Compra</th>
+                                                <th style="text-align: left; padding: 10px;">Producto</th>
+                                                <th style="text-align: left; padding: 10px;">Comprador</th>
+                                                <th style="text-align: right; padding: 10px;">Monto (€)</th>
+                                                <th style="text-align: center; padding: 10px;">Fecha</th>
+                                                <th style="text-align: center; padding: 10px;">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="usuario.productos_vendidos" t-as="compra">
+                                                <tr>
+                                                    <td style="padding: 8px;" t-esc="compra.id_compra"/>
+                                                    <td style="padding: 8px;" t-esc="compra.producto_id.nombre_producto if compra.producto_id else 'N/A'"/>
+                                                    <td style="padding: 8px;" t-esc="compra.comprador_id.name if compra.comprador_id else 'N/A'"/>
+                                                    <td style="text-align: right; padding: 8px;">
+                                                        <span t-esc="'{:.2f}'.format(compra.monto)"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="compra.fecha.strftime('%d/%m/%Y') if compra.fecha else 'N/A'"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="dict(compra._fields['estado'].selection).get(compra.estado, compra.estado)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background-color: #f8f9fa;">
+                                                <td colspan="3" style="text-align: right; padding: 10px;"><strong>Total:</strong></td>
+                                                <td style="text-align: right; padding: 10px;">
+                                                    <strong t-esc="'{:.2f}'.format(sum(usuario.productos_vendidos.mapped('monto')))"/>
+                                                </td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </t>
+                                <t t-if="not usuario.productos_vendidos">
+                                    <p><em>No ha vendido ningún producto</em></p>
+                                </t>
+                            </div>
+                        </div>
+                        
+                        <!-- Productos Comprados -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Productos Comprados</h3>
+                                <t t-if="usuario.productos_comprados">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style="background-color: #f0f0f0;">
+                                                <th style="text-align: left; padding: 10px;">ID Compra</th>
+                                                <th style="text-align: left; padding: 10px;">Producto</th>
+                                                <th style="text-align: left; padding: 10px;">Vendedor</th>
+                                                <th style="text-align: right; padding: 10px;">Monto (€)</th>
+                                                <th style="text-align: center; padding: 10px;">Fecha</th>
+                                                <th style="text-align: center; padding: 10px;">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="usuario.productos_comprados" t-as="compra">
+                                                <tr>
+                                                    <td style="padding: 8px;" t-esc="compra.id_compra"/>
+                                                    <td style="padding: 8px;" t-esc="compra.producto_id.nombre_producto if compra.producto_id else 'N/A'"/>
+                                                    <td style="padding: 8px;" t-esc="compra.vendedor_id.name if compra.vendedor_id else 'N/A'"/>
+                                                    <td style="text-align: right; padding: 8px;">
+                                                        <span t-esc="'{:.2f}'.format(compra.monto)"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="compra.fecha.strftime('%d/%m/%Y') if compra.fecha else 'N/A'"/>
+                                                    </td>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="dict(compra._fields['estado'].selection).get(compra.estado, compra.estado)"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background-color: #f8f9fa;">
+                                                <td colspan="3" style="text-align: right; padding: 10px;"><strong>Total:</strong></td>
+                                                <td style="text-align: right; padding: 10px;">
+                                                    <strong t-esc="'{:.2f}'.format(sum(usuario.productos_comprados.mapped('monto')))"/>
+                                                </td>
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </t>
+                                <t t-if="not usuario.productos_comprados">
+                                    <p><em>No ha comprado ningún producto</em></p>
+                                </t>
+                            </div>
+                        </div>
+                        
+                        <!-- Valoraciones Recibidas -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h3>Valoraciones Recibidas</h3>
+                                <t t-if="usuario.valoraciones_recibidas">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style="background-color: #f0f0f0;">
+                                                <th style="text-align: left; padding: 10px;">Valorador</th>
+                                                <th style="text-align: center; padding: 10px;">Valoración</th>
+                                                <th style="text-align: left; padding: 10px;">Comentario</th>
+                                                <th style="text-align: center; padding: 10px;">Fecha</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="usuario.valoraciones_recibidas" t-as="valoracion">
+                                                <tr>
+                                                    <td style="padding: 8px;" t-esc="valoracion.usuario_valorador_id.name if valoracion.usuario_valorador_id else 'N/A'"/>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <strong t-esc="valoracion.valoracion"/>
+                                                        <span> ⭐</span>
+                                                    </td>
+                                                    <td style="padding: 8px;" t-esc="valoracion.comentario or 'Sin comentario'"/>
+                                                    <td style="text-align: center; padding: 8px;">
+                                                        <span t-esc="valoracion.fecha.strftime('%d/%m/%Y') if valoracion.fecha else 'N/A'"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                                <t t-if="not usuario.valoraciones_recibidas">
+                                    <p><em>No ha recibido valoraciones</em></p>
+                                </t>
+                            </div>
+                        </div>
+                        
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

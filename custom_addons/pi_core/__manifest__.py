@@ -18,7 +18,7 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','mail'],
+    'depends': ['base','mail','web'],
 
     # always loaded
     'data': [
@@ -31,6 +31,7 @@ Long description of module's purpose
         'views/pi_valoracion_views.xml',
         'views/pi_compra_views.xml',
         'views/pi_reporte_views.xml',
+        'reports/pi_reportes.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
