@@ -23,6 +23,7 @@ Long description of module's purpose
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'reports/pi_reportes.xml',
         'views/pi_usuario_views.xml',
         'views/pi_categoria_views.xml',
         'views/pi_etiqueta_views.xml',
@@ -31,7 +32,6 @@ Long description of module's purpose
         'views/pi_valoracion_views.xml',
         'views/pi_compra_views.xml',
         'views/pi_reporte_views.xml',
-        'reports/pi_reportes.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
