@@ -22,6 +22,7 @@ Long description of module's purpose
 
     # always loaded
     'data': [
+        'data/ir_sequence.xml',
         'security/ir.model.access.csv',
         'reports/pi_reportes.xml',
         'views/pi_usuario_views.xml',

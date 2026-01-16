@@ -6,6 +6,7 @@ class piProducto(models.Model):
     _description = 'Producto del pi'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'fecha_publicacion desc'
+    _rec_name = 'nombre_producto'
     
     # Campos básicos
     id_producto = fields.Char(string='ID Producto', required=True, copy=False, readonly=True, default='Nuevo')

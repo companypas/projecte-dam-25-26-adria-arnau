@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Secuencia para Productos -->
+    <record id="seq_pi_producto" model="ir.sequence">
+        <field name="name">Secuencia Producto</field>
+        <field name="code">pi.producto</field>
+        <field name="prefix">PRD-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Comentarios -->
+    <record id="seq_pi_comentario" model="ir.sequence">
+        <field name="name">Secuencia Comentario</field>
+        <field name="code">pi.comentario</field>
+        <field name="prefix">COM-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Usuarios -->
+    <record id="seq_pi_usuario" model="ir.sequence">
+        <field name="name">Secuencia Usuario</field>
+        <field name="code">pi.usuario</field>
+        <field name="prefix">USR-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Categorías -->
+    <record id="seq_pi_categoria" model="ir.sequence">
+        <field name="name">Secuencia Categoría</field>
+        <field name="code">pi.categoria</field>
+        <field name="prefix">CAT-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Etiquetas -->
+    <record id="seq_pi_etiqueta" model="ir.sequence">
+        <field name="name">Secuencia Etiqueta</field>
+        <field name="code">pi.etiqueta</field>
+        <field name="prefix">ETQ-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Valoraciones -->
+    <record id="seq_pi_valoracion" model="ir.sequence">
+        <field name="name">Secuencia Valoración</field>
+        <field name="code">pi.valoracion</field>
+        <field name="prefix">VAL-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Reportes -->
+    <record id="seq_pi_reporte" model="ir.sequence">
+        <field name="name">Secuencia Reporte</field>
+        <field name="code">pi.reporte</field>
+        <field name="prefix">REP-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Secuencia para Compras -->
+    <record id="seq_pi_compra" model="ir.sequence">
+        <field name="name">Secuencia Compra</field>
+        <field name="code">pi.compra</field>
+        <field name="prefix">CMP-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

@@ -7,6 +7,7 @@ class piComentario(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'fecha desc'
     
+    id_comentario = fields.Char(string='ID Comentario', required=True, copy=False, readonly=True, default='Nuevo')
     texto = fields.Text(string='Comentario', required=True)
     fecha = fields.Datetime(string='Fecha', default=fields.Datetime.now, required=True, readonly=True)
     editado = fields.Boolean(string='Editado', default=False, readonly=True)
