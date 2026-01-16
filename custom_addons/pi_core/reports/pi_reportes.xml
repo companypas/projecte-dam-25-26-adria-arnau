@@ -1,126 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Reporte: Categorías Más Vendidas -->
-    <record id="action_report_categorias_mas_vendidas" model="ir.actions.report">
-        <field name="name">Categorías Más Vendidas</field>
-        <field name="model">pi.reporte.categoria</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">pi_core.report_categorias_mas_vendidas</field>
-        <field name="report_file">pi_core.report_categorias_mas_vendidas</field>
-        <field name="print_report_name">'Categorías Más Vendidas - %s' % (datetime.datetime.now().strftime('%Y-%m-%d'))</field>
-    </record>
-
-    <!-- Plantilla QWeb: Categorías Más Vendidas -->
-    <template id="report_categorias_mas_vendidas">
-        <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
-                <t t-call="web.external_layout">
-                    <div class="page">
-                        <div class="oe_structure"/>
-                        
-                        <div class="row">
-                            <div class="col-12">
-                                <h1 class="text-center">Reporte de Categorías Más Vendidas</h1>
-                                <p class="text-center">
-                                    <strong>Fecha del Reporte:</strong> 
-                                    <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y %H:%M')"/>
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr style="background-color: #f0f0f0;">
-                                            <th style="text-align: center; padding: 10px;">#</th>
-                                            <th style="text-align: left; padding: 10px;">Categoría</th>
-                                            <th style="text-align: center; padding: 10px;">Total Ventas</th>
-                                            <th style="text-align: right; padding: 10px;">Monto Total (€)</th>
-                                            <th style="text-align: center; padding: 10px;">Productos Vendidos</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <t t-set="categorias" t-value="doc.get_categorias_mas_vendidas()"/>
-                                        <t t-set="contador" t-value="1"/>
-                                        <t t-foreach="categorias" t-as="categoria">
-                                            <tr>
-                                                <td style="text-align: center; padding: 8px;">
-                                                    <span t-esc="contador"/>
-                                                </td>
-                                                <td style="text-align: left; padding: 8px;">
-                                                    <strong t-esc="categoria['categoria'].nombre"/>
-                                                    <br/>
-                                                    <small t-esc="categoria['categoria'].descripcion or ''"/>
-                                                </td>
-                                                <td style="text-align: center; padding: 8px;">
-                                                    <span t-esc="categoria['total_ventas']"/>
-                                                </td>
-                                                <td style="text-align: right; padding: 8px;">
-                                                    <strong t-esc="'{:.2f}'.format(categoria['total_monto'])"/>
-                                                </td>
-                                                <td style="text-align: center; padding: 8px;">
-                                                    <span t-esc="len(categoria['productos_vendidos'])"/>
-                                                </td>
-                                            </tr>
-                                            <t t-set="contador" t-value="contador + 1"/>
-                                        </t>
-                                        <t t-if="not categorias">
-                                            <tr>
-                                                <td colspan="5" style="text-align: center; padding: 20px;">
-                                                    <em>No hay datos de ventas disponibles</em>
-                                                </td>
-                                            </tr>
-                                        </t>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <!-- Detalle de productos por categoría -->
-                        <t t-set="categorias" t-value="doc.get_categorias_mas_vendidas()"/>
-                        <t t-foreach="categorias[:5]" t-as="categoria">
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <h3>
-                                        <span t-esc="categoria['categoria'].nombre"/>
-                                        <small class="text-muted">- Detalle de Productos Vendidos</small>
-                                    </h3>
-                                    <table class="table table-sm table-bordered">
-                                        <thead>
-                                            <tr style="background-color: #f8f9fa;">
-                                                <th style="text-align: left; padding: 8px;">Producto</th>
-                                                <th style="text-align: right; padding: 8px;">Precio (€)</th>
-                                                <th style="text-align: center; padding: 8px;">Estado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <t t-foreach="categoria['productos_vendidos']" t-as="producto">
-                                                <tr>
-                                                    <td style="text-align: left; padding: 6px;">
-                                                        <span t-esc="producto.nombre_producto"/>
-                                                    </td>
-                                                    <td style="text-align: right; padding: 6px;">
-                                                        <span t-esc="'{:.2f}'.format(producto.precio)"/>
-                                                    </td>
-                                                    <td style="text-align: center; padding: 6px;">
-                                                        <span t-esc="dict(producto._fields['estado_venta'].selection).get(producto.estado_venta, producto.estado_venta)"/>
-                                                    </td>
-                                                </tr>
-                                            </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </t>
-                        
-                        <div class="oe_structure"/>
-                    </div>
-                </t>
-            </t>
-        </t>
-    </template>
-
     <!-- Reporte: Información de Usuario -->
     <record id="action_report_usuario_info" model="ir.actions.report">
         <field name="name">Información de Usuario</field>
@@ -399,6 +278,200 @@
                         <div class="oe_structure"/>
                     </div>
                 </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Reporte: Lista de Reportes -->
+    <record id="action_report_reportes_lista" model="ir.actions.report">
+        <field name="name">Lista de Reportes</field>
+        <field name="model">pi.reporte</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pi_core.report_reportes_lista</field>
+        <field name="report_file">pi_core.report_reportes_lista</field>
+        <field name="print_report_name">'Lista de Reportes - %s' % (time.strftime('%%Y-%%m-%%d'))</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+    
+    <!-- Servidor de acción para el reporte -->
+    <record id="action_server_report_reportes_lista" model="ir.actions.server">
+        <field name="name">Imprimir Lista de Reportes</field>
+        <field name="model_id" ref="model_pi_reporte"/>
+        <field name="binding_model_id" ref="model_pi_reporte"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = env.ref('pi_core.action_report_reportes_lista').report_action(records)
+        </field>
+    </record>
+
+    <!-- Plantilla QWeb: Lista de Reportes -->
+    <template id="report_reportes_lista">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    
+                    <!-- Encabezado -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="text-center">Lista de Reportes</h1>
+                            <p class="text-center">
+                                <strong>Fecha del Reporte:</strong> 
+                                <span t-esc="time.strftime('%d/%m/%Y %H:%M')"/>
+                            </p>
+                            <p class="text-center">
+                                <strong>Total de Reportes:</strong> 
+                                <span t-esc="len(docs)"/>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Resumen por Estado -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h3>Resumen por Estado</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr style="background-color: #f0f0f0;">
+                                        <th style="text-align: left; padding: 10px;">Estado</th>
+                                        <th style="text-align: center; padding: 10px;">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="pendientes" t-value="len([r for r in docs if r.estado == 'pendiente'])"/>
+                                    <t t-set="en_revision" t-value="len([r for r in docs if r.estado == 'en_revision'])"/>
+                                    <t t-set="resueltos" t-value="len([r for r in docs if r.estado == 'resuelto'])"/>
+                                    <t t-set="rechazados" t-value="len([r for r in docs if r.estado == 'rechazado'])"/>
+                                    <t t-if="pendientes &gt; 0">
+                                        <tr>
+                                            <td style="padding: 8px;">Pendiente</td>
+                                            <td style="text-align: center; padding: 8px;" t-esc="pendientes"/>
+                                        </tr>
+                                    </t>
+                                    <t t-if="en_revision &gt; 0">
+                                        <tr>
+                                            <td style="padding: 8px;">En Revisión</td>
+                                            <td style="text-align: center; padding: 8px;" t-esc="en_revision"/>
+                                        </tr>
+                                    </t>
+                                    <t t-if="resueltos &gt; 0">
+                                        <tr>
+                                            <td style="padding: 8px;">Resuelto</td>
+                                            <td style="text-align: center; padding: 8px;" t-esc="resueltos"/>
+                                        </tr>
+                                    </t>
+                                    <t t-if="rechazados &gt; 0">
+                                        <tr>
+                                            <td style="padding: 8px;">Rechazado</td>
+                                            <td style="text-align: center; padding: 8px;" t-esc="rechazados"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Lista de Reportes -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h3>Detalle de Reportes</h3>
+                            <t t-foreach="docs" t-as="reporte">
+                                <div class="mt-3" style="page-break-inside: avoid; border: 1px solid #ddd; padding: 15px; margin-bottom: 20px;">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4>
+                                                <span t-esc="reporte.display_name or ('Reporte #' + str(reporte.id))"/>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <table class="table table-sm" style="margin-top: 10px;">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width: 25%; padding: 8px;"><strong>ID Reporte:</strong></td>
+                                                <td style="padding: 8px;" t-esc="'#' + str(reporte.id)"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px;"><strong>Tipo de Reporte:</strong></td>
+                                                <td style="padding: 8px;">
+                                                    <span t-esc="dict(reporte._fields['tipo_reporte'].selection).get(reporte.tipo_reporte, reporte.tipo_reporte) if reporte.tipo_reporte else 'N/A'"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px;"><strong>Estado:</strong></td>
+                                                <td style="padding: 8px;">
+                                                    <span t-esc="dict(reporte._fields['estado'].selection).get(reporte.estado, reporte.estado)"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px;"><strong>Fecha:</strong></td>
+                                                <td style="padding: 8px;">
+                                                    <span t-esc="reporte.fecha.strftime('%d/%m/%Y %H:%M') if reporte.fecha else 'N/A'"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px;"><strong>Reportado Por:</strong></td>
+                                                <td style="padding: 8px;" t-esc="reporte.reportado_por_id.name if reporte.reportado_por_id else 'N/A'"/>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 8px;"><strong>Referencia:</strong></td>
+                                                <td style="padding: 8px;" t-esc="reporte.referencia or 'Sin referencia'"/>
+                                            </tr>
+                                            <t t-if="reporte.tipo_reporte == 'producto' and reporte.producto_reportado_id">
+                                                <tr>
+                                                    <td style="padding: 8px;"><strong>Producto Reportado:</strong></td>
+                                                    <td style="padding: 8px;" t-esc="reporte.producto_reportado_id.nombre_producto"/>
+                                                </tr>
+                                            </t>
+                                            <t t-if="reporte.tipo_reporte == 'usuario' and reporte.usuario_reportado_id">
+                                                <tr>
+                                                    <td style="padding: 8px;"><strong>Usuario Reportado:</strong></td>
+                                                    <td style="padding: 8px;" t-esc="reporte.usuario_reportado_id.name"/>
+                                                </tr>
+                                            </t>
+                                            <t t-if="reporte.tipo_reporte == 'comentario' and reporte.comentario_reportado_id">
+                                                <tr>
+                                                    <td style="padding: 8px;"><strong>Comentario Reportado:</strong></td>
+                                                    <td style="padding: 8px;" t-esc="reporte.comentario_reportado_id.texto[:100] if reporte.comentario_reportado_id.texto else 'N/A'"/>
+                                                </tr>
+                                            </t>
+                                            <t t-if="reporte.estado in ['resuelto', 'rechazado']">
+                                                <tr>
+                                                    <td style="padding: 8px;"><strong>Fecha de Resolución:</strong></td>
+                                                    <td style="padding: 8px;">
+                                                        <span t-esc="reporte.fecha_resolucion.strftime('%d/%m/%Y %H:%M') if reporte.fecha_resolucion else 'N/A'"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 8px;"><strong>Acción Tomada:</strong></td>
+                                                    <td style="padding: 8px;">
+                                                        <span t-esc="dict(reporte._fields['accion_tomada'].selection).get(reporte.accion_tomada, reporte.accion_tomada) if reporte.accion_tomada else 'N/A'"/>
+                                                    </td>
+                                                </tr>
+                                                <t t-if="reporte.notas_resolucion">
+                                                    <tr>
+                                                        <td style="padding: 8px;"><strong>Notas de Resolución:</strong></td>
+                                                        <td style="padding: 8px;" t-esc="reporte.notas_resolucion"/>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    
+                                    <div class="mt-2">
+                                        <strong>Motivo del Reporte:</strong>
+                                        <div style="padding: 10px; background-color: #f8f9fa; border-radius: 4px; margin-top: 5px;">
+                                            <p style="margin: 0; white-space: pre-wrap;" t-esc="reporte.motivo"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    
+                    <div class="oe_structure"/>
+                </div>
             </t>
         </t>
     </template>
