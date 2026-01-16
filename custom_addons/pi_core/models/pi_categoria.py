@@ -3,6 +3,7 @@ from odoo import models, fields, api
 class piCategoria(models.Model):
     _name = 'pi.categoria'
     _description = 'Categoría de Productos'
+    _rec_name = 'nombre'
     _order = 'nombre'
     
     id_categoria = fields.Char(string='ID Categoría', required=True, copy=False, readonly=True, default='Nuevo')

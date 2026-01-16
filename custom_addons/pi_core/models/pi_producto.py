@@ -39,7 +39,7 @@ class piProducto(models.Model):
     # Campos computados
     total_comentarios = fields.Integer(string='Total Comentarios', compute='_compute_total_comentarios')
     total_imagenes = fields.Integer(string='Total Imágenes', compute='_compute_total_imagenes')
-    imagen_principal = fields.Binary(string='Imagen Principal', compute='_compute_imagen_principal')
+    imagen_principal = fields.Binary(string='Imagen Principal', compute='_compute_imagen_principal', store=False)
     
     @api.model
     def create(self, vals):
@@ -57,11 +57,13 @@ class piProducto(models.Model):
         for record in self:
             record.total_imagenes = len(record.imagenes_ids)
     
-    @api.depends('imagenes_ids.imagen')
+    @api.depends('imagenes_ids.imagen', 'imagenes_ids.sequence')
     def _compute_imagen_principal(self):
         for record in self:
             if record.imagenes_ids:
-                record.imagen_principal = record.imagenes_ids[0].imagen
+                # Ordenar por sequence y tomar la primera
+                imagenes_ordenadas = record.imagenes_ids.sorted('sequence')
+                record.imagen_principal = imagenes_ordenadas[0].imagen
             else:
                 record.imagen_principal = False
     
@@ -74,10 +76,12 @@ class piProducto(models.Model):
     @api.constrains('imagenes_ids')
     def _check_imagenes_limit(self):
         for record in self:
+            # Verificar que haya al menos 1 imagen
             if len(record.imagenes_ids) < 1:
                 raise ValidationError('Debes subir al menos 1 imagen.')
+            # Verificar que no haya más de 10 imágenes en total
             if len(record.imagenes_ids) > 10:
-                raise ValidationError('No puedes subir más de 10 imágenes.')
+                raise ValidationError('No puedes subir más de 10 imágenes en total.')
     
     @api.constrains('precio')
     def _check_precio(self):
