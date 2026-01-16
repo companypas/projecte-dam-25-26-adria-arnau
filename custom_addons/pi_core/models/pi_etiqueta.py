@@ -7,7 +7,7 @@ class piEtiqueta(models.Model):
     
     nombre = fields.Char(string='Etiqueta', required=True)
     descripcion = fields.Char(string='Descripción')
-    color = fields.Integer(string='Color')
+    color = fields.Integer(string='Color', default=1)
     activo = fields.Boolean(string='Activo', default=True)
     
     # Relaciones
@@ -15,6 +15,34 @@ class piEtiqueta(models.Model):
 
     # Campos computados
     total_productos = fields.Integer(string='Productos con esta Etiqueta', compute='_compute_total_productos')
+
+    @api.model
+    def create(self, vals):
+        # Convertir color hexadecimal a entero si es necesario
+        if 'color' in vals and isinstance(vals['color'], str) and vals['color'].startswith('#'):
+            try:
+                # Convertir #RRGGBB a entero
+                color_hex = vals['color'].lstrip('#')
+                vals['color'] = int(color_hex, 16)
+            except (ValueError, TypeError):
+                # Si falla la conversión, usar un valor por defecto
+                vals['color'] = 1
+        return super(piEtiqueta, self).create(vals)
+    
+    def write(self, vals):
+        # Convertir color hexadecimal a entero si es necesario
+        if 'color' in vals and isinstance(vals['color'], str) and vals['color'].startswith('#'):
+            try:
+                # Convertir #RRGGBB a entero
+                color_hex = vals['color'].lstrip('#')
+                vals['color'] = int(color_hex, 16)
+            except (ValueError, TypeError):
+                # Si falla la conversión, mantener el valor actual
+                if self.color:
+                    vals.pop('color', None)
+                else:
+                    vals['color'] = 1
+        return super(piEtiqueta, self).write(vals)
 
     @api.depends('productos_ids')
     def _compute_total_productos(self):
