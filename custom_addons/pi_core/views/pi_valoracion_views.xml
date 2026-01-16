@@ -68,7 +68,7 @@
                 <field name="usuario_valorado_id"/>
                 <field name="usuario_valorador_id"/>
                 <field name="compra_id"/>
-                <field name="compra_id.producto_id" string="Producto"/>
+                <field name="producto_id"/>
                 <field name="comentario"/>
                 
                 <!-- Filtros por Estrellas -->
@@ -89,7 +89,7 @@
                 <separator/>
                 
                 <!-- Filtros por Producto -->
-                <filter string="Con Producto" name="con_producto" domain="[('compra_id.producto_id', '!=', False)]"/>
+                <filter string="Con Producto" name="con_producto" domain="[('producto_id', '!=', False)]"/>
                 
                 <separator/>
                 
@@ -112,7 +112,7 @@
                     <filter string="Usuario Valorador" name="group_valorador" context="{'group_by': 'usuario_valorador_id'}"/>
                     <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo_valoracion'}"/>
                     <filter string="Valoración" name="group_valoracion" context="{'group_by': 'valoracion'}"/>
-                    <filter string="Producto" name="group_producto" context="{'group_by': 'compra_id.producto_id'}"/>
+                    <filter string="Producto" name="group_producto" context="{'group_by': 'producto_id'}"/>
                     <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
                 </group>
             </search>

@@ -22,6 +22,7 @@ class piValoracion(models.Model):
     usuario_valorado_id = fields.Many2one('pi.usuario', string='Usuario Valorado', required=True, ondelete='cascade')
     usuario_valorador_id = fields.Many2one('pi.usuario', string='Usuario Valorador', required=True, ondelete='cascade')
     compra_id = fields.Many2one('pi.compra', string='Compra Relacionada', required=True, ondelete='cascade')
+    producto_id = fields.Many2one('pi.producto', string='Producto', related='compra_id.producto_id', store=True, readonly=True)
     
     # Tipo de valoración
     tipo_valoracion = fields.Selection([
