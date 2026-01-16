@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Vista Tree para Producto Imagen -->
+    <record id="view_pi_producto_imagen_tree" model="ir.ui.view">
+        <field name="name">pi.producto.imagen.tree</field>
+        <field name="model">pi.producto.imagen</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="imagen" widget="image" options="{'size': [64, 64], 'accepted_file_extensions': 'image/*'}"/>
+                <field name="nombre" placeholder="Nombre opcional de la imagen..."/>
+            </list>
+        </field>
+    </record>
+
     <!-- Vista de Formulario -->
     <record id="view_pi_producto_form" model="ir.ui.view">
         <field name="name">pi.producto.form</field>
@@ -79,13 +92,7 @@
                                 </div>
                             </div>
                             <label for="imagenes_ids" string="Galería de Imágenes (máximo 10)"/>
-                            <field name="imagenes_ids" nolabel="1">
-                                <list>
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="imagen" widget="image" options="{'size': [150, 150]}"/>
-                                    <field name="nombre" placeholder="Nombre opcional de la imagen..."/>
-                                </list>
-                            </field>
+                            <field name="imagenes_ids" nolabel="1"/>
                             <group>
                                 <field name="total_imagenes" readonly="1" string="Total de Imágenes"/>
                             </group>
