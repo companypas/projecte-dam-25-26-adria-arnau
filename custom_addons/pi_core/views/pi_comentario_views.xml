@@ -26,7 +26,7 @@
                             <field name="nombre_usuario" readonly="1"/>
                         </h1>
                         <h3>
-                            <field name="producto_id" readonly="1"/>
+                            <field name="producto_id"/>
                         </h3>
                     </div>
                     
