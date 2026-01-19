@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista del Wizard para Resolver Reportes -->
+    <record id="view_pi_reporte_resolver_wizard_form" model="ir.ui.view">
+        <field name="name">pi.reporte.resolver.wizard.form</field>
+        <field name="model">pi.reporte.resolver.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Resolver Reporte">
+                <sheet>
+                    <group>
+                        <field name="reporte_id" invisible="1"/>
+                        <field name="accion_tomada" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="notas_resolucion" placeholder="Escribe las notas sobre la resolución del reporte..."/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Confirmar Resolución" 
+                            name="action_confirmar_resolucion" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button string="Cancelar" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

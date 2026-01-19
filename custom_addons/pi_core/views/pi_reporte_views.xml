@@ -34,22 +34,26 @@
                         <h1>
                             <field name="display_name" readonly="1"/>
                         </h1>
-                        <h3>
-                            <field name="tipo_reporte" widget="badge"/>
-                        </h3>
                     </div>
                     
                     <group>
                         <group string="Información del Reporte">
+                            <field name="tipo_reporte" widget="badge"/>
                             <field name="nombre_reportado_por" readonly="1"/>
                             <field name="reportado_por_id"/>
                             <field name="fecha" readonly="1"/>
                             <field name="referencia" readonly="1"/>
                         </group>
                         <group string="Elemento Reportado">
-                            <field name="producto_reportado_id" invisible="tipo_reporte != 'producto'"/>
-                            <field name="usuario_reportado_id" invisible="tipo_reporte != 'usuario'"/>
-                            <field name="comentario_reportado_id" invisible="tipo_reporte != 'comentario'"/>
+                            <field name="producto_reportado_id" 
+                                   invisible="tipo_reporte != 'producto'"
+                                   required="tipo_reporte == 'producto'"/>
+                            <field name="usuario_reportado_id" 
+                                   invisible="tipo_reporte != 'usuario'"
+                                   required="tipo_reporte == 'usuario'"/>
+                            <field name="comentario_reportado_id" 
+                                   invisible="tipo_reporte != 'comentario'"
+                                   required="tipo_reporte == 'comentario'"/>
                         </group>
                     </group>
                     
@@ -68,11 +72,11 @@
                     </group>
                 </sheet>
                 
-                <!-- <div class="oe_chatter">
+                <div class="oe_chatter">
                     <field name="message_follower_ids"/>
                     <field name="activity_ids"/>
                     <field name="message_ids"/>
-                </div> -->
+                </div>
             </form>
         </field>
     </record>

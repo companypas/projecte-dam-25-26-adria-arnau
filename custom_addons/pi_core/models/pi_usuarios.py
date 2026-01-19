@@ -101,12 +101,14 @@ class PiUsuario(models.Model):
             else:
                 record.antiguedad = 0
     
-    @api.depends('valoraciones_recibidas.valoracion')
+    @api.depends('valoraciones_recibidas.valoracion_numerica')
     def _compute_valoracion_promedio(self):
         for record in self:
             valoraciones = record.valoraciones_recibidas
             if valoraciones:
-                record.valoracion_promedio = sum(v.valoracion for v in valoraciones) / len(valoraciones)
+                # Usar valoracion_numerica en lugar de valoracion (que es string)
+                total = sum(v.valoracion_numerica for v in valoraciones)
+                record.valoracion_promedio = total / len(valoraciones) if len(valoraciones) > 0 else 0.0
                 record.total_valoraciones = len(valoraciones)
             else:
                 record.valoracion_promedio = 0.0

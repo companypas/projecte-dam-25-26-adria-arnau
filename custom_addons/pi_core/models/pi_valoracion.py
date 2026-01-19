@@ -7,6 +7,9 @@ class piValoracion(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'fecha desc'
     
+    # Campo ID faltante
+    id_valoracion = fields.Char(string='ID Valoración', required=True, copy=False, readonly=True, default='Nuevo')
+    
     valoracion = fields.Selection([
         ('1', '1 Estrella'),
         ('2', '2 Estrellas'),
@@ -39,9 +42,9 @@ class piValoracion(models.Model):
         
         # Actualizar la referencia de valoración en la compra
         if result.tipo_valoracion == 'vendedor':
-            result.compra_id.valoracion_comprador_id = result.id
+            result.compra_id.write({'valoracion_comprador_id': result.id})
         elif result.tipo_valoracion == 'comprador':
-            result.compra_id.valoracion_vendedor_id = result.id
+            result.compra_id.write({'valoracion_vendedor_id': result.id})
         
         return result
     
