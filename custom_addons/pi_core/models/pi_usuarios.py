@@ -30,6 +30,21 @@ class PiUsuario(models.Model):
     productos_comprados = fields.One2many('pi.compra', 'comprador_id', string='Productos Comprados')
     reportes_realizados = fields.One2many('pi.reporte', 'reportado_por_id', string='Reportes Realizados')
     reportes_recibidos = fields.One2many('pi.reporte', 'usuario_reportado_id', string='Reportes Recibidos')
+    conversaciones_comprador_ids = fields.One2many(
+        'pi.conversacion',
+        'comprador_id',
+        string='Conversaciones como Comprador',
+    )
+    conversaciones_vendedor_ids = fields.One2many(
+        'pi.conversacion',
+        'vendedor_id',
+        string='Conversaciones como Vendedor',
+    )
+    mensajes_enviados_ids = fields.One2many(
+        'pi.mensaje',
+        'remitente_id',
+        string='Mensajes enviados',
+    )
     
     # Campos computados para estadísticas
     valoracion_promedio = fields.Float(string='Valoración Promedio', compute='_compute_valoracion_promedio', store=True)

@@ -31,6 +31,8 @@ Long description of module's purpose
         'views/pi_valoracion_views.xml',
         'views/pi_compra_views.xml',
         'views/pi_reporte_views.xml',
+        'views/pi_conversacion_views.xml',
+        'views/pi_mensaje_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

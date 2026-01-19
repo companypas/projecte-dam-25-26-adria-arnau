@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista lista de conversaciones -->
+    <record id="view_pi_conversacion_tree" model="ir.ui.view">
+        <field name="name">pi.conversacion.tree</field>
+        <field name="model">pi.conversacion</field>
+        <field name="arch" type="xml">
+            <list string="Conversaciones">
+                <field name="name"/>
+                <field name="comprador_id"/>
+                <field name="vendedor_id"/>
+                <field name="producto_id"/>
+                <field name="state"/>
+                <field name="last_message_date"/>
+                <field name="total_mensajes"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista formulario de conversaciones -->
+    <record id="view_pi_conversacion_form" model="ir.ui.view">
+        <field name="name">pi.conversacion.form</field>
+        <field name="model">pi.conversacion</field>
+        <field name="arch" type="xml">
+            <form string="Conversación">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="state"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="comprador_id"/>
+                        <field name="vendedor_id"/>
+                    </group>
+                    <group>
+                        <field name="producto_id"/>
+                        <field name="compra_id"/>
+                    </group>
+                    <group>
+                        <field name="last_message_date" readonly="1"/>
+                        <field name="total_mensajes" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="last_message_preview" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Mensajes">
+                            <field name="mensaje_ids">
+                                <list editable="bottom">
+                                    <field name="fecha_envio"/>
+                                    <field name="remitente_id"/>
+                                    <field name="contenido"/>
+                                    <field name="leido"/>
+                                    <field name="tipo_contenido"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción y menú para acceder a las conversaciones (útil para administración) -->
+    <record id="action_pi_conversacion" model="ir.actions.act_window">
+        <field name="name">Conversaciones</field>
+        <field name="res_model">pi.conversacion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menú: lo dejamos al mismo nivel que Productos, Compras, Categorías, etc. -->
+    <menuitem
+        id="menu_pi_conversacion"
+        name="Conversaciones"
+        action="action_pi_conversacion"
+        sequence="40"
+    />
+
+</odoo>
+

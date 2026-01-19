@@ -9,3 +9,5 @@ from . import pi_usuarios
 from . import pi_valoracion
 from . import pi_producto_imagen
 from . import pi_etiqueta
+from . import pi_conversacion
+from . import pi_mensaje

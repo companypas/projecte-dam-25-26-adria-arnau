@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista lista de mensajes (principalmente para administración / debug) -->
+    <record id="view_pi_mensaje_tree" model="ir.ui.view">
+        <field name="name">pi.mensaje.tree</field>
+        <field name="model">pi.mensaje</field>
+        <field name="arch" type="xml">
+            <list string="Mensajes">
+                <field name="conversacion_id"/>
+                <field name="fecha_envio"/>
+                <field name="remitente_id"/>
+                <field name="es_de_comprador"/>
+                <field name="es_de_vendedor"/>
+                <field name="leido"/>
+                <field name="tipo_contenido"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista formulario de mensajes -->
+    <record id="view_pi_mensaje_form" model="ir.ui.view">
+        <field name="name">pi.mensaje.form</field>
+        <field name="model">pi.mensaje</field>
+        <field name="arch" type="xml">
+            <form string="Mensaje">
+                <sheet>
+                    <group>
+                        <field name="conversacion_id"/>
+                        <field name="fecha_envio"/>
+                    </group>
+                    <group>
+                        <field name="remitente_id"/>
+                        <field name="es_de_comprador" readonly="1"/>
+                        <field name="es_de_vendedor" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="tipo_contenido"/>
+                        <field name="leido"/>
+                    </group>
+                    <group>
+                        <field name="contenido"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
+

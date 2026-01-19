@@ -9,3 +9,5 @@ access_pi_comentario,pi.comentario.user,model_pi_comentario,base.group_user,1,1,
 access_pi_reporte,pi.reporte.user,model_pi_reporte,base.group_user,1,1,1,1
 access_pi_producto_imagen,pi.producto.imagen.user,model_pi_producto_imagen,base.group_user,1,1,1,1
 access_pi_reporte_wizard,pi.reporte.wizard.user,model_pi_reporte_resolver_wizard,base.group_user,1,1,1,1
+access_pi_conversacion,pi.conversacion.user,model_pi_conversacion,base.group_user,1,1,1,1
+access_pi_mensaje,pi.mensaje.user,model_pi_mensaje,base.group_user,1,1,1,1
