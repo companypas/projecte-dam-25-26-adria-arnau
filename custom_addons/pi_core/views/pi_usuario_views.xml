@@ -36,8 +36,8 @@
                         <group string="Información Personal">
                             <field name="email"/>
                             <field name="phone"/>
+                            <field name="password" required="1"/>
                             <field name="partner_id" invisible="1"/>
-                            <field name="user_id"/>
                         </group>
                         <group string="Información del Marketplace">
                             <field name="fecha_registro" readonly="1"/>
@@ -249,7 +249,6 @@
                 
                 <group expand="0" string="Agrupar Por">
                     <filter string="Fecha Registro" name="group_fecha" context="{'group_by': 'fecha_registro'}"/>
-                    <filter string="Usuario Odoo" name="group_user" context="{'group_by': 'user_id'}"/>
                     <filter string="Valoración Promedio" name="group_valoracion" context="{'group_by': 'valoracion_promedio'}"/>
                 </group>
             </search>

@@ -11,12 +11,9 @@ class PiUsuario(models.Model):
     # Campo requerido para la herencia por delegación
     partner_id = fields.Many2one('res.partner', string='Partner', required=True, ondelete='cascade', auto_join=True)
     
-    # Relación con usuario del sistema
-    user_id = fields.Many2one('res.users', string='Usuario Odoo', ondelete='cascade',
-                              help='Usuario del sistema Odoo vinculado a este usuario del marketplace')
-    
     # Campos básicos específicos del marketplace
     id_usuario = fields.Char(string='ID Usuario', required=True, copy=False, readonly=True, default='Nuevo')
+    password = fields.Char(string='Contraseña')
     antiguedad = fields.Integer(string='Antigüedad (días)', compute='_compute_antiguedad', store=True)
     fecha_registro = fields.Date(string='Fecha de Registro', default=fields.Date.today, required=True)
     es_usuario_marketplace = fields.Boolean(string='Es Usuario Marketplace', default=True)
