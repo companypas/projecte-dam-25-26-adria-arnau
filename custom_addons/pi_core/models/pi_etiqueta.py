@@ -7,7 +7,7 @@ class piEtiqueta(models.Model):
     
     nombre = fields.Char(string='Etiqueta', required=True)
     descripcion = fields.Char(string='Descripción')
-    color = fields.Integer(string='Color', default=0)
+    color = fields.Char(string='Color', default='#6c757d')
     activo = fields.Boolean(string='Activo', default=True)
     
     # Relaciones

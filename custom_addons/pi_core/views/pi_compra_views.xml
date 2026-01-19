@@ -31,6 +31,12 @@
                             class="btn-primary"
                             invisible="estado not in ['confirmada', 'valorada_comprador'] or comprador_valorado"/>
                     
+                    <button name="%(action_report_compra)d" 
+                            string="Imprimir" 
+                            type="action" 
+                            class="btn-secondary"
+                            icon="fa-print"/>
+                    
                     <field name="estado" widget="statusbar" 
                            statusbar_visible="pendiente,procesando,confirmada,valorada_comprador,valorada_vendedor"/>
                 </header>

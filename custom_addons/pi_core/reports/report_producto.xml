@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reporte de Producto -->
+    <record id="action_report_producto" model="ir.actions.report">
+        <field name="name">Reporte de Producto</field>
+        <field name="model">pi.producto</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pi_core.report_producto</field>
+        <field name="report_file">pi_core.report_producto</field>
+        <field name="print_report_name">'Producto - %s' % (object.nombre_producto or '')</field>
+        <field name="binding_model_id" ref="pi_core.model_pi_producto"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Plantilla QWeb del Reporte de Producto -->
+    <template id="report_producto">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Encabezado -->
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h1 class="text-primary">Reporte de Producto</h1>
+                                <h3><t t-esc="o.nombre_producto or ''"/></h3>
+                            </div>
+                        </div>
+
+                        <!-- Información Principal -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="bg-light" style="width: 40%;">ID Producto:</th>
+                                        <td><t t-esc="o.id_producto or ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Categoría:</th>
+                                        <td><t t-esc="o.categoria_id.nombre if o.categoria_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Estado del Producto:</th>
+                                        <td>
+                                            <span t-if="o.estado == 'nuevo'" class="badge badge-success">Nuevo</span>
+                                            <span t-if="o.estado == 'segunda_mano'" class="badge badge-info">Segunda Mano</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Estado de Venta:</th>
+                                        <td>
+                                            <span t-if="o.estado_venta == 'disponible'" class="badge badge-primary">Disponible</span>
+                                            <span t-if="o.estado_venta == 'vendido'" class="badge badge-secondary">Vendido</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Antigüedad:</th>
+                                        <td><t t-esc="o.antiguedad_producto or 0"/> meses</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="bg-light" style="width: 40%;">Precio:</th>
+                                        <td class="text-right">
+                                            <strong class="h4 text-success">
+                                                <t t-esc="'{:.2f}'.format(o.precio or 0.0)"/> €
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Ubicación:</th>
+                                        <td><t t-esc="o.ubicacion or ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Propietario:</th>
+                                        <td><t t-esc="o.propietario_id.name if o.propietario_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Fecha de Publicación:</th>
+                                        <td>
+                                            <t t-if="o.fecha_publicacion" t-esc="o.fecha_publicacion.strftime('%d/%m/%Y %H:%M')"/>
+                                            <t t-if="not o.fecha_publicacion">No disponible</t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Total Comentarios:</th>
+                                        <td><t t-esc="o.total_comentarios or 0"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Total Imágenes:</th>
+                                        <td><t t-esc="o.total_imagenes or 0"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Descripción -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2">Descripción del Producto</h4>
+                                <div class="p-3 bg-light" style="min-height: 100px;">
+                                    <t t-esc="o.descripcion or ''"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Etiquetas -->
+                        <div class="row mt-4" t-if="o.etiquetas_ids">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2">Etiquetas</h4>
+                                <div class="mt-2">
+                                    <t t-foreach="o.etiquetas_ids" t-as="etiqueta">
+                                        <span class="badge badge-secondary mr-2 mb-2">
+                                            <t t-esc="etiqueta.nombre or ''"/>
+                                        </span>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comentarios -->
+                        <div class="row mt-4" t-if="o.comentarios_ids and len(o.comentarios_ids) > 0">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2">Comentarios (<t t-esc="len(o.comentarios_ids)"/>)</h4>
+                                <div class="mt-2">
+                                    <t t-foreach="o.comentarios_ids.filtered(lambda c: c.activo)" t-as="comentario">
+                                        <div class="border p-3 mb-3">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <strong><t t-esc="comentario.usuario_id.name if comentario.usuario_id else 'Anónimo'"/></strong>
+                                                <small class="text-muted">
+                                                    <t t-esc="comentario.fecha.strftime('%d/%m/%Y %H:%M') if comentario.fecha else ''"/>
+                                                </small>
+                                            </div>
+                                            <div><t t-esc="comentario.texto or ''"/></div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pie de página -->
+                        <div class="row mt-5">
+                            <div class="col-12 text-center text-muted">
+                                <small>Documento generado automáticamente</small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

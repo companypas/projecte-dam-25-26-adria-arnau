@@ -38,6 +38,12 @@
                             class="btn-primary"
                             icon="fa-comments"/>
                     
+                    <button name="%(action_report_producto)d" 
+                            string="Imprimir" 
+                            type="action" 
+                            class="btn-secondary"
+                            icon="fa-print"/>
+                    
                     <field name="estado_venta" widget="statusbar" 
                            statusbar_visible="disponible,vendido"/>
                 </header>

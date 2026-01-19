@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reporte de Compra -->
+    <record id="action_report_compra" model="ir.actions.report">
+        <field name="name">Reporte de Compra</field>
+        <field name="model">pi.compra</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pi_core.report_compra</field>
+        <field name="report_file">pi_core.report_compra</field>
+        <field name="print_report_name">'Compra - %s' % (object.id_compra or '')</field>
+        <field name="binding_model_id" ref="pi_core.model_pi_compra"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Plantilla QWeb del Reporte de Compra -->
+    <template id="report_compra">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Encabezado -->
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-12 text-center mb-4">
+                                <h1 class="text-primary">Comprobante de Compra</h1>
+                                <h3><t t-esc="o.id_compra or ''"/></h3>
+                            </div>
+                        </div>
+
+                        <!-- Información de la Compra -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="bg-light" style="width: 40%;">ID Compra:</th>
+                                        <td><strong><t t-esc="o.id_compra or ''"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Fecha:</th>
+                                        <td>
+                                            <t t-if="o.fecha" t-esc="o.fecha.strftime('%d/%m/%Y %H:%M')"/>
+                                            <t t-if="not o.fecha">No disponible</t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Estado:</th>
+                                        <td>
+                                            <span t-if="o.estado == 'pendiente'" class="badge badge-info">Pendiente</span>
+                                            <span t-if="o.estado == 'procesando'" class="badge badge-warning">Procesando</span>
+                                            <span t-if="o.estado == 'confirmada'" class="badge badge-success">Confirmada</span>
+                                            <span t-if="o.estado == 'valorada_comprador'" class="badge badge-primary">Valorada por Comprador</span>
+                                            <span t-if="o.estado == 'valorada_vendedor'" class="badge badge-primary">Valorada por Vendedor</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="bg-light" style="width: 40%;">Monto Total:</th>
+                                        <td class="text-right">
+                                            <strong class="h3 text-success">
+                                                <t t-esc="'{:.2f}'.format(o.monto or 0.0)"/> 
+                                                <t t-esc="o.currency_id.symbol if o.currency_id else '€'"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Información del Comprador -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2 bg-light p-2">Información del Comprador</h4>
+                                <table class="table">
+                                    <tr>
+                                        <th style="width: 20%;">Nombre:</th>
+                                        <td><t t-esc="o.comprador_id.name if o.comprador_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email:</th>
+                                        <td><t t-esc="o.comprador_id.email if o.comprador_id and o.comprador_id.email else 'No disponible'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Teléfono:</th>
+                                        <td><t t-esc="o.comprador_id.phone if o.comprador_id and o.comprador_id.phone else 'No disponible'"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Información del Vendedor -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2 bg-light p-2">Información del Vendedor</h4>
+                                <table class="table">
+                                    <tr>
+                                        <th style="width: 20%;">Nombre:</th>
+                                        <td><t t-esc="o.vendedor_id.name if o.vendedor_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email:</th>
+                                        <td><t t-esc="o.vendedor_id.email if o.vendedor_id and o.vendedor_id.email else 'No disponible'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Teléfono:</th>
+                                        <td><t t-esc="o.vendedor_id.phone if o.vendedor_id and o.vendedor_id.phone else 'No disponible'"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Información del Producto -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2 bg-light p-2">Producto Comprado</h4>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class="bg-light" style="width: 20%;">ID Producto:</th>
+                                        <td><t t-esc="o.producto_id.id_producto if o.producto_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Nombre:</th>
+                                        <td><strong><t t-esc="o.producto_id.nombre_producto if o.producto_id else ''"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Categoría:</th>
+                                        <td><t t-esc="o.producto_id.categoria_id.nombre if o.producto_id and o.producto_id.categoria_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Descripción:</th>
+                                        <td><t t-esc="o.producto_id.descripcion if o.producto_id else ''"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light">Precio:</th>
+                                        <td>
+                                            <strong>
+                                                <t t-esc="'{:.2f}'.format(o.producto_id.precio or 0.0) if o.producto_id else '0.00'"/> €
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Valoraciones -->
+                        <div class="row mt-4" t-if="o.valoracion_comprador_id or o.valoracion_vendedor_id">
+                            <div class="col-12">
+                                <h4 class="border-bottom pb-2 bg-light p-2">Valoraciones</h4>
+                                <div class="row">
+                                    <div class="col-6" t-if="o.valoracion_comprador_id">
+                                        <div class="border p-3">
+                                            <h5>Valoración del Comprador</h5>
+                                            <p>
+                                                <strong>Valoración:</strong> 
+                                                <t t-esc="o.valoracion_comprador_id.valoracion_numerica if o.valoracion_comprador_id else ''"/> / 5
+                                            </p>
+                                            <p t-if="o.valoracion_comprador_id.comentario">
+                                                <strong>Comentario:</strong><br/>
+                                                <t t-esc="o.valoracion_comprador_id.comentario or ''"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6" t-if="o.valoracion_vendedor_id">
+                                        <div class="border p-3">
+                                            <h5>Valoración del Vendedor</h5>
+                                            <p>
+                                                <strong>Valoración:</strong> 
+                                                <t t-esc="o.valoracion_vendedor_id.valoracion_numerica if o.valoracion_vendedor_id else ''"/> / 5
+                                            </p>
+                                            <p t-if="o.valoracion_vendedor_id.comentario">
+                                                <strong>Comentario:</strong><br/>
+                                                <t t-esc="o.valoracion_vendedor_id.comentario or ''"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resumen -->
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <table class="table table-bordered">
+                                    <tr class="bg-light">
+                                        <th class="text-right" style="width: 80%;">Total:</th>
+                                        <th class="text-right">
+                                            <span class="h4">
+                                                <t t-esc="'{:.2f}'.format(o.monto or 0.0)"/> 
+                                                <t t-esc="o.currency_id.symbol if o.currency_id else '€'"/>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Pie de página -->
+                        <div class="row mt-5">
+                            <div class="col-12 text-center text-muted">
+                                <small>Este documento es un comprobante de compra generado automáticamente</small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

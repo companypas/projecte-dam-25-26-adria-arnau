@@ -23,6 +23,8 @@ Long description of module's purpose
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'reports/report_producto.xml',
+        'reports/report_compra.xml',
         'views/pi_usuario_views.xml',
         'views/pi_categoria_views.xml',
         'views/pi_etiqueta_views.xml',

@@ -32,28 +32,42 @@
                 <sheet>
                     <div class="oe_title">
                         <h1>
-                            <field name="display_name" readonly="1"/>
+                            <field name="display_name" readonly="1" invisible="not id"/>
+                            <span invisible="id">Nuevo Reporte</span>
                         </h1>
                     </div>
                     
                     <group>
-                        <group string="Información del Reporte">
-                            <field name="tipo_reporte" widget="badge"/>
-                            <field name="nombre_reportado_por" readonly="1"/>
-                            <field name="reportado_por_id"/>
+                        <group string="Tipo de Reporte">
+                            <field name="tipo_reporte" widget="radio" options="{'horizontal': true}"
+                                   readonly="id and estado != 'pendiente'"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="¿Quién reporta?">
+                            <field name="reportado_por_id" 
+                                   readonly="id and estado != 'pendiente'"
+                                   options="{'no_create': True}"/>
                             <field name="fecha" readonly="1"/>
-                            <field name="referencia" readonly="1"/>
                         </group>
                         <group string="Elemento Reportado">
                             <field name="producto_reportado_id" 
                                    invisible="tipo_reporte != 'producto'"
-                                   required="tipo_reporte == 'producto'"/>
+                                   required="tipo_reporte == 'producto'"
+                                   readonly="id and estado != 'pendiente'"
+                                   options="{'no_create': True}"/>
                             <field name="usuario_reportado_id" 
                                    invisible="tipo_reporte != 'usuario'"
-                                   required="tipo_reporte == 'usuario'"/>
+                                   required="tipo_reporte == 'usuario'"
+                                   readonly="id and estado != 'pendiente'"
+                                   options="{'no_create': True}"/>
                             <field name="comentario_reportado_id" 
                                    invisible="tipo_reporte != 'comentario'"
-                                   required="tipo_reporte == 'comentario'"/>
+                                   required="tipo_reporte == 'comentario'"
+                                   readonly="id and estado != 'pendiente'"
+                                   options="{'no_create': True}"/>
+                            <field name="referencia" readonly="1" invisible="not id"/>
                         </group>
                     </group>
                     
