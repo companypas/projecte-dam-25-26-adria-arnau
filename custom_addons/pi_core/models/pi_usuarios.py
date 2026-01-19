@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+import time
+import random
 
 class PiUsuario(models.Model):
     _name = 'pi.usuario'
@@ -49,9 +51,29 @@ class PiUsuario(models.Model):
             partner = self.env['res.partner'].create(partner_vals)
             vals['partner_id'] = partner.id
         
-        # Generar ID de usuario si es necesario
-        if vals.get('id_usuario', 'Nuevo') == 'Nuevo':
-            vals['id_usuario'] = self.env['ir.sequence'].next_by_code('pi.usuario') or 'USR-NEW'
+        # Generar ID de usuario si es necesario (verificar si está vacío, es False, o es 'Nuevo')
+        id_usuario = vals.get('id_usuario')
+        if not id_usuario or id_usuario == 'Nuevo':
+            # Intentar obtener ID de la secuencia
+            sequence_id = self.env['ir.sequence'].next_by_code('pi.usuario')
+            if sequence_id:
+                vals['id_usuario'] = sequence_id
+            else:
+                # Si la secuencia falla, generar un ID único usando timestamp
+                timestamp = int(time.time() * 1000) % 100000000
+                random_suffix = random.randint(1000, 9999)
+                base_id = f'USR-{timestamp:08d}-{random_suffix}'
+                
+                # Verificar que el ID generado sea único, si no, generar uno nuevo
+                max_attempts = 10
+                attempt = 0
+                while self.search_count([('id_usuario', '=', base_id)]) > 0 and attempt < max_attempts:
+                    timestamp = int(time.time() * 1000) % 100000000
+                    random_suffix = random.randint(1000, 9999)
+                    base_id = f'USR-{timestamp:08d}-{random_suffix}'
+                    attempt += 1
+                
+                vals['id_usuario'] = base_id
         
         return super(PiUsuario, self).create(vals)
     
@@ -104,6 +126,32 @@ class PiUsuario(models.Model):
             'res_id': self.id,
             'target': 'current',
         }
+    
+    @api.model
+    def _fix_existing_nuevo_ids(self):
+        """Método para corregir usuarios existentes con ID 'Nuevo'"""
+        usuarios_con_nuevo = self.search([('id_usuario', '=', 'Nuevo')])
+        for usuario in usuarios_con_nuevo:
+            # Generar un nuevo ID único
+            sequence_id = self.env['ir.sequence'].next_by_code('pi.usuario')
+            if sequence_id:
+                usuario.id_usuario = sequence_id
+            else:
+                # Si la secuencia falla, generar un ID único usando timestamp
+                timestamp = int(time.time() * 1000) % 100000000
+                random_suffix = random.randint(1000, 9999)
+                base_id = f'USR-{timestamp:08d}-{random_suffix}'
+                
+                # Verificar que el ID generado sea único
+                max_attempts = 10
+                attempt = 0
+                while self.search_count([('id_usuario', '=', base_id), ('id', '!=', usuario.id)]) > 0 and attempt < max_attempts:
+                    timestamp = int(time.time() * 1000) % 100000000
+                    random_suffix = random.randint(1000, 9999)
+                    base_id = f'USR-{timestamp:08d}-{random_suffix}'
+                    attempt += 1
+                
+                usuario.id_usuario = base_id
     
     _sql_constraints = [
         ('id_usuario_unique', 'unique(id_usuario)', 'El ID de usuario debe ser único.')
