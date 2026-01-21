@@ -1,7 +1,3 @@
-from odoo import http, fields
-from odoo.http import request
-import hashlib
-
 class AuthController(http.Controller):
     
     @http.route('/api/auth/registro', type='json', auth='public', methods=['POST'])

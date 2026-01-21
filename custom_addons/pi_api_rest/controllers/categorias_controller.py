@@ -28,4 +28,3 @@ class CategoriasController(http.Controller):
             
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
-

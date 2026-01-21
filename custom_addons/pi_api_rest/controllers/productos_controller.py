@@ -4,7 +4,6 @@ class ProductosController(http.Controller):
     def listar_productos(self, **kwargs):
         """Lista todos los productos disponibles con filtros"""
         try:
-            # Parámetros de filtrado
             categoria_id = kwargs.get('categoria_id', type=int)
             etiqueta_id = kwargs.get('etiqueta_id', type=int)
             nombre = kwargs.get('nombre')
@@ -157,3 +156,4 @@ class ProductosController(http.Controller):
             
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
+

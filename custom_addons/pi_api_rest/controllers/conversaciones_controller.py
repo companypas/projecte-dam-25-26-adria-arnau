@@ -59,7 +59,6 @@ class ConversacionesController(http.Controller):
             if not conversacion.exists():
                 return APIUtils.error_response('Conversación no encontrada', 404)
             
-            # Verificar que el usuario sea parte de la conversación
             if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
                 return APIUtils.error_response('No tienes acceso a esta conversación', 403)
             
@@ -95,7 +94,6 @@ class ConversacionesController(http.Controller):
             if not conversacion.exists():
                 return APIUtils.error_response('Conversación no encontrada', 404)
             
-            # Verificar que el usuario sea parte de la conversación
             if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
                 return APIUtils.error_response('No tienes acceso a esta conversación', 403)
             

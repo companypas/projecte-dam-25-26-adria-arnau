@@ -5,6 +5,7 @@ from functools import wraps
 from odoo import http
 from odoo.http import request, Response
 import json
+import base64
 
 class JWTAuth:
     """Gestión de autenticación JWT"""

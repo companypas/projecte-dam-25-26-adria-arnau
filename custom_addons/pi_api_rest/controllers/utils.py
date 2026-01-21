@@ -1,7 +1,3 @@
-import base64
-from odoo.http import request
-import json
-
 class APIUtils:
     """Utilidades para la API"""
     
@@ -27,11 +23,11 @@ class APIUtils:
             'id_usuario': usuario.id_usuario,
             'nombre': usuario.name,
             'email': usuario.email,
-            'telefono': usuario.phone,
-            'ubicacion': usuario.street,
+            'telefono': usuario.phone or '',
+            'ubicacion': usuario.street or '',
             'fecha_registro': usuario.fecha_registro.isoformat() if usuario.fecha_registro else None,
             'antiguedad': usuario.antiguedad,
-            'valoracion_promedio': usuario.valoracion_promedio,
+            'valoracion_promedio': round(usuario.valoracion_promedio, 2),
             'total_valoraciones': usuario.total_valoraciones,
             'total_productos_venta': usuario.total_productos_venta,
             'total_productos_vendidos': usuario.total_productos_vendidos,
@@ -43,7 +39,9 @@ class APIUtils:
         """Convierte un producto a diccionario"""
         imagen_principal = None
         if producto.imagenes_ids:
-            imagen_principal = base64.b64encode(producto.imagenes_ids[0].imagen).decode() if producto.imagenes_ids[0].imagen else None
+            img = producto.imagenes_ids[0]
+            if img.imagen:
+                imagen_principal = base64.b64encode(img.imagen).decode()
         
         return {
             'id': producto.id,
@@ -62,7 +60,7 @@ class APIUtils:
             'propietario': {
                 'id': producto.propietario_id.id,
                 'nombre': producto.propietario_id.name,
-                'valoracion': producto.propietario_id.valoracion_promedio,
+                'valoracion': round(producto.propietario_id.valoracion_promedio, 2),
             },
             'etiquetas': [{'id': e.id, 'nombre': e.nombre} for e in producto.etiquetas_ids],
             'total_comentarios': producto.total_comentarios,
