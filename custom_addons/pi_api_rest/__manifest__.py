@@ -18,7 +18,7 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'pi_core'],
+    'depends': ['base', 'web', 'mail', 'pi_core'],
 
     # always loaded
     'data': [
@@ -30,5 +30,9 @@ Long description of module's purpose
     'demo': [
         'demo/demo.xml',
     ],
+    
+    'external_dependencies': {
+        'python': ['jwt', 'werkzeug'],
+    },
 }
 
