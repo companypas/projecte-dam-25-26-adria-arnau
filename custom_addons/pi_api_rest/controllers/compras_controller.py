@@ -1,3 +1,8 @@
+from odoo import http
+from odoo.http import request
+from .auth import jwt_required, JWTAuth
+from .utils import APIUtils
+
 class ComprasController(http.Controller):
     
     @http.route('/api/compras', type='json', auth='public', methods=['POST'])

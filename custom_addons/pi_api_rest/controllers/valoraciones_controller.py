@@ -1,3 +1,8 @@
+from odoo import http
+from odoo.http import request
+from .auth import jwt_required, JWTAuth
+from .utils import APIUtils
+
 class ValoracionesController(http.Controller):
     
     @http.route('/api/valoraciones', type='json', auth='public', methods=['POST'])

@@ -1,3 +1,8 @@
+from odoo import http
+from odoo.http import request
+from .auth import jwt_required, JWTAuth
+from .utils import APIUtils
+
 class ConversacionesController(http.Controller):
     
     @http.route('/api/conversaciones', type='json', auth='public', methods=['GET'])

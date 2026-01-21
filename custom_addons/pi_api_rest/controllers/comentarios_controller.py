@@ -1,3 +1,8 @@
+from odoo import http
+from odoo.http import request
+from .auth import jwt_required, JWTAuth
+from .utils import APIUtils
+
 class ComentariosController(http.Controller):
     
     @http.route('/api/productos/<int:producto_id>/comentarios', type='json', auth='public', methods=['GET'])

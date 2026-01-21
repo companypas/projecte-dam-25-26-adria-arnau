@@ -1,3 +1,8 @@
+from odoo import http
+from odoo.http import request
+from .auth import jwt_required, JWTAuth
+from .utils import APIUtils
+
 class UsuariosController(http.Controller):
     
     @http.route('/api/usuarios/<int:usuario_id>', type='json', auth='public', methods=['GET'])

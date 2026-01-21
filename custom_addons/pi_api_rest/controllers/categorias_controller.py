@@ -1,3 +1,8 @@
+from odoo import http
+from odoo.http import request
+import base64
+from .utils import APIUtils
+
 class CategoriasController(http.Controller):
     
     @http.route('/api/categorias', type='json', auth='public', methods=['GET'])
