@@ -1,3 +1,7 @@
+import base64
+import json
+from odoo.http import request
+
 class APIUtils:
     """Utilidades para la API"""
     

@@ -66,10 +66,11 @@ class AuthController(http.Controller):
                 return APIUtils.error_response('Credenciales inválidas', 401)
             
             # Verificar contraseña (hash)
-            password_hash = hashlib.sha256(password.encode()).hexdigest()
-            if usuario.password != password_hash:
+            #password_hash = hashlib.sha256(password.encode()).hexdigest()
+            #if usuario.password != password_hash:
+            if usuario.password != password:
                 return APIUtils.error_response('Credenciales inválidas', 401)
-            
+        
             # Generar token
             token = JWTAuth.generar_token(usuario.id_usuario, email)
             
