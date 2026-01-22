@@ -51,46 +51,48 @@ class JWTAuth:
 
 
 def jwt_required(f):
-    """Decorador para requerir JWT en las rutas"""
+    """Decorador para requerir JWT en las rutas (token desde body con rotación)"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        token = None
+        # Obtener token del body - primero intentar kwargs, luego jsonrequest
+        token = kwargs.get('token')
         
-        # Obtener token del header Authorization
-        if 'Authorization' in request.headers:
-            auth_header = request.headers['Authorization']
-            try:
-                token = auth_header.split(" ")[1]
-            except IndexError:
-                return request.make_response(
-                    json.dumps({'error': 'Formato de Authorization inválido'}),
-                    400,
-                    [('Content-Type', 'application/json')]
-                )
+        # Si no está en kwargs, intentar obtenerlo de request.jsonrequest
+        if not token and hasattr(request, 'jsonrequest'):
+            token = request.jsonrequest.get('token')
         
         if not token:
-            return request.make_response(
-                json.dumps({'error': 'Token no proporcionado'}),
-                401,
-                [('Content-Type', 'application/json')]
-            )
+            return {
+                'error': 'Token no proporcionado en el body',
+                'status': 401
+            }
         
         payload = JWTAuth.verificar_token(token)
         if 'error' in payload:
-            return request.make_response(
-                json.dumps(payload),
-                401,
-                [('Content-Type', 'application/json')]
-            )
+            return {
+                'error': payload['error'],
+                'status': 401
+            }
         
-        request.usuario_actual = JWTAuth.obtener_usuario_desde_token(token)
-        if not request.usuario_actual:
-            return request.make_response(
-                json.dumps({'error': 'Usuario no encontrado'}),
-                401,
-                [('Content-Type', 'application/json')]
-            )
+        usuario = JWTAuth.obtener_usuario_desde_token(token)
+        if not usuario:
+            return {
+                'error': 'Usuario no encontrado',
+                'status': 401
+            }
         
-        return f(*args, **kwargs)
+        request.usuario_actual = usuario
+        
+        # Ejecutar la función original
+        resultado = f(*args, **kwargs)
+        
+        # Generar nuevo token
+        nuevo_token = JWTAuth.generar_token(usuario.id_usuario, usuario.email)
+        
+        # Si el resultado es un diccionario, agregar el nuevo token
+        if isinstance(resultado, dict):
+            resultado['nuevo_token'] = nuevo_token
+        
+        return resultado
     
     return decorated_function

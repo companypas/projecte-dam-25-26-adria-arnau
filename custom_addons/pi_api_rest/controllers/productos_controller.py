@@ -5,7 +5,8 @@ from .utils import APIUtils
 
 class ProductosController(http.Controller):
     
-    @http.route('/api/productos', type='json', auth='public', methods=['GET'])
+    @http.route('/api/productos', type='json', auth='public', methods=['POST'])
+    @jwt_required
     def listar_productos(self, **kwargs):
         """Lista todos los productos disponibles con filtros"""
         try:
