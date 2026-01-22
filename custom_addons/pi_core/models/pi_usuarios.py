@@ -89,14 +89,14 @@ class PiUsuario(models.Model):
                 vals['id_usuario'] = base_id
         
         # Hashing de contraseña (si se proporciona)
-        # if vals.get('password'):
-        #    vals['password'] = hashlib.sha256(vals['password'].encode()).hexdigest()
+        if vals.get('password'):
+           vals['password'] = hashlib.sha256(vals['password'].encode()).hexdigest()
                 
         return super(PiUsuario, self).create(vals)
     
     def write(self, vals):
-        # if vals.get('password'):
-        #     vals['password'] = hashlib.sha256(vals['password'].encode()).hexdigest()
+        if vals.get('password'):
+            vals['password'] = hashlib.sha256(vals['password'].encode()).hexdigest()
         return super(PiUsuario, self).write(vals)
     
     @api.depends('fecha_registro')
