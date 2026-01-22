@@ -95,8 +95,8 @@ class PiUsuario(models.Model):
         return super(PiUsuario, self).create(vals)
     
     def write(self, vals):
-        if vals.get('password'):
-            vals['password'] = hashlib.sha256(vals['password'].encode()).hexdigest()
+        # if vals.get('password'):
+        #     vals['password'] = hashlib.sha256(vals['password'].encode()).hexdigest()
         return super(PiUsuario, self).write(vals)
     
     @api.depends('fecha_registro')

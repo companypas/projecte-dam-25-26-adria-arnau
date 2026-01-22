@@ -7,17 +7,19 @@ class APIUtils:
     
     @staticmethod
     def json_response(data, status=200):
-        """Respuesta JSON estándar"""
-        return request.make_response(
-            json.dumps(data),
-            status,
-            [('Content-Type', 'application/json')]
-        )
+        """Respuesta JSON estándar para rutas type='json'"""
+        # Para type='json', simplemente devolver el diccionario
+        # Odoo se encarga de la serialización
+        return data
     
     @staticmethod
     def error_response(mensaje, status=400):
         """Respuesta de error"""
-        return APIUtils.json_response({'error': mensaje}, status)
+        # Devolver un diccionario con la estructura de error
+        return {
+            'error': mensaje,
+            'status': status
+        }
     
     @staticmethod
     def usuario_to_dict(usuario):
@@ -60,12 +62,12 @@ class APIUtils:
             'categoria': {
                 'id': producto.categoria_id.id,
                 'nombre': producto.categoria_id.nombre,
-            },
+            } if producto.categoria_id else None,
             'propietario': {
                 'id': producto.propietario_id.id,
                 'nombre': producto.propietario_id.name,
                 'valoracion': round(producto.propietario_id.valoracion_promedio, 2),
-            },
+            } if producto.propietario_id else None,
             'etiquetas': [{'id': e.id, 'nombre': e.nombre} for e in producto.etiquetas_ids],
             'total_comentarios': producto.total_comentarios,
             'total_imagenes': producto.total_imagenes,
@@ -85,7 +87,7 @@ class APIUtils:
             'usuario': {
                 'id': comentario.usuario_id.id,
                 'nombre': comentario.usuario_id.name,
-            },
+            } if comentario.usuario_id else None,
             'total_reportes': comentario.total_reportes,
         }
     
@@ -100,7 +102,7 @@ class APIUtils:
             'remitente': {
                 'id': mensaje.remitente_id.id,
                 'nombre': mensaje.remitente_id.name,
-            },
+            } if mensaje.remitente_id else None,
             'es_de_comprador': mensaje.es_de_comprador,
             'es_de_vendedor': mensaje.es_de_vendedor,
         }
