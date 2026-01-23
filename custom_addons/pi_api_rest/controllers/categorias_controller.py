@@ -2,14 +2,16 @@ from odoo import http
 from odoo.http import request
 import base64
 from .utils import APIUtils
+from .auth import jwt_required
 
 class CategoriasController(http.Controller):
-    
-    @http.route('/api/categorias', type='json', auth='public', methods=['GET'])
+
+    @http.route('/api/categorias', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def listar_categorias(self, **kwargs):
-        """Lista todas las categorías"""
         try:
-            categorias = request.env['pi.categoria'].search([])
+            # sudo() evita chequeos de usuario
+            categorias = request.env['pi.categoria'].sudo().search([])
             
             resultado = []
             for cat in categorias:
@@ -30,6 +32,5 @@ class CategoriasController(http.Controller):
                 'total': len(resultado),
                 'categorias': resultado
             })
-            
         except Exception as e:
             return APIUtils.error_response(str(e), 500)

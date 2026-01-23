@@ -64,9 +64,8 @@ class PiUsuario(models.Model):
             partner = self.env['res.partner'].create(partner_vals)
             vals['partner_id'] = partner.id
         
-        # Generar ID de usuario si es necesario (verificar si está vacío, es False, o es 'Nuevo')
-        id_usuario = vals.get('id_usuario')
-        if not id_usuario or id_usuario == 'Nuevo':
+        # Generar ID de usuario único - siempre que sea 'Nuevo' o vacío
+        if vals.get('id_usuario', 'Nuevo') == 'Nuevo':
             # Intentar obtener ID de la secuencia
             sequence_id = self.env['ir.sequence'].next_by_code('pi.usuario')
             if sequence_id:

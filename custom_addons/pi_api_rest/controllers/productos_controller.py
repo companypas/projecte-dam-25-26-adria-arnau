@@ -49,11 +49,16 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='public', methods=['GET'])
-    def obtener_producto(self, producto_id, **kwargs):
+    @http.route('/api/productos/obtener', type='json', auth='public', methods=['POST'])
+    def obtener_producto(self, **kwargs):
         """Obtiene un producto por ID (sin autenticación requerida)"""
         try:
-            producto = request.env['pi.producto'].sudo().browse(producto_id)
+            # Obtener producto_id del JSON
+            producto_id = kwargs.get('producto_id')
+            if not producto_id:
+                return APIUtils.error_response('El campo producto_id es requerido', 400)
+            
+            producto = request.env['pi.producto'].sudo().browse(int(producto_id))
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
@@ -105,13 +110,19 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['PUT'])
+    @http.route('/api/productos/actualizar', type='json', auth='none', methods=['PUT'])
     @jwt_required
-    def actualizar_producto(self, producto_id, **kwargs):
+    def actualizar_producto(self, **kwargs):
         """Actualiza un producto existente"""
         try:
             usuario = request.usuario_actual
-            producto = request.env['pi.producto'].sudo().browse(producto_id)
+            
+            # Obtener producto_id del JSON
+            producto_id = kwargs.get('producto_id')
+            if not producto_id:
+                return APIUtils.error_response('El campo producto_id es requerido', 400)
+            
+            producto = request.env['pi.producto'].sudo().browse(int(producto_id))
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
@@ -140,14 +151,56 @@ class ProductosController(http.Controller):
             
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
+
+    # @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['PUT'])
+    # @jwt_required
+    # def actualizar_producto(self, producto_id, **kwargs):
+    #     """Actualiza un producto existente"""
+    #     try:
+    #         usuario = request.usuario_actual
+    #         producto = request.env['pi.producto'].sudo().browse(producto_id)
+            
+    #         if not producto.exists():
+    #             return APIUtils.error_response('Producto no encontrado', 404)
+            
+    #         if producto.propietario_id.id != usuario['id']:
+    #             return APIUtils.error_response('No tienes permisos para actualizar este producto', 403)
+            
+    #         vals = {}
+    #         if 'nombre' in kwargs:
+    #             vals['nombre_producto'] = kwargs['nombre']
+    #         if 'descripcion' in kwargs:
+    #             vals['descripcion'] = kwargs['descripcion']
+    #         if 'precio' in kwargs:
+    #             vals['precio'] = float(kwargs['precio'])
+    #         if 'ubicacion' in kwargs:
+    #             vals['ubicacion'] = kwargs['ubicacion']
+    #         if 'etiquetas_ids' in kwargs:
+    #             vals['etiquetas_ids'] = [(6, 0, kwargs['etiquetas_ids'])]
+            
+    #         producto.sudo().write(vals)
+            
+    #         return APIUtils.json_response({
+    #             'mensaje': 'Producto actualizado exitosamente',
+    #             'producto': APIUtils.producto_to_dict(producto)
+    #         })
+            
+    #     except Exception as e:
+    #         return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['DELETE'])
+    @http.route('/api/productos/eliminar', type='json', auth='none', methods=['DELETE'])
     @jwt_required
-    def eliminar_producto(self, producto_id, **kwargs):
+    def eliminar_producto(self, **kwargs):
         """Elimina un producto"""
         try:
             usuario = request.usuario_actual
-            producto = request.env['pi.producto'].sudo().browse(producto_id)
+            
+            # Obtener producto_id del JSON
+            producto_id = kwargs.get('producto_id')
+            if not producto_id:
+                return APIUtils.error_response('El campo producto_id es requerido', 400)
+            
+            producto = request.env['pi.producto'].sudo().browse(int(producto_id))
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)

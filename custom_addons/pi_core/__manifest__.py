@@ -23,6 +23,7 @@ Long description of module's purpose
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'data/ir_sequence.xml',  # Secuencias para IDs automáticos
         'reports/report_producto.xml',
         'reports/report_compra.xml',
         'views/pi_usuario_views.xml',
