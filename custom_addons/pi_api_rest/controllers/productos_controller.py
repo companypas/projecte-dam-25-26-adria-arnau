@@ -5,19 +5,20 @@ from .utils import APIUtils
 
 class ProductosController(http.Controller):
     
-    @http.route('/api/productos', type='json', auth='public', methods=['POST'])
+    @http.route('/api/productos', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_productos(self, **kwargs):
         """Lista todos los productos disponibles con filtros"""
         try:
-            categoria_id = kwargs.get('categoria_id', type=int)
-            etiqueta_id = kwargs.get('etiqueta_id', type=int)
-            nombre = kwargs.get('nombre')
-            precio_min = kwargs.get('precio_min', type=float)
-            precio_max = kwargs.get('precio_max', type=float)
-            ubicacion = kwargs.get('ubicacion')
-            offset = kwargs.get('offset', 0, type=int)
-            limit = kwargs.get('limit', 20, type=int)
+            # Obtener parámetros de query string
+            categoria_id = request.httprequest.args.get('categoria_id', type=int)
+            etiqueta_id = request.httprequest.args.get('etiqueta_id', type=int)
+            nombre = request.httprequest.args.get('nombre')
+            precio_min = request.httprequest.args.get('precio_min', type=float)
+            precio_max = request.httprequest.args.get('precio_max', type=float)
+            ubicacion = request.httprequest.args.get('ubicacion')
+            offset = request.httprequest.args.get('offset', 0, type=int)
+            limit = request.httprequest.args.get('limit', 20, type=int)
             
             domain = [('estado_venta', '=', 'disponible')]
             
@@ -34,8 +35,9 @@ class ProductosController(http.Controller):
             if ubicacion:
                 domain.append(('ubicacion', 'ilike', ubicacion))
             
-            productos = request.env['pi.producto'].search(domain, offset=offset, limit=limit)
-            total = request.env['pi.producto'].search_count(domain)
+            # Usar sudo() para evitar restricciones de permisos
+            productos = request.env['pi.producto'].sudo().search(domain, offset=offset, limit=limit)
+            total = request.env['pi.producto'].sudo().search_count(domain)
             
             return APIUtils.json_response({
                 'total': total,
@@ -49,9 +51,9 @@ class ProductosController(http.Controller):
     
     @http.route('/api/productos/<int:producto_id>', type='json', auth='public', methods=['GET'])
     def obtener_producto(self, producto_id, **kwargs):
-        """Obtiene un producto por ID"""
+        """Obtiene un producto por ID (sin autenticación requerida)"""
         try:
-            producto = request.env['pi.producto'].browse(producto_id)
+            producto = request.env['pi.producto'].sudo().browse(producto_id)
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
@@ -61,7 +63,7 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos', type='json', auth='public', methods=['POST'])
+    @http.route('/api/productos', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_producto(self, **kwargs):
         """Crea un nuevo producto"""
@@ -83,7 +85,7 @@ class ProductosController(http.Controller):
             if precio <= 0:
                 return APIUtils.error_response('El precio debe ser mayor que 0', 400)
             
-            producto = request.env['pi.producto'].create({
+            producto = request.env['pi.producto'].sudo().create({
                 'nombre_producto': nombre,
                 'descripcion': descripcion,
                 'precio': precio,
@@ -91,7 +93,7 @@ class ProductosController(http.Controller):
                 'estado': estado,
                 'antiguedad_producto': antiguedad,
                 'ubicacion': ubicacion,
-                'propietario_id': usuario.id,
+                'propietario_id': usuario['id'],
                 'etiquetas_ids': [(6, 0, etiquetas_ids)] if etiquetas_ids else None,
             })
             
@@ -103,18 +105,18 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='public', methods=['PUT'])
+    @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['PUT'])
     @jwt_required
     def actualizar_producto(self, producto_id, **kwargs):
         """Actualiza un producto existente"""
         try:
             usuario = request.usuario_actual
-            producto = request.env['pi.producto'].browse(producto_id)
+            producto = request.env['pi.producto'].sudo().browse(producto_id)
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
             
-            if producto.propietario_id.id != usuario.id:
+            if producto.propietario_id.id != usuario['id']:
                 return APIUtils.error_response('No tienes permisos para actualizar este producto', 403)
             
             vals = {}
@@ -129,7 +131,7 @@ class ProductosController(http.Controller):
             if 'etiquetas_ids' in kwargs:
                 vals['etiquetas_ids'] = [(6, 0, kwargs['etiquetas_ids'])]
             
-            producto.write(vals)
+            producto.sudo().write(vals)
             
             return APIUtils.json_response({
                 'mensaje': 'Producto actualizado exitosamente',
@@ -139,22 +141,22 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='public', methods=['DELETE'])
+    @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['DELETE'])
     @jwt_required
     def eliminar_producto(self, producto_id, **kwargs):
         """Elimina un producto"""
         try:
             usuario = request.usuario_actual
-            producto = request.env['pi.producto'].browse(producto_id)
+            producto = request.env['pi.producto'].sudo().browse(producto_id)
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
             
-            if producto.propietario_id.id != usuario.id:
+            if producto.propietario_id.id != usuario['id']:
                 return APIUtils.error_response('No tienes permisos para eliminar este producto', 403)
             
             producto_nombre = producto.nombre_producto
-            producto.unlink()
+            producto.sudo().unlink()
             
             return APIUtils.json_response({
                 'mensaje': f'Producto "{producto_nombre}" eliminado exitosamente'
@@ -162,4 +164,3 @@ class ProductosController(http.Controller):
             
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
-

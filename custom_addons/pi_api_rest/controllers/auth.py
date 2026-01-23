@@ -1,14 +1,11 @@
 import jwt
-import hashlib
 from datetime import datetime, timedelta
 from functools import wraps
 from odoo import http
-from odoo.http import request, Response
-import json
-import base64
+from odoo.http import request
 
 class JWTAuth:
-    """Gestión de autenticación JWT"""
+    """Gestión de autenticación JWT con Bearer tokens"""
     
     SECRET_KEY = 'tu_clave_secreta_muy_segura_cambiar_en_produccion'
     ALGORITHM = 'HS256'
@@ -38,32 +35,31 @@ class JWTAuth:
             return {'error': 'Token inválido'}
     
     @staticmethod
-    def obtener_usuario_desde_token(token):
-        """Obtiene el usuario desde el token"""
-        payload = JWTAuth.verificar_token(token)
-        if 'error' in payload:
+    def obtener_token_desde_header():
+        """Extrae el token del header Authorization con formato Bearer"""
+        auth_header = request.httprequest.headers.get('Authorization', '')
+        
+        if not auth_header:
             return None
         
-        usuario = request.env['pi.usuario'].search([
-            ('id_usuario', '=', payload.get('usuario_id'))
-        ], limit=1)
-        return usuario if usuario else None
+        partes = auth_header.split()
+        
+        if len(partes) != 2 or partes[0].lower() != 'bearer':
+            return None
+        
+        return partes[1]
 
 
 def jwt_required(f):
-    """Decorador para requerir JWT en las rutas (token desde body con rotación)"""
+    """Decorador para requerir JWT en las rutas (token desde header Authorization: Bearer <token>)"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        # Obtener token del body - primero intentar kwargs, luego jsonrequest
-        token = kwargs.get('token')
-        
-        # Si no está en kwargs, intentar obtenerlo de request.jsonrequest
-        if not token and hasattr(request, 'jsonrequest'):
-            token = request.jsonrequest.get('token')
+        # Obtener token del header Authorization
+        token = JWTAuth.obtener_token_desde_header()
         
         if not token:
             return {
-                'error': 'Token no proporcionado en el body',
+                'error': 'Token no proporcionado en header Authorization',
                 'status': 401
             }
         
@@ -74,20 +70,27 @@ def jwt_required(f):
                 'status': 401
             }
         
-        usuario = JWTAuth.obtener_usuario_desde_token(token)
-        if not usuario:
+        # Obtener usuario directamente del payload sin búsqueda en BD
+        usuario_id = payload.get('usuario_id')
+        usuario_email = payload.get('email')
+        
+        if not usuario_id:
             return {
-                'error': 'Usuario no encontrado',
+                'error': 'Usuario no encontrado en token',
                 'status': 401
             }
         
-        request.usuario_actual = usuario
+        # Guardar datos del usuario en request sin hacer búsqueda
+        request.usuario_actual = {
+            'id': usuario_id,
+            'email': usuario_email
+        }
         
         # Ejecutar la función original
         resultado = f(*args, **kwargs)
         
         # Generar nuevo token
-        nuevo_token = JWTAuth.generar_token(usuario.id_usuario, usuario.email)
+        nuevo_token = JWTAuth.generar_token(usuario_id, usuario_email)
         
         # Si el resultado es un diccionario, agregar el nuevo token
         if isinstance(resultado, dict):
