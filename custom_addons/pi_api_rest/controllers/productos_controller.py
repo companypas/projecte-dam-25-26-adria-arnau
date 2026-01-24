@@ -2,6 +2,7 @@ from odoo import http
 from odoo.http import request
 from .auth import jwt_required, JWTAuth
 from .utils import APIUtils
+import json
 
 class ProductosController(http.Controller):
     
@@ -74,17 +75,28 @@ class ProductosController(http.Controller):
             if not usuario:
                 return APIUtils.error_response('Usuario no encontrado', 404)
             
-            nombre = kwargs.get('nombre')
-            descripcion = kwargs.get('descripcion')
-            precio = kwargs.get('precio', type=float)
-            categoria_id = kwargs.get('categoria_id', type=int)
-            estado = kwargs.get('estado', 'nuevo')
-            antiguedad = kwargs.get('antiguedad', 0, type=int)
-            ubicacion = kwargs.get('ubicacion')
-            etiquetas_ids = kwargs.get('etiquetas_ids', [])
+            # Obtener datos JSON correctamente
+            data = kwargs if kwargs else (request.jsonrequest if hasattr(request, 'jsonrequest') else json.loads(request.httprequest.data))
+            
+            nombre = data.get('nombre')
+            descripcion = data.get('descripcion')
+            precio = data.get('precio')
+            categoria_id = data.get('categoria_id')
+            estado = data.get('estado', 'nuevo')
+            antiguedad = data.get('antiguedad', 0)
+            ubicacion = data.get('ubicacion')
+            etiquetas_ids = data.get('etiquetas_ids', [])
             
             if not all([nombre, descripcion, precio, categoria_id, ubicacion]):
                 return APIUtils.error_response('Parámetros requeridos faltantes', 400)
+            
+            # Convertir y validar tipos
+            try:
+                precio = float(precio)
+                categoria_id = int(categoria_id)
+                antiguedad = int(antiguedad) if antiguedad else 0
+            except (ValueError, TypeError) as e:
+                return APIUtils.error_response(f'Error en formato de datos: {str(e)}', 400)
             
             if precio <= 0:
                 return APIUtils.error_response('El precio debe ser mayor que 0', 400)

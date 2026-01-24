@@ -1,5 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+import time
+import random
 
 class piProducto(models.Model):
     _name = 'pi.producto'
@@ -45,7 +47,26 @@ class piProducto(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('id_producto', 'Nuevo') == 'Nuevo':
-            vals['id_producto'] = self.env['ir.sequence'].next_by_code('pi.producto') or 'PRD-NEW'
+            # Intentar obtener ID de la secuencia
+            sequence_id = self.env['ir.sequence'].next_by_code('pi.producto')
+            if sequence_id:
+                vals['id_producto'] = sequence_id
+            else:
+                # Si la secuencia falla, generar un ID único usando timestamp
+                timestamp = int(time.time() * 1000) % 100000000
+                random_suffix = random.randint(1000, 9999)
+                base_id = f'PRD-{timestamp:08d}-{random_suffix}'
+                
+                # Verificar que el ID generado sea único
+                max_attempts = 10
+                attempt = 0
+                while self.search_count([('id_producto', '=', base_id)]) > 0 and attempt < max_attempts:
+                    timestamp = int(time.time() * 1000) % 100000000
+                    random_suffix = random.randint(1000, 9999)
+                    base_id = f'PRD-{timestamp:08d}-{random_suffix}'
+                    attempt += 1
+                
+                vals['id_producto'] = base_id
         return super(piProducto, self).create(vals)
     
     @api.depends('comentarios_ids')
