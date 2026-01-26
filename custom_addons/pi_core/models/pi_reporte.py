@@ -149,19 +149,24 @@ class PiReporte(models.Model):
             self.usuario_reportado_id.active = False
     
     def _enviar_notificacion_empleados(self):
-        # Notificar al usuario admin
-        admin_user = self.env.ref('base.user_admin', raise_if_not_found=False)
-        if admin_user and admin_user.partner_id:
-            tipo_label = dict(self._fields['tipo_reporte'].selection).get(self.tipo_reporte, 'Reporte')
-            self.message_post(
-                body=f'NUEVO REPORTE<br/>'
-                     f'<b>Tipo:</b> {tipo_label}<br/>'
-                     f'<b>Referencia:</b> {self.referencia}<br/>'
-                     f'<b>Motivo:</b> {self.motivo[:100] if self.motivo else ""}...',
-                partner_ids=[admin_user.partner_id.id],
-                message_type='notification',
-                subtype_xmlid='mail.mt_comment',
-            )
+        """Enviar notificación a empleados (solo funciona desde UI de Odoo, no desde API)"""
+        try:
+            # Notificar al usuario admin
+            admin_user = self.env.ref('base.user_admin', raise_if_not_found=False)
+            if admin_user and admin_user.partner_id:
+                tipo_label = dict(self._fields['tipo_reporte'].selection).get(self.tipo_reporte, 'Reporte')
+                self.message_post(
+                    body=f'NUEVO REPORTE<br/>'
+                         f'<b>Tipo:</b> {tipo_label}<br/>'
+                         f'<b>Referencia:</b> {self.referencia}<br/>'
+                         f'<b>Motivo:</b> {self.motivo[:100] if self.motivo else ""}...',
+                    partner_ids=[admin_user.partner_id.id],
+                    message_type='notification',
+                    subtype_xmlid='mail.mt_comment',
+                )
+        except Exception:
+            # Silenciosamente ignorar errores cuando se llama desde la API sin usuario autenticado
+            pass
 
 
 # Wizard para resolver reportes
