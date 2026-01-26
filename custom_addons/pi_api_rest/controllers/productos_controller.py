@@ -141,19 +141,34 @@ class ProductosController(http.Controller):
             if producto.propietario_id.id != usuario.id:
                 return APIUtils.error_response('No tienes permisos para actualizar este producto', 403)
             
-            vals = {}
-            if 'nombre' in kwargs:
-                vals['nombre_producto'] = kwargs['nombre']
-            if 'descripcion' in kwargs:
-                vals['descripcion'] = kwargs['descripcion']
-            if 'precio' in kwargs:
-                vals['precio'] = float(kwargs['precio'])
-            if 'ubicacion' in kwargs:
-                vals['ubicacion'] = kwargs['ubicacion']
-            if 'etiquetas_ids' in kwargs:
-                vals['etiquetas_ids'] = [(6, 0, kwargs['etiquetas_ids'])]
+            # Obtener datos JSON correctamente
+            data = kwargs if kwargs else (request.jsonrequest if hasattr(request, 'jsonrequest') else json.loads(request.httprequest.data))
             
+            vals = {}
+            if 'nombre' in data:
+                vals['nombre_producto'] = data['nombre']
+            if 'descripcion' in data:
+                vals['descripcion'] = data['descripcion']
+            if 'precio' in data:
+                vals['precio'] = float(data['precio'])
+            if 'ubicacion' in data:
+                vals['ubicacion'] = data['ubicacion']
+            if 'etiquetas_ids' in data:
+                vals['etiquetas_ids'] = [(6, 0, data['etiquetas_ids'])]
+            
+            # Verificar que hay datos para actualizar
+            if not vals:
+                return APIUtils.error_response('No hay datos para actualizar', 400)
+            
+            # Actualizar el producto
             producto.sudo().write(vals)
+            
+            # Invalidar caché y hacer commit para asegurar persistencia
+            producto.invalidate_recordset()
+            request.env.cr.commit()
+            
+            # Refrescar el producto desde la base de datos
+            producto = request.env['pi.producto'].sudo().browse(producto_id)
             
             return APIUtils.json_response({
                 'mensaje': 'Producto actualizado exitosamente',
