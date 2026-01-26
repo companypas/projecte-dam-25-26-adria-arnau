@@ -73,18 +73,23 @@ class piComentario(models.Model):
         }
     
     def _enviar_notificacion_propietario(self):
-        # Notificar al propietario del producto que hay un nuevo comentario
-        propietario = self.producto_id.propietario_id
-        
-        if propietario:
-            self.message_post(
-                body=f'Nuevo comentario en tu producto "{self.producto_id.nombre_producto}" por {self.usuario_id.name}.',
-                partner_ids=[propietario.id],
-                message_type='notification'
-            )
+        """Notificar al propietario del producto (solo funciona desde UI de Odoo, no desde API)"""
+        try:
+            # Notificar al propietario del producto que hay un nuevo comentario
+            propietario = self.producto_id.propietario_id
             
-            # También se puede enviar email, SMS, etc.
-            # self.env['mail.mail'].create({...})
+            if propietario:
+                self.message_post(
+                    body=f'Nuevo comentario en tu producto "{self.producto_id.nombre_producto}" por {self.usuario_id.name}.',
+                    partner_ids=[propietario.id],
+                    message_type='notification'
+                )
+                
+                # También se puede enviar email, SMS, etc.
+                # self.env['mail.mail'].create({...})
+        except Exception:
+            # Silenciosamente ignorar errores cuando se llama desde la API sin usuario autenticado
+            pass
     
     _sql_constraints = [
         ('id_comentario_unique', 'unique(id_comentario)', 'El ID de comentario debe ser único.')
