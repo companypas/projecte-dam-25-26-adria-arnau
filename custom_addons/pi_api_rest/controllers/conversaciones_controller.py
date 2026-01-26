@@ -2,6 +2,7 @@ from odoo import http
 from odoo.http import request
 from .auth import jwt_required, JWTAuth
 from .utils import APIUtils
+import json
 
 class ConversacionesController(http.Controller):
     
@@ -10,17 +11,23 @@ class ConversacionesController(http.Controller):
     def listar_conversaciones(self, **kwargs):
         """Lista las conversaciones del usuario"""
         try:
-            usuario = request.usuario_actual
-            offset = kwargs.get('offset', 0, type=int)
-            limit = kwargs.get('limit', 20, type=int)
+            usuario_data = request.usuario_actual
             
-            conversaciones = request.env['pi.conversacion'].search([
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            offset = request.httprequest.args.get('offset', 0, type=int)
+            limit = request.httprequest.args.get('limit', 20, type=int)
+            
+            conversaciones = request.env['pi.conversacion'].sudo().search([
                 '|',
                 ('comprador_id', '=', usuario.id),
                 ('vendedor_id', '=', usuario.id)
             ], offset=offset, limit=limit, order='last_message_date desc')
             
-            total = request.env['pi.conversacion'].search_count([
+            total = request.env['pi.conversacion'].sudo().search_count([
                 '|',
                 ('comprador_id', '=', usuario.id),
                 ('vendedor_id', '=', usuario.id)
@@ -53,13 +60,20 @@ class ConversacionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='public', methods=['GET'])
+    
+    @http.route('/api/conversaciones/<int:conversacion_id>', type='json', auth='none', methods=['GET'])
     @jwt_required
-    def obtener_mensajes(self, conversacion_id, **kwargs):
-        """Obtiene los mensajes de una conversación"""
+    def obtener_conversacion(self, conversacion_id, **kwargs):
+        """Obtiene los detalles de una conversación específica"""
         try:
-            usuario = request.usuario_actual
-            conversacion = request.env['pi.conversacion'].browse(conversacion_id)
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            conversacion = request.env['pi.conversacion'].sudo().browse(conversacion_id)
             
             if not conversacion.exists():
                 return APIUtils.error_response('Conversación no encontrada', 404)
@@ -67,8 +81,113 @@ class ConversacionesController(http.Controller):
             if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
                 return APIUtils.error_response('No tienes acceso a esta conversación', 403)
             
-            offset = kwargs.get('offset', 0, type=int)
-            limit = kwargs.get('limit', 50, type=int)
+            otro_usuario = conversacion.vendedor_id if conversacion.comprador_id.id == usuario.id else conversacion.comprador_id
+            
+            return APIUtils.json_response({
+                'id': conversacion.id,
+                'asunto': conversacion.name,
+                'otro_usuario': {
+                    'id': otro_usuario.id,
+                    'nombre': otro_usuario.name,
+                },
+                'estado': conversacion.state,
+                'total_mensajes': conversacion.total_mensajes,
+                'ultimo_mensaje': conversacion.last_message_preview,
+                'fecha_ultimo_mensaje': conversacion.last_message_date.isoformat() if conversacion.last_message_date else None,
+                'producto_id': conversacion.producto_id.id if conversacion.producto_id else None,
+            })
+            
+        except Exception as e:
+            return APIUtils.error_response(str(e), 500)
+    
+    @http.route('/api/conversaciones/<int:conversacion_id>', type='json', auth='none', methods=['PUT'])
+    @jwt_required
+    def actualizar_conversacion(self, conversacion_id, **kwargs):
+        """Actualiza el estado de una conversación (archivar, etc.)"""
+        try:
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            conversacion = request.env['pi.conversacion'].sudo().browse(conversacion_id)
+            
+            if not conversacion.exists():
+                return APIUtils.error_response('Conversación no encontrada', 404)
+            
+            if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
+                return APIUtils.error_response('No tienes acceso a esta conversación', 403)
+            
+            vals = {}
+            if 'estado' in kwargs:
+                vals['state'] = kwargs['estado']
+            
+            if vals:
+                conversacion.sudo().write(vals)
+            
+            return APIUtils.json_response({
+                'mensaje': 'Conversación actualizada exitosamente',
+                'conversacion_id': conversacion.id,
+                'estado': conversacion.state
+            })
+            
+        except Exception as e:
+            return APIUtils.error_response(str(e), 500)
+    
+    @http.route('/api/conversaciones/<int:conversacion_id>', type='json', auth='none', methods=['DELETE'])
+    @jwt_required
+    def eliminar_conversacion(self, conversacion_id, **kwargs):
+        """Elimina/archiva una conversación"""
+        try:
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            conversacion = request.env['pi.conversacion'].sudo().browse(conversacion_id)
+            
+            if not conversacion.exists():
+                return APIUtils.error_response('Conversación no encontrada', 404)
+            
+            if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
+                return APIUtils.error_response('No tienes acceso a esta conversación', 403)
+            
+            # Archivar en lugar de eliminar completamente
+            conversacion.sudo().write({'state': 'archived'})
+            
+            return APIUtils.json_response({
+                'mensaje': 'Conversación archivada exitosamente'
+            })
+            
+        except Exception as e:
+            return APIUtils.error_response(str(e), 500)
+    
+    @http.route('/api/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='none', methods=['GET'])
+    @jwt_required
+    def obtener_mensajes(self, conversacion_id, **kwargs):
+        """Obtiene los mensajes de una conversación"""
+        try:
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            conversacion = request.env['pi.conversacion'].sudo().browse(conversacion_id)
+            
+            if not conversacion.exists():
+                return APIUtils.error_response('Conversación no encontrada', 404)
+            
+            if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
+                return APIUtils.error_response('No tienes acceso a esta conversación', 403)
+            
+            offset = request.httprequest.args.get('offset', 0, type=int)
+            limit = request.httprequest.args.get('limit', 50, type=int)
             
             mensajes = conversacion.mensaje_ids.sorted('fecha_envio')[offset:offset+limit]
             
@@ -88,13 +207,50 @@ class ConversacionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='public', methods=['POST'])
+    
+    @http.route('/api/mensajes/<int:mensaje_id>', type='json', auth='none', methods=['DELETE'])
+    @jwt_required
+    def eliminar_mensaje(self, mensaje_id, **kwargs):
+        """Elimina un mensaje específico"""
+        try:
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            mensaje = request.env['pi.mensaje'].sudo().browse(mensaje_id)
+            
+            if not mensaje.exists():
+                return APIUtils.error_response('Mensaje no encontrado', 404)
+            
+            # Solo el remitente puede eliminar su propio mensaje
+            if mensaje.remitente_id.id != usuario.id:
+                return APIUtils.error_response('Solo puedes eliminar tus propios mensajes', 403)
+            
+            mensaje.sudo().unlink()
+            
+            return APIUtils.json_response({
+                'mensaje': 'Mensaje eliminado exitosamente'
+            })
+            
+        except Exception as e:
+            return APIUtils.error_response(str(e), 500)
+    
+    @http.route('/api/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='none', methods=['POST'])
     @jwt_required
     def enviar_mensaje(self, conversacion_id, **kwargs):
         """Envía un mensaje en una conversación"""
         try:
-            usuario = request.usuario_actual
-            conversacion = request.env['pi.conversacion'].browse(conversacion_id)
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            conversacion = request.env['pi.conversacion'].sudo().browse(conversacion_id)
             
             if not conversacion.exists():
                 return APIUtils.error_response('Conversación no encontrada', 404)
@@ -102,11 +258,14 @@ class ConversacionesController(http.Controller):
             if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
                 return APIUtils.error_response('No tienes acceso a esta conversación', 403)
             
-            contenido = kwargs.get('contenido')
+            # Obtener datos JSON correctamente
+            data = kwargs if kwargs else (request.jsonrequest if hasattr(request, 'jsonrequest') else json.loads(request.httprequest.data))
+            
+            contenido = data.get('contenido')
             if not contenido:
                 return APIUtils.error_response('El contenido del mensaje es requerido', 400)
             
-            mensaje = request.env['pi.mensaje'].create({
+            mensaje = request.env['pi.mensaje'].sudo().create({
                 'conversacion_id': conversacion_id,
                 'remitente_id': usuario.id,
                 'contenido': contenido,
@@ -126,8 +285,14 @@ class ConversacionesController(http.Controller):
     def iniciar_chat_producto(self, producto_id, **kwargs):
         """Inicia un chat sobre un producto"""
         try:
-            usuario = request.usuario_actual
-            producto = request.env['pi.producto'].browse(producto_id)
+            usuario_data = request.usuario_actual
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            producto = request.env['pi.producto'].sudo().browse(producto_id)
             
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
@@ -136,14 +301,14 @@ class ConversacionesController(http.Controller):
                 return APIUtils.error_response('No puedes chatear contigo mismo', 400)
             
             # Buscar si existe conversación
-            conversacion = request.env['pi.conversacion'].search([
+            conversacion = request.env['pi.conversacion'].sudo().search([
                 ('producto_id', '=', producto_id),
                 ('comprador_id', '=', usuario.id),
                 ('vendedor_id', '=', producto.propietario_id.id),
             ], limit=1)
             
             if not conversacion:
-                conversacion = request.env['pi.conversacion'].create({
+                conversacion = request.env['pi.conversacion'].sudo().create({
                     'name': f'Chat sobre: {producto.nombre_producto}',
                     'comprador_id': usuario.id,
                     'vendedor_id': producto.propietario_id.id,

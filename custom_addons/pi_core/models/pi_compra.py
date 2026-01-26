@@ -120,17 +120,22 @@ class piCompra(models.Model):
         }
     
     def _enviar_notificacion_valoracion(self):
-        # Enviar notificación al comprador
-        self.message_post(
-            body=f'Compra confirmada. Por favor, valora al vendedor {self.vendedor_id.partner_id.name}.',
-            partner_ids=[self.comprador_id.partner_id.id]
-        )
-        
-        # Enviar notificación al vendedor
-        self.message_post(
-            body=f'Compra confirmada. Por favor, valora al comprador {self.comprador_id.partner_id.name}.',
-            partner_ids=[self.vendedor_id.partner_id.id]
-        )
+        """Enviar notificaciones de valoración (solo funciona desde UI de Odoo, no desde API)"""
+        try:
+            # Enviar notificación al comprador
+            self.message_post(
+                body=f'Compra confirmada. Por favor, valora al vendedor {self.vendedor_id.partner_id.name}.',
+                partner_ids=[self.comprador_id.partner_id.id]
+            )
+            
+            # Enviar notificación al vendedor
+            self.message_post(
+                body=f'Compra confirmada. Por favor, valora al comprador {self.comprador_id.partner_id.name}.',
+                partner_ids=[self.vendedor_id.partner_id.id]
+            )
+        except Exception:
+            # Silenciosamente ignorar errores cuando se llama desde la API sin usuario autenticado
+            pass
     
     _sql_constraints = [
         ('id_compra_unique', 'unique(id_compra)', 'El ID de compra debe ser único.')
