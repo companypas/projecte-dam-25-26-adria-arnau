@@ -9,3 +9,4 @@ from . import compras_controller
 from . import valoraciones_controller
 from . import usuarios_controller
 from . import categorias_controller
+from . import etiquetas_controller
