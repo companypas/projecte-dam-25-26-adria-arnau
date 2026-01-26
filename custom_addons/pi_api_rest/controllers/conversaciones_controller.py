@@ -136,35 +136,6 @@ class ConversacionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/conversaciones/<int:conversacion_id>', type='json', auth='none', methods=['DELETE'])
-    @jwt_required
-    def eliminar_conversacion(self, conversacion_id, **kwargs):
-        """Elimina/archiva una conversación"""
-        try:
-            usuario_data = request.usuario_actual
-            
-            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
-            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
-            if not usuario:
-                return APIUtils.error_response('Usuario no encontrado', 404)
-            
-            conversacion = request.env['pi.conversacion'].sudo().browse(conversacion_id)
-            
-            if not conversacion.exists():
-                return APIUtils.error_response('Conversación no encontrada', 404)
-            
-            if conversacion.comprador_id.id != usuario.id and conversacion.vendedor_id.id != usuario.id:
-                return APIUtils.error_response('No tienes acceso a esta conversación', 403)
-            
-            # Archivar en lugar de eliminar completamente
-            conversacion.sudo().write({'state': 'archived'})
-            
-            return APIUtils.json_response({
-                'mensaje': 'Conversación archivada exitosamente'
-            })
-            
-        except Exception as e:
-            return APIUtils.error_response(str(e), 500)
     
     @http.route('/api/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='none', methods=['GET'])
     @jwt_required
@@ -207,36 +178,6 @@ class ConversacionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    
-    @http.route('/api/mensajes/<int:mensaje_id>', type='json', auth='none', methods=['DELETE'])
-    @jwt_required
-    def eliminar_mensaje(self, mensaje_id, **kwargs):
-        """Elimina un mensaje específico"""
-        try:
-            usuario_data = request.usuario_actual
-            
-            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
-            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
-            if not usuario:
-                return APIUtils.error_response('Usuario no encontrado', 404)
-            
-            mensaje = request.env['pi.mensaje'].sudo().browse(mensaje_id)
-            
-            if not mensaje.exists():
-                return APIUtils.error_response('Mensaje no encontrado', 404)
-            
-            # Solo el remitente puede eliminar su propio mensaje
-            if mensaje.remitente_id.id != usuario.id:
-                return APIUtils.error_response('Solo puedes eliminar tus propios mensajes', 403)
-            
-            mensaje.sudo().unlink()
-            
-            return APIUtils.json_response({
-                'mensaje': 'Mensaje eliminado exitosamente'
-            })
-            
-        except Exception as e:
-            return APIUtils.error_response(str(e), 500)
     
     @http.route('/api/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='none', methods=['POST'])
     @jwt_required
