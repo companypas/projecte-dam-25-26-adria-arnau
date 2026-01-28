@@ -6,7 +6,7 @@ import json
 
 class EtiquetasController(http.Controller):
 
-    @http.route('/api/etiquetas', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/etiquetas', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_etiquetas(self, **kwargs):
         """Lista todas las etiquetas con paginación"""
@@ -42,7 +42,7 @@ class EtiquetasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/etiquetas/<int:etiqueta_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/etiquetas/<int:etiqueta_id>', type='json', auth='public', methods=['GET'])
     def obtener_etiqueta(self, etiqueta_id, **kwargs):
         """Obtiene una etiqueta por ID (sin autenticación requerida)"""
         try:

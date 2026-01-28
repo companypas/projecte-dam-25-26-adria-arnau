@@ -7,7 +7,7 @@ from .utils import APIUtils
 
 class AuthController(http.Controller):
     
-    @http.route('/api/auth/registro', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/auth/registro', type='json', auth='public', methods=['POST'], csrf=False)
     def registro(self, **kwargs):
         """Registra un nuevo usuario"""
         try:
@@ -52,7 +52,7 @@ class AuthController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/auth/login', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/auth/login', type='json', auth='public', methods=['POST'], csrf=False)
     def login(self, **kwargs):
         """Login de usuario"""
         try:
@@ -89,7 +89,7 @@ class AuthController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/auth/refresh', type='json', auth='public', methods=['POST'], csrf=False)
+    @http.route('/api/v1/auth/refresh', type='json', auth='public', methods=['POST'], csrf=False)
     def refresh_token(self, **kwargs):
         """Refrescar token JWT"""
         try:

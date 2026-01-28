@@ -6,7 +6,7 @@ import json
 
 class ValoracionesController(http.Controller):
     
-    @http.route('/api/valoraciones', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/valoraciones', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_valoraciones(self, **kwargs):
         """Lista todas las valoraciones del usuario autenticado (dadas y recibidas)"""
@@ -63,7 +63,7 @@ class ValoracionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/valoraciones/<int:valoracion_id>', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/valoraciones/<int:valoracion_id>', type='json', auth='none', methods=['GET'])
     @jwt_required
     def obtener_valoracion(self, valoracion_id, **kwargs):
         """Obtiene una valoración específica"""
@@ -104,7 +104,7 @@ class ValoracionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/valoraciones', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/valoraciones', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_valoracion(self, **kwargs):
         """Crea una valoración de usuario"""

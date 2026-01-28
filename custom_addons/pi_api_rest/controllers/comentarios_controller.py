@@ -6,7 +6,7 @@ import json
 
 class ComentariosController(http.Controller):
     
-    @http.route('/api/comentarios', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/comentarios', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_comentarios_usuario(self, **kwargs):
         """Lista todos los comentarios del usuario autenticado"""
@@ -41,7 +41,7 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/comentarios/<int:comentario_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/comentarios/<int:comentario_id>', type='json', auth='public', methods=['GET'])
     def obtener_comentario_individual(self, comentario_id, **kwargs):
         """Obtiene un comentario específico por ID"""
         try:
@@ -58,7 +58,7 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>/comentarios', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='public', methods=['GET'])
     def obtener_comentarios(self, producto_id, **kwargs):
         """Obtiene comentarios de un producto"""
         try:
@@ -83,7 +83,7 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>/comentarios', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_comentario(self, producto_id, **kwargs):
         """Crea un comentario en un producto"""

@@ -6,7 +6,7 @@ import json
 
 class ProductosController(http.Controller):
     
-    @http.route('/api/productos', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/productos', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_productos(self, **kwargs):
         """Lista todos los productos disponibles con filtros"""
@@ -49,7 +49,7 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/productos/<int:producto_id>', type='json', auth='public', methods=['GET'])
     def obtener_producto(self, producto_id, **kwargs):
         """Obtiene un producto por ID (sin autenticación requerida)"""
         try:
@@ -63,7 +63,7 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/productos', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_producto(self, **kwargs):
         """Crea un nuevo producto"""
@@ -121,7 +121,7 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['PUT'])
+    @http.route('/api/v1/productos/<int:producto_id>', type='json', auth='none', methods=['PUT'])
     @jwt_required
     def actualizar_producto(self, producto_id, **kwargs):
         """Actualiza un producto existente"""
@@ -178,7 +178,7 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/productos/<int:producto_id>', type='json', auth='none', methods=['DELETE'])
+    @http.route('/api/v1/productos/<int:producto_id>', type='json', auth='none', methods=['DELETE'])
     @jwt_required
     def eliminar_producto(self, producto_id, **kwargs):
         """Elimina un producto"""

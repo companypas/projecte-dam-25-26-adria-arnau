@@ -6,7 +6,7 @@ import json
 
 class ComprasController(http.Controller):
     
-    @http.route('/api/compras', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/compras', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_compras(self, **kwargs):
         """Lista todas las compras del usuario autenticado (como comprador o vendedor)"""
@@ -69,7 +69,7 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/compras', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/compras', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_compra(self, **kwargs):
         """Crea una nueva compra"""
@@ -112,7 +112,7 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/compras/<int:compra_id>', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/compras/<int:compra_id>', type='json', auth='none', methods=['GET'])
     @jwt_required
     def obtener_compra(self, compra_id, **kwargs):
         """Obtiene los detalles de una compra"""
@@ -147,7 +147,7 @@ class ComprasController(http.Controller):
             return APIUtils.error_response(str(e), 500)
     
     
-    @http.route('/api/compras/<int:compra_id>', type='json', auth='none', methods=['PUT'])
+    @http.route('/api/v1/compras/<int:compra_id>', type='json', auth='none', methods=['PUT'])
     @jwt_required
     def actualizar_compra(self, compra_id, **kwargs):
         """Actualiza una compra (solo ciertos campos según estado)"""
@@ -190,7 +190,7 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/compras/<int:compra_id>', type='json', auth='none', methods=['DELETE'])
+    @http.route('/api/v1/compras/<int:compra_id>', type='json', auth='none', methods=['DELETE'])
     @jwt_required
     def cancelar_compra(self, compra_id, **kwargs):
         """Cancela una compra (solo si está en estado pendiente)"""
@@ -224,7 +224,7 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/compras/<int:compra_id>/confirmar', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/compras/<int:compra_id>/confirmar', type='json', auth='none', methods=['POST'])
     @jwt_required
     def confirmar_compra(self, compra_id, **kwargs):
         """Confirma una compra"""

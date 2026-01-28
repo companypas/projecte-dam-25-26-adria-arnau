@@ -7,7 +7,7 @@ import json
 
 class CategoriasController(http.Controller):
 
-    @http.route('/api/categorias', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/categorias', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_categorias(self, **kwargs):
         """Lista todas las categorías con paginación"""
@@ -48,7 +48,7 @@ class CategoriasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/categorias/<int:categoria_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/categorias/<int:categoria_id>', type='json', auth='public', methods=['GET'])
     def obtener_categoria(self, categoria_id, **kwargs):
         """Obtiene una categoría por ID (sin autenticación requerida)"""
         try:

@@ -6,7 +6,7 @@ import json
 
 class ReportesController(http.Controller):
     
-    @http.route('/api/reportes', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/reportes', type='json', auth='none', methods=['GET'])
     @jwt_required
     def listar_reportes(self, **kwargs):
         """Lista todos los reportes del usuario autenticado"""
@@ -55,7 +55,7 @@ class ReportesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/reportes/<int:reporte_id>', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/reportes/<int:reporte_id>', type='json', auth='none', methods=['GET'])
     @jwt_required
     def obtener_reporte(self, reporte_id, **kwargs):
         """Obtiene un reporte específico"""
@@ -95,7 +95,7 @@ class ReportesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/reportes', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/reportes', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_reporte(self, **kwargs):
         """Crea un reporte de producto, usuario o comentario"""
