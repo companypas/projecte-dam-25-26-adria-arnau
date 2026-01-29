@@ -214,8 +214,12 @@ class ComprasController(http.Controller):
             if compra.estado != 'pendiente':
                 return APIUtils.error_response('Solo se pueden cancelar compras en estado pendiente', 400)
             
-            # Cambiar estado a cancelada o eliminar según lógica de negocio
+            # Cambiar estado a cancelada
             compra.sudo().write({'estado': 'cancelada'})
+            
+            # Liberar el producto (volver a disponible si estaba reservado)
+            if compra.producto_id and compra.producto_id.estado_venta == 'reservado':
+                compra.producto_id.sudo().write({'estado_venta': 'disponible'})
             
             return APIUtils.json_response({
                 'mensaje': 'Compra cancelada exitosamente'
