@@ -42,7 +42,8 @@ class EtiquetasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/etiquetas/<int:etiqueta_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/etiquetas/<int:etiqueta_id>', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def obtener_etiqueta(self, etiqueta_id, **kwargs):
         """Obtiene una etiqueta por ID (sin autenticación requerida)"""
         try:

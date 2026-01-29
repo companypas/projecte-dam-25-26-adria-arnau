@@ -41,7 +41,8 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/comentarios/<int:comentario_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/comentarios/<int:comentario_id>', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def obtener_comentario_individual(self, comentario_id, **kwargs):
         """Obtiene un comentario específico por ID"""
         try:
@@ -58,7 +59,8 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def obtener_comentarios(self, producto_id, **kwargs):
         """Obtiene comentarios de un producto"""
         try:

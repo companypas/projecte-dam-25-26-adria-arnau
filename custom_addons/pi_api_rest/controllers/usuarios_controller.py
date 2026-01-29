@@ -6,7 +6,8 @@ import json
 
 class UsuariosController(http.Controller):
     
-    @http.route('/api/v1/usuarios', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/usuarios', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def listar_usuarios(self, **kwargs):
         """Lista usuarios con paginación y filtros"""
         try:
@@ -34,7 +35,8 @@ class UsuariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/usuarios/<int:usuario_id>', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/usuarios/<int:usuario_id>', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def obtener_usuario(self, usuario_id, **kwargs):
         """Obtiene el perfil público de un usuario"""
         try:
@@ -48,7 +50,8 @@ class UsuariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/usuarios/<int:usuario_id>/productos', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/usuarios/<int:usuario_id>/productos', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def obtener_productos_usuario(self, usuario_id, **kwargs):
         """Lista productos de un usuario específico"""
         try:
@@ -79,7 +82,8 @@ class UsuariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/usuarios/<int:usuario_id>/valoraciones', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/usuarios/<int:usuario_id>/valoraciones', type='json', auth='none', methods=['GET'])
+    @jwt_required
     def obtener_valoraciones_usuario(self, usuario_id, **kwargs):
         """Lista valoraciones de un usuario específico"""
         try:
