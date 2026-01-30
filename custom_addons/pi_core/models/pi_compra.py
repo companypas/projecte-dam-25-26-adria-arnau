@@ -1,5 +1,7 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+import random
+from datetime import datetime
 
 class piCompra(models.Model):
     _name = 'pi.compra'
@@ -8,7 +10,7 @@ class piCompra(models.Model):
     _order = 'fecha desc'
     
     # Campos básicos
-    id_compra = fields.Char(string='ID Compra', required=True, copy=False, readonly=True, default='Nuevo')
+    id_compra = fields.Char(string='ID Compra', required=True, copy=False, readonly=True, default=lambda self: self._generate_id_compra())
     fecha = fields.Datetime(string='Fecha de Compra', default=fields.Datetime.now, required=True, readonly=True)
     monto = fields.Monetary(string='Monto', currency_field='currency_id', required=True)
     currency_id = fields.Many2one('res.currency', string='Moneda', default=lambda self: self.env.company.currency_id)
@@ -24,6 +26,7 @@ class piCompra(models.Model):
         ('pendiente', 'Pendiente'),
         ('procesando', 'Procesando'),
         ('confirmada', 'Confirmada'),
+        ('cancelada', 'Cancelada'),
         ('valorada_comprador', 'Valorada por Comprador'),
         ('valorada_vendedor', 'Valorada por Vendedor')
     ], string='Estado', default='pendiente', required=True, tracking=True)
@@ -36,10 +39,23 @@ class piCompra(models.Model):
     comprador_valorado = fields.Boolean(string='Comprador Valorado', compute='_compute_valoraciones_estado', store=True)
     vendedor_valorado = fields.Boolean(string='Vendedor Valorado', compute='_compute_valoraciones_estado', store=True)
     
+    def _generate_id_compra(self):
+        """Genera un ID único para la compra"""
+        # Intentar obtener el siguiente número de la secuencia
+        sequence = self.env['ir.sequence'].sudo().next_by_code('pi.compra')
+        if sequence:
+            return sequence
+        else:
+            # Fallback: generar ID único con timestamp y random
+            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+            random_num = random.randint(1000, 9999)
+            return f'CMP-{timestamp}-{random_num}'
+    
     @api.model
     def create(self, vals):
-        if vals.get('id_compra', 'Nuevo') == 'Nuevo':
-            vals['id_compra'] = self.env['ir.sequence'].next_by_code('pi.compra') or 'CMP-NEW'
+        # Generar ID único si no viene en vals o si es 'Nuevo'
+        if not vals.get('id_compra') or vals.get('id_compra') == 'Nuevo':
+            vals['id_compra'] = self._generate_id_compra()
         
         # Establecer el monto desde el producto
         if vals.get('producto_id'):
