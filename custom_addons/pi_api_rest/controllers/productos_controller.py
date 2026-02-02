@@ -6,22 +6,22 @@ import json
 
 class ProductosController(http.Controller):
     
-    @http.route('/api/v1/productos', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/productos/listar', type='json', auth='none', methods=['GET', 'POST'])
     @jwt_required
     def listar_productos(self, **kwargs):
         """Lista todos los productos disponibles con filtros"""
         try:
-            # Obtener parámetros de query string
-            categoria_id = request.httprequest.args.get('categoria_id', type=int)
-            etiqueta_id = request.httprequest.args.get('etiqueta_id', type=int)
-            nombre = request.httprequest.args.get('nombre')
-            precio_min = request.httprequest.args.get('precio_min', type=float)
-            precio_max = request.httprequest.args.get('precio_max', type=float)
-            ubicacion = request.httprequest.args.get('ubicacion')
-            offset = request.httprequest.args.get('offset', 0, type=int)
-            limit = request.httprequest.args.get('limit', 20, type=int)
+            # Obtener parámetros de kwargs (JSON-RPC body) o query string
+            categoria_id = kwargs.get('categoria_id') or request.httprequest.args.get('categoria_id', type=int)
+            etiqueta_id = kwargs.get('etiqueta_id') or request.httprequest.args.get('etiqueta_id', type=int)
+            nombre = kwargs.get('nombre') or request.httprequest.args.get('nombre')
+            precio_min = kwargs.get('precio_min') or request.httprequest.args.get('precio_min', type=float)
+            precio_max = kwargs.get('precio_max') or request.httprequest.args.get('precio_max', type=float)
+            ubicacion = kwargs.get('ubicacion') or request.httprequest.args.get('ubicacion')
+            offset = kwargs.get('offset', 0) if 'offset' in kwargs else request.httprequest.args.get('offset', 0, type=int)
+            limit = kwargs.get('limit', 20) if 'limit' in kwargs else request.httprequest.args.get('limit', 20, type=int)
             
-            domain = [('estado_venta', '=', 'disponible')]
+            domain = []  # Sin filtro por estado_venta para mostrar todos los productos
             
             if categoria_id:
                 domain.append(('categoria_id', '=', categoria_id))
@@ -108,6 +108,7 @@ class ProductosController(http.Controller):
                 'precio': precio,
                 'categoria_id': categoria_id,
                 'estado': estado,
+                'estado_venta': 'disponible',  # Nuevo producto siempre disponible
                 'antiguedad_producto': antiguedad,
                 'ubicacion': ubicacion,
                 'propietario_id': usuario.id,

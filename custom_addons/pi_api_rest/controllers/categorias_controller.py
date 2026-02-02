@@ -7,15 +7,15 @@ import json
 
 class CategoriasController(http.Controller):
 
-    @http.route('/api/v1/categorias', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/categorias', type='json', auth='none', methods=['GET', 'POST'])
     @jwt_required
     def listar_categorias(self, **kwargs):
         """Lista todas las categorías con paginación"""
         try:
-            # Obtener parámetros de paginación
-            offset = request.httprequest.args.get('offset', 0, type=int)
-            limit = request.httprequest.args.get('limit', 20, type=int)
-            nombre = request.httprequest.args.get('nombre')
+            # Obtener parámetros de kwargs (JSON-RPC body) o query string
+            offset = kwargs.get('offset', 0) if 'offset' in kwargs else request.httprequest.args.get('offset', 0, type=int)
+            limit = kwargs.get('limit', 100) if 'limit' in kwargs else request.httprequest.args.get('limit', 100, type=int)
+            nombre = kwargs.get('nombre') or request.httprequest.args.get('nombre')
             
             domain = []
             if nombre:

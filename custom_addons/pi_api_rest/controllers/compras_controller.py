@@ -6,7 +6,7 @@ import json
 
 class ComprasController(http.Controller):
     
-    @http.route('/api/v1/compras', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/compras', type='json', auth='none', methods=['GET', 'POST'])
     @jwt_required
     def listar_compras(self, **kwargs):
         """Lista todas las compras del usuario autenticado (como comprador o vendedor)"""
@@ -18,10 +18,11 @@ class ComprasController(http.Controller):
             if not usuario:
                 return APIUtils.error_response('Usuario no encontrado', 404)
             
-            offset = request.httprequest.args.get('offset', 0, type=int)
-            limit = request.httprequest.args.get('limit', 20, type=int)
-            tipo = request.httprequest.args.get('tipo')  # 'compras' o 'ventas'
-            estado = request.httprequest.args.get('estado')
+            # Obtener parámetros de kwargs (JSON-RPC body) o query string
+            offset = kwargs.get('offset', 0) if 'offset' in kwargs else request.httprequest.args.get('offset', 0, type=int)
+            limit = kwargs.get('limit', 50) if 'limit' in kwargs else request.httprequest.args.get('limit', 50, type=int)
+            tipo = kwargs.get('tipo') or request.httprequest.args.get('tipo')
+            estado = kwargs.get('estado') or request.httprequest.args.get('estado')
             
             domain = ['|', ('comprador_id', '=', usuario.id), ('vendedor_id', '=', usuario.id)]
             
