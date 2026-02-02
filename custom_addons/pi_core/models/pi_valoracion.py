@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+import uuid
 
 class piValoracion(models.Model):
     _name = 'pi.valoracion'
@@ -36,7 +37,13 @@ class piValoracion(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('id_valoracion', 'Nuevo') == 'Nuevo':
-            vals['id_valoracion'] = self.env['ir.sequence'].next_by_code('pi.valoracion') or 'VAL-NEW'
+            # Intentar usar la secuencia, si no existe usar UUID único
+            seq = self.env['ir.sequence'].next_by_code('pi.valoracion')
+            if seq:
+                vals['id_valoracion'] = seq
+            else:
+                # Fallback con UUID para garantizar unicidad
+                vals['id_valoracion'] = 'VAL-' + str(uuid.uuid4())[:8].upper()
         
         result = super(piValoracion, self).create(vals)
         

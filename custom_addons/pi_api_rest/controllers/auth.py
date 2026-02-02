@@ -51,7 +51,7 @@ class JWTAuth:
 
 
 def jwt_required(f):
-    """Decorador para requerir JWT en las rutas (token desde header Authorization: Bearer <token>)"""
+    """Decorador para requerir JWT en las rutas (token desde header Authorizateion: Bearer <token>)"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
         # Obtener token del header Authorization
