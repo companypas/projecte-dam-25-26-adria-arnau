@@ -130,4 +130,37 @@ class ComprasRepositoryImpl @Inject constructor(
             emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
         }
     }
+
+    override fun rechazarCompra(compraId: Int): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+        try {
+            val request = JsonRpcRequest()
+            val response = comprasApiService.rechazarCompra(request, compraId)
+
+            android.util.Log.d("ComprasRepo", "Rechazar response code: ${response.code()}")
+            android.util.Log.d("ComprasRepo", "Rechazar response body: ${response.body()}")
+
+            if (response.isSuccessful) {
+                val jsonRpcResponse = response.body()
+                val result = jsonRpcResponse?.result
+
+                // Check for backend error in result (API returns error in result object)
+                if (result?.error != null) {
+                    android.util.Log.e("ComprasRepo", "Backend error: ${result.error}")
+                    emit(Resource.Error(result.error))
+                } else if (jsonRpcResponse?.error != null) {
+                    emit(Resource.Error(jsonRpcResponse.error.message ?: "Error al rechazar"))
+                } else {
+                    emit(Resource.Success(Unit))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                android.util.Log.e("ComprasRepo", "HTTP Error: ${response.code()}, body: $errorBody")
+                emit(Resource.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("ComprasRepo", "Exception: ${e.message}", e)
+            emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
+        }
+    }
 }

@@ -31,11 +31,13 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
 
     /** Carga la lista de productos desde la API. */
     fun loadProductos() {
+        val searchTerm = _uiState.value.searchQuery.ifBlank { null }
+        android.util.Log.d("HomeViewModel", "loadProductos called with searchTerm: $searchTerm")
         productosRepository
                 .listarProductos(
                         offset = 0,
                         limit = 50,
-                        busqueda = _uiState.value.searchQuery.ifBlank { null }
+                        busqueda = searchTerm
                 )
                 .onEach { result ->
                     when (result) {
@@ -43,6 +45,7 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
                             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
                         }
                         is Resource.Success -> {
+                            android.util.Log.d("HomeViewModel", "Got ${result.data?.size ?: 0} products")
                             _uiState.value =
                                     _uiState.value.copy(
                                             isLoading = false,
@@ -65,10 +68,18 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
 
     /** Actualiza el término de búsqueda con debounce automático. */
     fun onSearchQueryChange(query: String) {
+        android.util.Log.d("HomeViewModel", "onSearchQueryChange: '$query', isBlank: ${query.isBlank()}")
         _uiState.value = _uiState.value.copy(searchQuery = query)
         
         // Cancelar búsqueda anterior si existe
         searchJob?.cancel()
+        
+        // Si la consulta está vacía, recargar inmediatamente
+        if (query.isBlank()) {
+            android.util.Log.d("HomeViewModel", "Query is blank, reloading immediately")
+            loadProductos()
+            return
+        }
         
         // Iniciar nueva búsqueda con debounce de 500ms
         searchJob = viewModelScope.launch {

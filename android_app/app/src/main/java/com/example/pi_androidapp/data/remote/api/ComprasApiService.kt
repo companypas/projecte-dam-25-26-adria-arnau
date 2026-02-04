@@ -39,5 +39,13 @@ interface ComprasApiService {
         @Body request: JsonRpcRequest,
         @Path("compra_id") compraId: Int
     ): Response<JsonRpcResponse<ConfirmCompraResultData>>
-}
 
+    /**
+     * Rechazar una compra (solo vendedor).
+     */
+    @POST("api/v1/compras/{compra_id}/rechazar")
+    suspend fun rechazarCompra(
+        @Body request: JsonRpcRequest,
+        @Path("compra_id") compraId: Int
+    ): Response<JsonRpcResponse<ConfirmCompraResultData>>
+}

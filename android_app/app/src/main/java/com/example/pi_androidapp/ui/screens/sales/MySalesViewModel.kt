@@ -83,6 +83,34 @@ class MySalesViewModel @Inject constructor(private val comprasRepository: Compra
         loadVentas()
     }
 
+    /** Rechaza una venta. */
+    fun rechazarVenta(compraId: Int) {
+        android.util.Log.d("MySalesVM", "rechazarVenta called for compraId: $compraId")
+        comprasRepository
+                .rechazarCompra(compraId)
+                .onEach { result ->
+                    android.util.Log.d("MySalesVM", "rechazarCompra result: $result")
+                    when (result) {
+                        is Resource.Loading -> {
+                            _uiState.value = _uiState.value.copy(isRejecting = true)
+                        }
+                        is Resource.Success -> {
+                            android.util.Log.d("MySalesVM", "Rechazar SUCCESS, reloading ventas")
+                            _uiState.value = _uiState.value.copy(isRejecting = false)
+                            loadVentas() // Recargar lista tras rechazar
+                        }
+                        is Resource.Error -> {
+                            android.util.Log.e("MySalesVM", "Rechazar ERROR: ${result.message}")
+                            _uiState.value = _uiState.value.copy(
+                                isRejecting = false,
+                                confirmError = result.message
+                            )
+                        }
+                    }
+                }
+                .launchIn(viewModelScope)
+    }
+
     fun clearConfirmError() {
         _uiState.value = _uiState.value.copy(confirmError = null)
     }
@@ -94,6 +122,8 @@ data class MySalesUiState(
         val isLoading: Boolean = false,
         val isRefreshing: Boolean = false,
         val isConfirming: Boolean = false,
+        val isRejecting: Boolean = false,
         val error: String? = null,
         val confirmError: String? = null
 )
+

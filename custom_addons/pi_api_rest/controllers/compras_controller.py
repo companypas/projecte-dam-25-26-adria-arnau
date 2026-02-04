@@ -259,3 +259,49 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
 
+    @http.route('/api/v1/compras/<int:compra_id>/rechazar', type='json', auth='none', methods=['POST'])
+    @jwt_required
+    def rechazar_compra(self, compra_id, **kwargs):
+        """Rechaza una compra (solo vendedor)"""
+        import logging
+        _logger = logging.getLogger(__name__)
+        try:
+            usuario_data = request.usuario_actual
+            _logger.info(f"Rechazar compra {compra_id} por usuario {usuario_data.get('id')}")
+            
+            # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
+            usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
+            if not usuario:
+                return APIUtils.error_response('Usuario no encontrado', 404)
+            
+            compra = request.env['pi.compra'].sudo().browse(compra_id)
+            
+            if not compra.exists():
+                return APIUtils.error_response('Compra no encontrada', 404)
+            
+            _logger.info(f"Compra encontrada: vendedor_id={compra.vendedor_id.id}, usuario.id={usuario.id}, estado={compra.estado}")
+            
+            if compra.vendedor_id.id != usuario.id:
+                return APIUtils.error_response('Solo el vendedor puede rechazar la compra', 403)
+            
+            if compra.estado not in ['pendiente', 'procesando']:
+                return APIUtils.error_response('Solo se pueden rechazar compras pendientes', 400)
+            
+            # Cambiar estado a cancelada
+            compra.sudo().write({'estado': 'cancelada'})
+            _logger.info(f"Estado cambiado a cancelada para compra {compra_id}")
+            
+            # Liberar el producto (volver a disponible)
+            if compra.producto_id:
+                compra.producto_id.sudo().write({'estado_venta': 'disponible'})
+                _logger.info(f"Producto {compra.producto_id.id} liberado a disponible")
+            
+            return APIUtils.json_response({
+                'mensaje': 'Compra rechazada exitosamente',
+                'estado': 'cancelada'
+            })
+            
+        except Exception as e:
+            _logger.error(f"Error rechazando compra: {e}")
+            return APIUtils.error_response(str(e), 500)
+

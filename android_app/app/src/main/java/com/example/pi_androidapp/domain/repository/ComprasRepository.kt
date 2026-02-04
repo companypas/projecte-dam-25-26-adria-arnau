@@ -42,4 +42,11 @@ interface ComprasRepository {
      * @return Flow con el resultado
      */
     fun confirmarCompra(compraId: Int): Flow<Resource<Unit>>
+
+    /**
+     * Rechazar una compra (solo vendedor).
+     * @param compraId ID de la compra
+     * @return Flow con el resultado
+     */
+    fun rechazarCompra(compraId: Int): Flow<Resource<Unit>>
 }

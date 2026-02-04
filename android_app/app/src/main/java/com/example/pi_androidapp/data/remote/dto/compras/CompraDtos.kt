@@ -54,6 +54,7 @@ data class CreateCompraResultData(
 /** Respuesta al confirmar una compra. */
 data class ConfirmCompraResultData(
     @SerializedName("mensaje") val mensaje: String?,
-    @SerializedName("estado") val estado: String?
+    @SerializedName("estado") val estado: String?,
+    @SerializedName("error") val error: String?,
+    @SerializedName("status") val status: Int?
 )
-

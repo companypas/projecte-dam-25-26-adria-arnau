@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Sell
 import androidx.compose.material3.Button
@@ -115,7 +116,9 @@ fun MySalesScreen(viewModel: MySalesViewModel, onBackClick: () -> Unit) {
                                 SaleCard(
                                     venta = venta,
                                     isConfirming = uiState.isConfirming,
-                                    onConfirmClick = { viewModel.confirmarVenta(venta.id) }
+                                    isRejecting = uiState.isRejecting,
+                                    onConfirmClick = { viewModel.confirmarVenta(venta.id) },
+                                    onRejectClick = { viewModel.rechazarVenta(venta.id) }
                                 )
                             }
                         }
@@ -126,12 +129,14 @@ fun MySalesScreen(viewModel: MySalesViewModel, onBackClick: () -> Unit) {
     }
 }
 
-/** Tarjeta de venta individual con botón de confirmar. */
+/** Tarjeta de venta individual con botones de confirmar y rechazar. */
 @Composable
 private fun SaleCard(
     venta: Compra,
     isConfirming: Boolean,
-    onConfirmClick: () -> Unit
+    isRejecting: Boolean,
+    onConfirmClick: () -> Unit,
+    onRejectClick: () -> Unit
 ) {
     Card(
             modifier = Modifier.fillMaxWidth(),
@@ -177,19 +182,37 @@ private fun SaleCard(
                 )
             }
 
-            // Botón de confirmar solo para ventas pendientes
+            // Botones de confirmar y rechazar solo para ventas pendientes
             if (venta.estado == EstadoCompra.PENDIENTE) {
                 Spacer(Modifier.padding(top = 12.dp))
-                Button(
-                    onClick = onConfirmClick,
-                    enabled = !isConfirming,
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary
-                    )
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Icon(Icons.Default.CheckCircle, null, Modifier.padding(end = 8.dp))
-                    Text(if (isConfirming) "Confirmando..." else "Confirmar Venta")
+                    // Botón Rechazar
+                    Button(
+                        onClick = onRejectClick,
+                        enabled = !isRejecting && !isConfirming,
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.error
+                        )
+                    ) {
+                        Icon(Icons.Default.Cancel, null, Modifier.padding(end = 4.dp))
+                        Text(if (isRejecting) "..." else "Rechazar")
+                    }
+                    // Botón Confirmar
+                    Button(
+                        onClick = onConfirmClick,
+                        enabled = !isConfirming && !isRejecting,
+                        modifier = Modifier.weight(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Icon(Icons.Default.CheckCircle, null, Modifier.padding(end = 4.dp))
+                        Text(if (isConfirming) "..." else "Confirmar")
+                    }
                 }
             }
         }

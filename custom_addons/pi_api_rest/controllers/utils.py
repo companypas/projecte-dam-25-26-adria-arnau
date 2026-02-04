@@ -43,12 +43,18 @@ class APIUtils:
     @staticmethod
     def producto_to_dict(producto):
         """Convierte un producto a diccionario"""
+        import logging
+        _logger = logging.getLogger(__name__)
+        
         imagen_principal = None
         try:
+            _logger.info(f"Product {producto.id}: imagenes_ids count = {len(producto.imagenes_ids) if producto.imagenes_ids else 0}")
             if producto.imagenes_ids:
                 img = producto.imagenes_ids[0]
+                _logger.info(f"Product {producto.id}: First image id = {img.id}, has imagen = {bool(img.imagen)}")
                 img_data = img.imagen
                 if img_data:
+                    _logger.info(f"Product {producto.id}: imagen data type = {type(img_data)}, len = {len(img_data) if hasattr(img_data, '__len__') else 'N/A'}")
                     # Handle different types that Odoo might return
                     if isinstance(img_data, memoryview):
                         imagen_principal = base64.b64encode(bytes(img_data)).decode('utf-8')
@@ -57,10 +63,12 @@ class APIUtils:
                     elif isinstance(img_data, str):
                         # Already base64 encoded string
                         imagen_principal = img_data
+                    _logger.info(f"Product {producto.id}: imagen_principal len = {len(imagen_principal) if imagen_principal else 0}")
+                else:
+                    _logger.warning(f"Product {producto.id}: imagen field is None/empty")
+            else:
+                _logger.info(f"Product {producto.id}: No imagenes_ids")
         except Exception as e:
-            # Log error but don't fail the whole response
-            import logging
-            _logger = logging.getLogger(__name__)
             _logger.warning(f"Error getting product image: {e}")
         
         return {
