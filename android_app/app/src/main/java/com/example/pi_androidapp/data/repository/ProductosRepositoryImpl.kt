@@ -75,8 +75,13 @@ constructor(private val productosApiService: ProductosApiService) : ProductosRep
     override fun obtenerProducto(productoId: Int): Flow<Resource<Producto>> = flow {
         emit(Resource.Loading())
         try {
+            android.util.Log.d("ProductosRepo", "Obteniendo producto con ID: $productoId")
             val request = JsonRpcRequest()
             val response = productosApiService.obtenerProducto(request, productoId)
+
+            android.util.Log.d("ProductosRepo", "Response code: ${response.code()}")
+            android.util.Log.d("ProductosRepo", "Response body: ${response.body()}")
+            android.util.Log.d("ProductosRepo", "Response error body: ${response.errorBody()?.string()}")
 
             if (response.isSuccessful) {
                 val jsonRpcResponse = response.body()
@@ -93,6 +98,7 @@ constructor(private val productosApiService: ProductosApiService) : ProductosRep
                 emit(Resource.Error("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
+            android.util.Log.e("ProductosRepo", "Exception: ${e.message}", e)
             emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
         }
     }

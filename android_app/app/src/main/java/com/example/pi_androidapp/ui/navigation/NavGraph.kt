@@ -24,6 +24,8 @@ import com.example.pi_androidapp.ui.screens.profile.ProfileScreen
 import com.example.pi_androidapp.ui.screens.profile.ProfileViewModel
 import com.example.pi_androidapp.ui.screens.purchases.MyPurchasesScreen
 import com.example.pi_androidapp.ui.screens.purchases.MyPurchasesViewModel
+import com.example.pi_androidapp.ui.screens.sales.MySalesScreen
+import com.example.pi_androidapp.ui.screens.sales.MySalesViewModel
 import com.example.pi_androidapp.ui.screens.splash.SplashScreen
 import com.example.pi_androidapp.ui.screens.splash.SplashViewModel
 
@@ -103,7 +105,8 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
                     },
                     onCreateProductClick = { navController.navigate(Routes.CreateProduct.route) },
                     onProfileClick = { navController.navigate(Routes.Profile.route) },
-                    onMyPurchasesClick = { navController.navigate(Routes.MyPurchases.route) }
+                    onMyPurchasesClick = { navController.navigate(Routes.MyPurchases.route) },
+                    onMySalesClick = { navController.navigate(Routes.MySales.route) }
             )
         }
 
@@ -164,5 +167,13 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
 
             MyPurchasesScreen(viewModel = viewModel, onBackClick = { navController.popBackStack() })
         }
+
+        // My Sales Screen
+        composable(Routes.MySales.route) {
+            val viewModel: MySalesViewModel = hiltViewModel()
+
+            MySalesScreen(viewModel = viewModel, onBackClick = { navController.popBackStack() })
+        }
     }
 }
+

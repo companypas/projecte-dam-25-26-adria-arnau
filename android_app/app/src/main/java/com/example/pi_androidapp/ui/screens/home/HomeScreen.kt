@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Sell
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -46,7 +47,8 @@ fun HomeScreen(
         onProductClick: (Int) -> Unit,
         onCreateProductClick: () -> Unit,
         onProfileClick: () -> Unit,
-        onMyPurchasesClick: () -> Unit
+        onMyPurchasesClick: () -> Unit,
+        onMySalesClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -55,6 +57,9 @@ fun HomeScreen(
                 TopAppBar(
                         title = { Text(text = "PI Marketplace", fontWeight = FontWeight.Bold) },
                         actions = {
+                            IconButton(onClick = onMySalesClick) {
+                                Icon(Icons.Default.Sell, contentDescription = "Mis Ventas")
+                            }
                             IconButton(onClick = onMyPurchasesClick) {
                                 Icon(Icons.Default.ShoppingCart, contentDescription = "Mis Compras")
                             }

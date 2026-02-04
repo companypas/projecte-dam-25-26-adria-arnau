@@ -61,25 +61,41 @@ class ComprasRepositoryImpl @Inject constructor(
     override fun crearCompra(productoId: Int): Flow<Resource<Int>> = flow {
         emit(Resource.Loading())
         try {
+            android.util.Log.d("ComprasRepo", "Creando compra para producto: $productoId")
             val params = mapOf("producto_id" to productoId)
             val request = JsonRpcRequest(params = params)
             val response = comprasApiService.crearCompra(request)
+
+            android.util.Log.d("ComprasRepo", "Response code: ${response.code()}")
+            android.util.Log.d("ComprasRepo", "Response body: ${response.body()}")
 
             if (response.isSuccessful) {
                 val jsonRpcResponse = response.body()
                 val result = jsonRpcResponse?.result
 
-                if (result?.compraId != null) {
+                android.util.Log.d("ComprasRepo", "Result: $result")
+                android.util.Log.d("ComprasRepo", "compraId: ${result?.compraId}, error: ${result?.error}")
+
+                // Check for backend error in result (API returns error in result object)
+                if (result?.error != null) {
+                    android.util.Log.e("ComprasRepo", "Backend error: ${result.error}")
+                    emit(Resource.Error(result.error))
+                } else if (result?.compraId != null) {
                     emit(Resource.Success(result.compraId))
                 } else if (jsonRpcResponse?.error != null) {
+                    android.util.Log.e("ComprasRepo", "JSON-RPC Error: ${jsonRpcResponse.error}")
                     emit(Resource.Error(jsonRpcResponse.error.message ?: "Error al crear compra"))
                 } else {
+                    android.util.Log.e("ComprasRepo", "compraId is null and no error, result: $result")
                     emit(Resource.Error("Error al crear compra"))
                 }
             } else {
+                val errorBody = response.errorBody()?.string()
+                android.util.Log.e("ComprasRepo", "HTTP Error: ${response.code()}, body: $errorBody")
                 emit(Resource.Error("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
+            android.util.Log.e("ComprasRepo", "Exception: ${e.message}", e)
             emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
         }
     }
@@ -97,8 +113,19 @@ class ComprasRepositoryImpl @Inject constructor(
     override fun confirmarCompra(compraId: Int): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
         try {
-            // TODO: Implementar confirmación con endpoint POST /confirmar
-            emit(Resource.Error("Funcionalidad no implementada"))
+            val request = JsonRpcRequest()
+            val response = comprasApiService.confirmarCompra(request, compraId)
+
+            if (response.isSuccessful) {
+                val jsonRpcResponse = response.body()
+                if (jsonRpcResponse?.error != null) {
+                    emit(Resource.Error(jsonRpcResponse.error.message ?: "Error al confirmar"))
+                } else {
+                    emit(Resource.Success(Unit))
+                }
+            } else {
+                emit(Resource.Error("Error: ${response.code()}"))
+            }
         } catch (e: Exception) {
             emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
         }

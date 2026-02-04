@@ -7,10 +7,13 @@ import com.example.pi_androidapp.domain.model.Producto
 import com.example.pi_androidapp.domain.repository.ProductosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 /** ViewModel para la pantalla Home. Gestiona la lista de productos y la búsqueda. */
 @HiltViewModel
@@ -19,6 +22,8 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState
+
+    private var searchJob: Job? = null
 
     init {
         loadProductos()
@@ -58,18 +63,29 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
                 .launchIn(viewModelScope)
     }
 
-    /** Actualiza el término de búsqueda. */
+    /** Actualiza el término de búsqueda con debounce automático. */
     fun onSearchQueryChange(query: String) {
         _uiState.value = _uiState.value.copy(searchQuery = query)
+        
+        // Cancelar búsqueda anterior si existe
+        searchJob?.cancel()
+        
+        // Iniciar nueva búsqueda con debounce de 500ms
+        searchJob = viewModelScope.launch {
+            delay(500L)
+            loadProductos()
+        }
     }
 
     /** Ejecuta la búsqueda actual. */
     fun search() {
+        searchJob?.cancel()
         loadProductos()
     }
 
     /** Refresca la lista de productos. */
     fun refresh() {
+        searchJob?.cancel()
         _uiState.value = _uiState.value.copy(isRefreshing = true)
         loadProductos()
     }
@@ -83,3 +99,4 @@ data class HomeUiState(
         val error: String? = null,
         val searchQuery: String = ""
 )
+

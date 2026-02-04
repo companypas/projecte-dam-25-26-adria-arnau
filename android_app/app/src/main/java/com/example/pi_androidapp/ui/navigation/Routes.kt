@@ -29,6 +29,10 @@ sealed class Routes(val route: String) {
     /** Pantalla de mis compras */
     data object MyPurchases : Routes("my_purchases")
 
+    /** Pantalla de mis ventas */
+    data object MySales : Routes("my_sales")
+
     /** Pantalla de mis productos */
     data object MyProducts : Routes("my_products")
 }
+

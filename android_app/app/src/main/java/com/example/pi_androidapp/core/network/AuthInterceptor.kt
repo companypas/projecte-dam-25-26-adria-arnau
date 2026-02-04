@@ -26,7 +26,7 @@ constructor(private val encryptedPrefsManager: EncryptedPrefsManager) : Intercep
             return chain.proceed(originalRequest)
         }
 
-        // Añadir header de autorización con el token
+        // Añadir header de autorización con el token y headers de encoding
         val authenticatedRequest =
                 originalRequest
                         .newBuilder()
@@ -34,9 +34,12 @@ constructor(private val encryptedPrefsManager: EncryptedPrefsManager) : Intercep
                                 ApiConstants.HEADER_AUTHORIZATION,
                                 "${ApiConstants.BEARER_PREFIX}$token"
                         )
-                        .header("Content-Type", ApiConstants.CONTENT_TYPE_JSON)
+                        .header("Content-Type", "application/json; charset=utf-8")
+                        .header("Accept", "application/json; charset=utf-8")
+                        .header("Accept-Charset", "utf-8")
                         .build()
 
         return chain.proceed(authenticatedRequest)
     }
 }
+

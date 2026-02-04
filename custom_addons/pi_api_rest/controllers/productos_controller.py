@@ -49,7 +49,7 @@ class ProductosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/productos/<int:producto_id>', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/productos/<int:producto_id>', type='json', auth='none', methods=['GET', 'POST'])
     @jwt_required
     def obtener_producto(self, producto_id, **kwargs):
         """Obtiene un producto por ID (sin autenticación requerida)"""

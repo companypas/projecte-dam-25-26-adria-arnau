@@ -70,7 +70,7 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/compras', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/compras/crear', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_compra(self, **kwargs):
         """Crea una nueva compra"""

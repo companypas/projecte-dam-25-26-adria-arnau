@@ -3,6 +3,7 @@ package com.example.pi_androidapp.data.remote.api
 import com.example.pi_androidapp.data.remote.dto.JsonRpcRequest
 import com.example.pi_androidapp.data.remote.dto.JsonRpcResponse
 import com.example.pi_androidapp.data.remote.dto.compras.ComprasResultData
+import com.example.pi_androidapp.data.remote.dto.compras.ConfirmCompraResultData
 import com.example.pi_androidapp.data.remote.dto.compras.CreateCompraResultData
 import retrofit2.Response
 import retrofit2.http.Body
@@ -25,8 +26,18 @@ interface ComprasApiService {
     /**
      * Crear una nueva compra.
      */
-    @POST("api/v1/compras")
+    @POST("api/v1/compras/crear")
     suspend fun crearCompra(
         @Body request: JsonRpcRequest
     ): Response<JsonRpcResponse<CreateCompraResultData>>
+
+    /**
+     * Confirmar una compra (solo vendedor).
+     */
+    @POST("api/v1/compras/{compra_id}/confirmar")
+    suspend fun confirmarCompra(
+        @Body request: JsonRpcRequest,
+        @Path("compra_id") compraId: Int
+    ): Response<JsonRpcResponse<ConfirmCompraResultData>>
 }
+

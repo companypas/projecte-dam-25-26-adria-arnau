@@ -46,5 +46,14 @@ data class ProductoCompraDto(
 data class CreateCompraResultData(
     @SerializedName("mensaje") val mensaje: String?,
     @SerializedName("compra_id") val compraId: Int?,
+    @SerializedName("estado") val estado: String?,
+    @SerializedName("error") val error: String?,
+    @SerializedName("status") val status: Int?
+)
+
+/** Respuesta al confirmar una compra. */
+data class ConfirmCompraResultData(
+    @SerializedName("mensaje") val mensaje: String?,
     @SerializedName("estado") val estado: String?
 )
+

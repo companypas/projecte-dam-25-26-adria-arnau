@@ -24,10 +24,10 @@ class MyPurchasesViewModel @Inject constructor(private val comprasRepository: Co
         loadCompras()
     }
 
-    /** Carga las compras del usuario. */
+    /** Carga las compras del usuario (donde es comprador). */
     fun loadCompras() {
         comprasRepository
-                .listarCompras()
+                .listarCompras(tipo = "compras")
                 .onEach { result ->
                     when (result) {
                         is Resource.Loading -> {

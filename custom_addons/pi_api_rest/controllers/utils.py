@@ -44,10 +44,24 @@ class APIUtils:
     def producto_to_dict(producto):
         """Convierte un producto a diccionario"""
         imagen_principal = None
-        if producto.imagenes_ids:
-            img = producto.imagenes_ids[0]
-            if img.imagen:
-                imagen_principal = base64.b64encode(img.imagen).decode()
+        try:
+            if producto.imagenes_ids:
+                img = producto.imagenes_ids[0]
+                img_data = img.imagen
+                if img_data:
+                    # Handle different types that Odoo might return
+                    if isinstance(img_data, memoryview):
+                        imagen_principal = base64.b64encode(bytes(img_data)).decode('utf-8')
+                    elif isinstance(img_data, bytes):
+                        imagen_principal = base64.b64encode(img_data).decode('utf-8')
+                    elif isinstance(img_data, str):
+                        # Already base64 encoded string
+                        imagen_principal = img_data
+        except Exception as e:
+            # Log error but don't fail the whole response
+            import logging
+            _logger = logging.getLogger(__name__)
+            _logger.warning(f"Error getting product image: {e}")
         
         return {
             'id': producto.id,
