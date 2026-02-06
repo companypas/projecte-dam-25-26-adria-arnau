@@ -11,14 +11,26 @@ package com.example.pi_androidapp.domain.model
  * @property ubicacion Ubicación/dirección del usuario
  * @property fechaRegistro Fecha de registro en el sistema
  * @property activo Estado de la cuenta
+ * @property antiguedad Meses desde el registro
+ * @property valoracionPromedio Valoración promedio del usuario (0-5)
+ * @property totalValoraciones Número total de valoraciones recibidas
+ * @property totalProductosVenta Productos actualmente en venta
+ * @property totalProductosVendidos Productos vendidos históricamente
+ * @property totalProductosComprados Productos comprados históricamente
  */
 data class Usuario(
-        val id: Int,
-        val idUsuario: String,
-        val nombre: String,
-        val email: String,
-        val telefono: String? = null,
-        val ubicacion: String? = null,
-        val fechaRegistro: String? = null,
-        val activo: Boolean = true
+    val id: Int,
+    val idUsuario: String,
+    val nombre: String,
+    val email: String,
+    val telefono: String? = null,
+    val ubicacion: String? = null,
+    val fechaRegistro: String? = null,
+    val activo: Boolean = true,
+    val antiguedad: Int = 0,
+    val valoracionPromedio: Double = 0.0,
+    val totalValoraciones: Int = 0,
+    val totalProductosVenta: Int = 0,
+    val totalProductosVendidos: Int = 0,
+    val totalProductosComprados: Int = 0
 )

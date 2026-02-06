@@ -36,7 +36,13 @@ data class UsuarioDto(
         @SerializedName("telefono") val telefono: String?,
         @SerializedName("ubicacion") val ubicacion: String?,
         @SerializedName("fecha_registro") val fechaRegistro: String?,
-        @SerializedName("activo") val activo: Boolean?
+        @SerializedName("activo") val activo: Boolean?,
+        @SerializedName("antiguedad") val antiguedad: Int?,
+        @SerializedName("valoracion_promedio") val valoracionPromedio: Double?,
+        @SerializedName("total_valoraciones") val totalValoraciones: Int?,
+        @SerializedName("total_productos_venta") val totalProductosVenta: Int?,
+        @SerializedName("total_productos_vendidos") val totalProductosVendidos: Int?,
+        @SerializedName("total_productos_comprados") val totalProductosComprados: Int?
 )
 
 /** DTO para la petición de refresh token. */

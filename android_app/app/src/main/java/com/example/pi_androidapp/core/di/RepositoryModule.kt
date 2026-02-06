@@ -4,10 +4,12 @@ import com.example.pi_androidapp.data.repository.AuthRepositoryImpl
 import com.example.pi_androidapp.data.repository.CategoriasRepositoryImpl
 import com.example.pi_androidapp.data.repository.ComprasRepositoryImpl
 import com.example.pi_androidapp.data.repository.ProductosRepositoryImpl
+import com.example.pi_androidapp.data.repository.UsuariosRepositoryImpl
 import com.example.pi_androidapp.domain.repository.AuthRepository
 import com.example.pi_androidapp.domain.repository.CategoriasRepository
 import com.example.pi_androidapp.domain.repository.ComprasRepository
 import com.example.pi_androidapp.domain.repository.ProductosRepository
+import com.example.pi_androidapp.domain.repository.UsuariosRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,29 +21,36 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    /** Vincula AuthRepository con su implementación. */
-    @Binds
-    @Singleton
-    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+        /** Vincula AuthRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
-    /** Vincula ProductosRepository con su implementación. */
-    @Binds
-    @Singleton
-    abstract fun bindProductosRepository(
-            productosRepositoryImpl: ProductosRepositoryImpl
-    ): ProductosRepository
+        /** Vincula ProductosRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindProductosRepository(
+                productosRepositoryImpl: ProductosRepositoryImpl
+        ): ProductosRepository
 
-    /** Vincula ComprasRepository con su implementación. */
-    @Binds
-    @Singleton
-    abstract fun bindComprasRepository(
-            comprasRepositoryImpl: ComprasRepositoryImpl
-    ): ComprasRepository
+        /** Vincula ComprasRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindComprasRepository(
+                comprasRepositoryImpl: ComprasRepositoryImpl
+        ): ComprasRepository
 
-    /** Vincula CategoriasRepository con su implementación. */
-    @Binds
-    @Singleton
-    abstract fun bindCategoriasRepository(
-            categoriasRepositoryImpl: CategoriasRepositoryImpl
-    ): CategoriasRepository
+        /** Vincula CategoriasRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindCategoriasRepository(
+                categoriasRepositoryImpl: CategoriasRepositoryImpl
+        ): CategoriasRepository
+
+        /** Vincula UsuariosRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindUsuariosRepository(
+                usuariosRepositoryImpl: UsuariosRepositoryImpl
+        ): UsuariosRepository
 }

@@ -26,6 +26,11 @@ sealed class Routes(val route: String) {
     /** Pantalla de perfil del usuario */
     data object Profile : Routes("profile")
 
+    /** Pantalla de perfil del vendedor */
+    data object SellerProfile : Routes("seller/{sellerId}") {
+        fun createRoute(sellerId: Int) = "seller/$sellerId"
+    }
+
     /** Pantalla de mis compras */
     data object MyPurchases : Routes("my_purchases")
 
@@ -35,4 +40,3 @@ sealed class Routes(val route: String) {
     /** Pantalla de mis productos */
     data object MyProducts : Routes("my_products")
 }
-

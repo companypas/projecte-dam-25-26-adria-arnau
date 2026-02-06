@@ -35,7 +35,7 @@ class UsuariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/usuarios/<int:usuario_id>', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/usuarios/<int:usuario_id>', type='json', auth='none', methods=['GET', 'POST'])
     @jwt_required
     def obtener_usuario(self, usuario_id, **kwargs):
         """Obtiene el perfil público de un usuario"""

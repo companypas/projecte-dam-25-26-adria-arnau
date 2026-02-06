@@ -12,91 +12,91 @@ import com.example.pi_androidapp.domain.model.Producto
 import com.example.pi_androidapp.domain.model.ProductoCompraInfo
 import com.example.pi_androidapp.domain.model.Usuario
 
-/**
- * Mappers para convertir DTOs de la API a modelos de dominio.
- */
+/** Mappers para convertir DTOs de la API a modelos de dominio. */
 
 /** Convierte UsuarioDto a Usuario del dominio. */
 fun UsuarioDto.toDomain(): Usuario {
     return Usuario(
-        id = id,
-        idUsuario = idUsuario,
-        nombre = nombre,
-        email = email,
-        telefono = telefono,
-        ubicacion = ubicacion,
-        fechaRegistro = fechaRegistro,
-        activo = activo ?: true
+            id = id,
+            idUsuario = idUsuario,
+            nombre = nombre,
+            email = email,
+            telefono = telefono,
+            ubicacion = ubicacion,
+            fechaRegistro = fechaRegistro,
+            activo = activo ?: true,
+            antiguedad = antiguedad ?: 0,
+            valoracionPromedio = valoracionPromedio ?: 0.0,
+            totalValoraciones = totalValoraciones ?: 0,
+            totalProductosVenta = totalProductosVenta ?: 0,
+            totalProductosVendidos = totalProductosVendidos ?: 0,
+            totalProductosComprados = totalProductosComprados ?: 0
     )
 }
 
 /** Convierte ProductoDto a Producto del dominio. */
 fun ProductoDto.toDomain(): Producto {
     android.util.Log.d("ProductoMapper", "Mapping producto id=$id, nombre=$nombre")
-    android.util.Log.d("ProductoMapper", "imagenPrincipal: ${if (imagenPrincipal != null) "exists, len=${imagenPrincipal.length}" else "NULL"}")
+    android.util.Log.d(
+            "ProductoMapper",
+            "imagenPrincipal: ${if (imagenPrincipal != null) "exists, len=${imagenPrincipal.length}" else "NULL"}"
+    )
     return Producto(
-        id = id,
-        idProducto = idProducto ?: "",
-        nombre = nombre ?: "",
-        descripcion = descripcion ?: "",
-        precio = precio ?: 0.0,
-        estado = estado ?: "nuevo",
-        antiguedadMeses = antiguedadMeses ?: 0,
-        ubicacion = ubicacion ?: "",
-        estadoVenta = estadoVenta ?: "disponible",
-        categoriaId = categoria?.id ?: 0,
-        categoriaNombre = categoria?.nombre ?: "",
-        propietarioId = propietario?.id ?: 0,
-        propietarioNombre = propietario?.nombre ?: "",
-        propietarioValoracion = propietario?.valoracion ?: 0.0,
-        etiquetas = etiquetas?.map { it.nombre ?: "" } ?: emptyList(),
-        totalComentarios = totalComentarios ?: 0,
-        totalImagenes = totalImagenes ?: 0,
-        imagenPrincipal = imagenPrincipal,
-        fechaPublicacion = fechaPublicacion
+            id = id,
+            idProducto = idProducto ?: "",
+            nombre = nombre ?: "",
+            descripcion = descripcion ?: "",
+            precio = precio ?: 0.0,
+            estado = estado ?: "nuevo",
+            antiguedadMeses = antiguedadMeses ?: 0,
+            ubicacion = ubicacion ?: "",
+            estadoVenta = estadoVenta ?: "disponible",
+            categoriaId = categoria?.id ?: 0,
+            categoriaNombre = categoria?.nombre ?: "",
+            propietarioId = propietario?.id ?: 0,
+            propietarioNombre = propietario?.nombre ?: "",
+            propietarioValoracion = propietario?.valoracion ?: 0.0,
+            etiquetas = etiquetas?.map { it.nombre ?: "" } ?: emptyList(),
+            totalComentarios = totalComentarios ?: 0,
+            totalImagenes = totalImagenes ?: 0,
+            imagenPrincipal = imagenPrincipal,
+            fechaPublicacion = fechaPublicacion
     )
 }
 
 /** Convierte CategoriaItemDto a Categoria del dominio. */
 fun CategoriaItemDto.toDomain(): Categoria {
     return Categoria(
-        id = id,
-        idCategoria = idCategoria ?: "",
-        nombre = nombre ?: "",
-        descripcion = descripcion ?: "",
-        totalProductos = totalProductos ?: 0,
-        imagen = imagen
+            id = id,
+            idCategoria = idCategoria ?: "",
+            nombre = nombre ?: "",
+            descripcion = descripcion ?: "",
+            totalProductos = totalProductos ?: 0,
+            imagen = imagen
     )
 }
 
 /** Convierte CompraDto a Compra del dominio. */
 fun CompraDto.toDomain(): Compra {
     return Compra(
-        id = id,
-        idCompra = idCompra ?: "",
-        estado = EstadoCompra.fromString(estado ?: "pendiente"),
-        monto = monto ?: 0.0,
-        fechaCreacion = fechaCreacion,
-        fechaConfirmacion = fechaConfirmacion,
-        comprador = comprador?.let {
-            CompradorVendedorInfo(
-                id = it.id,
-                nombre = it.nombre ?: ""
-            )
-        },
-        vendedor = vendedor?.let {
-            CompradorVendedorInfo(
-                id = it.id,
-                nombre = it.nombre ?: ""
-            )
-        },
-        producto = producto?.let {
-            ProductoCompraInfo(
-                id = it.id,
-                nombre = it.nombre ?: "",
-                precio = it.precio ?: 0.0,
-                imagen = it.imagen
-            )
-        }
+            id = id,
+            idCompra = idCompra ?: "",
+            estado = EstadoCompra.fromString(estado ?: "pendiente"),
+            monto = monto ?: 0.0,
+            fechaCreacion = fechaCreacion,
+            fechaConfirmacion = fechaConfirmacion,
+            comprador =
+                    comprador?.let { CompradorVendedorInfo(id = it.id, nombre = it.nombre ?: "") },
+            vendedor =
+                    vendedor?.let { CompradorVendedorInfo(id = it.id, nombre = it.nombre ?: "") },
+            producto =
+                    producto?.let {
+                        ProductoCompraInfo(
+                                id = it.id,
+                                nombre = it.nombre ?: "",
+                                precio = it.precio ?: 0.0,
+                                imagen = it.imagen
+                        )
+                    }
     )
 }

@@ -26,6 +26,8 @@ import com.example.pi_androidapp.ui.screens.purchases.MyPurchasesScreen
 import com.example.pi_androidapp.ui.screens.purchases.MyPurchasesViewModel
 import com.example.pi_androidapp.ui.screens.sales.MySalesScreen
 import com.example.pi_androidapp.ui.screens.sales.MySalesViewModel
+import com.example.pi_androidapp.ui.screens.seller.SellerProfileScreen
+import com.example.pi_androidapp.ui.screens.seller.SellerProfileViewModel
 import com.example.pi_androidapp.ui.screens.splash.SplashScreen
 import com.example.pi_androidapp.ui.screens.splash.SplashViewModel
 
@@ -127,6 +129,9 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
                         navController.navigate(Routes.MyPurchases.route) {
                             popUpTo(Routes.Home.route)
                         }
+                    },
+                    onSellerClick = { sellerId ->
+                        navController.navigate(Routes.SellerProfile.createRoute(sellerId))
                     }
             )
         }
@@ -161,6 +166,25 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
             )
         }
 
+        // Seller Profile Screen
+        composable(
+                route = Routes.SellerProfile.route,
+                arguments = listOf(navArgument("sellerId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val sellerId = backStackEntry.arguments?.getInt("sellerId") ?: 0
+            val viewModel: SellerProfileViewModel = hiltViewModel()
+
+            LaunchedEffect(sellerId) { viewModel.loadSeller(sellerId) }
+
+            SellerProfileScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onProductClick = { productId ->
+                        navController.navigate(Routes.ProductDetail.createRoute(productId))
+                    }
+            )
+        }
+
         // My Purchases Screen
         composable(Routes.MyPurchases.route) {
             val viewModel: MyPurchasesViewModel = hiltViewModel()
@@ -176,4 +200,3 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
         }
     }
 }
-
