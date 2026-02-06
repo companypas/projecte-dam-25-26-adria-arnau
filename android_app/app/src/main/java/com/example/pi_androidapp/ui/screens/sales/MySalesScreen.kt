@@ -38,7 +38,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.pi_androidapp.domain.model.Compra
@@ -114,11 +113,11 @@ fun MySalesScreen(viewModel: MySalesViewModel, onBackClick: () -> Unit) {
                         ) {
                             items(uiState.ventas, key = { it.id }) { venta ->
                                 SaleCard(
-                                    venta = venta,
-                                    isConfirming = uiState.isConfirming,
-                                    isRejecting = uiState.isRejecting,
-                                    onConfirmClick = { viewModel.confirmarVenta(venta.id) },
-                                    onRejectClick = { viewModel.rechazarVenta(venta.id) }
+                                        venta = venta,
+                                        isConfirming = uiState.isConfirming,
+                                        isRejecting = uiState.isRejecting,
+                                        onConfirmClick = { viewModel.confirmarVenta(venta.id) },
+                                        onRejectClick = { viewModel.rechazarVenta(venta.id) }
                                 )
                             }
                         }
@@ -132,11 +131,11 @@ fun MySalesScreen(viewModel: MySalesViewModel, onBackClick: () -> Unit) {
 /** Tarjeta de venta individual con botones de confirmar y rechazar. */
 @Composable
 private fun SaleCard(
-    venta: Compra,
-    isConfirming: Boolean,
-    isRejecting: Boolean,
-    onConfirmClick: () -> Unit,
-    onRejectClick: () -> Unit
+        venta: Compra,
+        isConfirming: Boolean,
+        isRejecting: Boolean,
+        onConfirmClick: () -> Unit,
+        onRejectClick: () -> Unit
 ) {
     Card(
             modifier = Modifier.fillMaxWidth(),
@@ -186,29 +185,31 @@ private fun SaleCard(
             if (venta.estado == EstadoCompra.PENDIENTE) {
                 Spacer(Modifier.padding(top = 12.dp))
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     // Botón Rechazar
                     Button(
-                        onClick = onRejectClick,
-                        enabled = !isRejecting && !isConfirming,
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.error
-                        )
+                            onClick = onRejectClick,
+                            enabled = !isRejecting && !isConfirming,
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                    ButtonDefaults.buttonColors(
+                                            containerColor = MaterialTheme.colorScheme.error
+                                    )
                     ) {
                         Icon(Icons.Default.Cancel, null, Modifier.padding(end = 4.dp))
                         Text(if (isRejecting) "..." else "Rechazar")
                     }
                     // Botón Confirmar
                     Button(
-                        onClick = onConfirmClick,
-                        enabled = !isConfirming && !isRejecting,
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary
-                        )
+                            onClick = onConfirmClick,
+                            enabled = !isConfirming && !isRejecting,
+                            modifier = Modifier.weight(1f),
+                            colors =
+                                    ButtonDefaults.buttonColors(
+                                            containerColor = MaterialTheme.colorScheme.primary
+                                    )
                     ) {
                         Icon(Icons.Default.CheckCircle, null, Modifier.padding(end = 4.dp))
                         Text(if (isConfirming) "..." else "Confirmar")
@@ -226,10 +227,14 @@ private fun EstadoChip(estado: EstadoCompra) {
             when (estado) {
                 EstadoCompra.PENDIENTE ->
                         MaterialTheme.colorScheme.secondaryContainer to "Pendiente"
+                EstadoCompra.PROCESANDO ->
+                        MaterialTheme.colorScheme.tertiaryContainer to "Procesando"
                 EstadoCompra.CONFIRMADA ->
                         MaterialTheme.colorScheme.primaryContainer to "Confirmada"
                 EstadoCompra.CANCELADA -> MaterialTheme.colorScheme.errorContainer to "Cancelada"
-                EstadoCompra.COMPLETADA -> MaterialTheme.colorScheme.tertiaryContainer to "Completada"
+                EstadoCompra.RECHAZADA -> MaterialTheme.colorScheme.errorContainer to "Rechazada"
+                EstadoCompra.COMPLETADA ->
+                        MaterialTheme.colorScheme.tertiaryContainer to "Completada"
             }
 
     Card(

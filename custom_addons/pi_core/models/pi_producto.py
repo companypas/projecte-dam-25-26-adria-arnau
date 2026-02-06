@@ -98,9 +98,7 @@ class piProducto(models.Model):
     @api.constrains('imagenes_ids')
     def _check_imagenes_limit(self):
         for record in self:
-            # Verificar que haya al menos 1 imagen
-            if len(record.imagenes_ids) < 1:
-                raise ValidationError('Debes subir al menos 1 imagen.')
+            # Nota: Se permite crear productos sin imágenes (imagen es opcional)
             # Verificar que no haya más de 10 imágenes en total
             if len(record.imagenes_ids) > 10:
                 raise ValidationError('No puedes subir más de 10 imágenes en total.')

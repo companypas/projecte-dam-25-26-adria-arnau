@@ -27,8 +27,10 @@ class piCompra(models.Model):
         ('procesando', 'Procesando'),
         ('confirmada', 'Confirmada'),
         ('cancelada', 'Cancelada'),
+        ('rechazada', 'Rechazada'),
         ('valorada_comprador', 'Valorada por Comprador'),
-        ('valorada_vendedor', 'Valorada por Vendedor')
+        ('valorada_vendedor', 'Valorada por Vendedor'),
+        ('valorada_ambos', 'Valorada por Ambos')
     ], string='Estado', default='pendiente', required=True, tracking=True)
     
     # Valoraciones

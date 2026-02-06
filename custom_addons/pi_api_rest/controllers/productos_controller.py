@@ -87,6 +87,7 @@ class ProductosController(http.Controller):
             antiguedad = data.get('antiguedad', 0)
             ubicacion = data.get('ubicacion')
             etiquetas_ids = data.get('etiquetas_ids', [])
+            imagenes = data.get('imagenes', [])  # Lista de imágenes en base64
             
             if not all([nombre, descripcion, precio, categoria_id, ubicacion]):
                 return APIUtils.error_response('Parámetros requeridos faltantes', 400)
@@ -102,6 +103,17 @@ class ProductosController(http.Controller):
             if precio <= 0:
                 return APIUtils.error_response('El precio debe ser mayor que 0', 400)
             
+            # Preparar datos de imágenes para la creación
+            imagenes_vals = []
+            if imagenes:
+                for i, img_base64 in enumerate(imagenes):
+                    if img_base64:
+                        imagenes_vals.append((0, 0, {
+                            'imagen': img_base64,
+                            'nombre': f'{nombre}_imagen_{i+1}',
+                            'sequence': (i + 1) * 10
+                        }))
+            
             producto = request.env['pi.producto'].sudo().create({
                 'nombre_producto': nombre,
                 'descripcion': descripcion,
@@ -113,6 +125,7 @@ class ProductosController(http.Controller):
                 'ubicacion': ubicacion,
                 'propietario_id': usuario.id,
                 'etiquetas_ids': [(6, 0, etiquetas_ids)] if etiquetas_ids else None,
+                'imagenes_ids': imagenes_vals if imagenes_vals else None,
             })
             
             return APIUtils.json_response({

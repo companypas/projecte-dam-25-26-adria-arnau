@@ -161,10 +161,14 @@ private fun EstadoChip(estado: EstadoCompra) {
             when (estado) {
                 EstadoCompra.PENDIENTE ->
                         MaterialTheme.colorScheme.secondaryContainer to "Pendiente"
+                EstadoCompra.PROCESANDO ->
+                        MaterialTheme.colorScheme.tertiaryContainer to "Procesando"
                 EstadoCompra.CONFIRMADA ->
                         MaterialTheme.colorScheme.primaryContainer to "Confirmada"
                 EstadoCompra.CANCELADA -> MaterialTheme.colorScheme.errorContainer to "Cancelada"
-                EstadoCompra.COMPLETADA -> MaterialTheme.colorScheme.tertiaryContainer to "Completada"
+                EstadoCompra.RECHAZADA -> MaterialTheme.colorScheme.errorContainer to "Rechazada"
+                EstadoCompra.COMPLETADA ->
+                        MaterialTheme.colorScheme.tertiaryContainer to "Completada"
             }
 
     Card(

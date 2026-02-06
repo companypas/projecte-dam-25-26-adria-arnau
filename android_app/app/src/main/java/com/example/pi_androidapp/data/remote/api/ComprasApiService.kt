@@ -10,42 +10,39 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-/**
- * Servicio de API para compras usando JSON-RPC de Odoo.
- */
+/** Servicio de API para compras usando JSON-RPC de Odoo. */
 interface ComprasApiService {
 
-    /**
-     * Listar todas las compras del usuario.
-     */
+    /** Listar todas las compras del usuario. */
     @POST("api/v1/compras")
     suspend fun listarCompras(
-        @Body request: JsonRpcRequest
+            @Body request: JsonRpcRequest
     ): Response<JsonRpcResponse<ComprasResultData>>
 
-    /**
-     * Crear una nueva compra.
-     */
+    /** Crear una nueva compra. */
     @POST("api/v1/compras/crear")
     suspend fun crearCompra(
-        @Body request: JsonRpcRequest
+            @Body request: JsonRpcRequest
     ): Response<JsonRpcResponse<CreateCompraResultData>>
 
-    /**
-     * Confirmar una compra (solo vendedor).
-     */
+    /** Confirmar una compra (solo vendedor). */
     @POST("api/v1/compras/{compra_id}/confirmar")
     suspend fun confirmarCompra(
-        @Body request: JsonRpcRequest,
-        @Path("compra_id") compraId: Int
+            @Body request: JsonRpcRequest,
+            @Path("compra_id") compraId: Int
     ): Response<JsonRpcResponse<ConfirmCompraResultData>>
 
-    /**
-     * Rechazar una compra (solo vendedor).
-     */
+    /** Rechazar una compra (solo vendedor). */
     @POST("api/v1/compras/{compra_id}/rechazar")
     suspend fun rechazarCompra(
-        @Body request: JsonRpcRequest,
-        @Path("compra_id") compraId: Int
+            @Body request: JsonRpcRequest,
+            @Path("compra_id") compraId: Int
+    ): Response<JsonRpcResponse<ConfirmCompraResultData>>
+
+    /** Cancelar una compra (solo comprador, solo si está pendiente). */
+    @POST("api/v1/compras/{compra_id}/cancelar")
+    suspend fun cancelarCompra(
+            @Body request: JsonRpcRequest,
+            @Path("compra_id") compraId: Int
     ): Response<JsonRpcResponse<ConfirmCompraResultData>>
 }

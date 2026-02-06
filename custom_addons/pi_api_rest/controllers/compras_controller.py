@@ -191,7 +191,7 @@ class ComprasController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/compras/<int:compra_id>', type='json', auth='none', methods=['DELETE'])
+    @http.route('/api/v1/compras/<int:compra_id>/cancelar', type='json', auth='none', methods=['POST'])
     @jwt_required
     def cancelar_compra(self, compra_id, **kwargs):
         """Cancela una compra (solo si está en estado pendiente)"""
@@ -287,8 +287,9 @@ class ComprasController(http.Controller):
             if compra.estado not in ['pendiente', 'procesando']:
                 return APIUtils.error_response('Solo se pueden rechazar compras pendientes', 400)
             
-            # Cambiar estado a cancelada
-            compra.sudo().write({'estado': 'cancelada'})
+            # Cambiar estado a cancelada (rechazamos usando el estado cancelada)
+            # Usar tracking_disable para evitar error con mail.tracking si el módulo no está actualizado
+            compra.sudo().with_context(tracking_disable=True).write({'estado': 'cancelada'})
             _logger.info(f"Estado cambiado a cancelada para compra {compra_id}")
             
             # Liberar el producto (volver a disponible)

@@ -1,6 +1,8 @@
 package com.example.pi_androidapp.ui.screens.product
 
+import android.content.Context
 import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pi_androidapp.core.util.Resource
@@ -8,6 +10,7 @@ import com.example.pi_androidapp.domain.model.Categoria
 import com.example.pi_androidapp.domain.repository.CategoriasRepository
 import com.example.pi_androidapp.domain.repository.ProductosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +26,8 @@ class CreateProductViewModel
 @Inject
 constructor(
         private val productosRepository: ProductosRepository,
-        private val categoriasRepository: CategoriasRepository
+        private val categoriasRepository: CategoriasRepository,
+        @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CreateProductUiState())
@@ -39,7 +43,8 @@ constructor(
                 .onEach { result ->
                     when (result) {
                         is Resource.Success -> {
-                            _uiState.value = _uiState.value.copy(categorias = result.data ?: emptyList())
+                            _uiState.value =
+                                    _uiState.value.copy(categorias = result.data ?: emptyList())
                         }
                         is Resource.Error -> {}
                         is Resource.Loading -> {}
@@ -90,6 +95,23 @@ constructor(
         _uiState.value = _uiState.value.copy(imageUris = currentImages)
     }
 
+    /** Convierte una URI de imagen a string base64. */
+    private fun uriToBase64(uri: Uri): String? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val bytes = inputStream?.readBytes()
+            inputStream?.close()
+            if (bytes != null) {
+                Base64.encodeToString(bytes, Base64.NO_WRAP)
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("CreateProductVM", "Error converting URI to base64: ${e.message}")
+            null
+        }
+    }
+
     /** Crea el producto con los datos del formulario. */
     fun createProduct() {
         // Validaciones
@@ -117,6 +139,9 @@ constructor(
 
         val antiguedad = _uiState.value.antiguedad.toIntOrNull() ?: 0
 
+        // Convertir imágenes a base64
+        val imagenesBase64 = _uiState.value.imageUris.mapNotNull { uri -> uriToBase64(uri) }
+
         productosRepository
                 .crearProducto(
                         nombre = _uiState.value.nombre,
@@ -126,7 +151,7 @@ constructor(
                         ubicacion = _uiState.value.ubicacion,
                         antiguedad = antiguedad,
                         categoriaId = _uiState.value.selectedCategoria!!.id,
-                        imagenes = emptyList() // Por ahora sin imágenes base64
+                        imagenes = imagenesBase64
                 )
                 .onEach { result ->
                     when (result) {

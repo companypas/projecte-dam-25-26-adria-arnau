@@ -11,27 +11,20 @@ import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-/**
- * Implementación del repositorio de compras.
- * Usa JSON-RPC para comunicarse con la API de Odoo.
- */
+/** Implementación del repositorio de compras. Usa JSON-RPC para comunicarse con la API de Odoo. */
 @Singleton
-class ComprasRepositoryImpl @Inject constructor(
-    private val comprasApiService: ComprasApiService
-) : ComprasRepository {
+class ComprasRepositoryImpl @Inject constructor(private val comprasApiService: ComprasApiService) :
+        ComprasRepository {
 
     override fun listarCompras(
-        offset: Int,
-        limit: Int,
-        tipo: String?,
-        estado: String?
+            offset: Int,
+            limit: Int,
+            tipo: String?,
+            estado: String?
     ): Flow<Resource<List<Compra>>> = flow {
         emit(Resource.Loading())
         try {
-            val params = mutableMapOf<String, Any?>(
-                "offset" to offset,
-                "limit" to limit
-            )
+            val params = mutableMapOf<String, Any?>("offset" to offset, "limit" to limit)
             tipo?.let { params["tipo"] = it }
             estado?.let { params["estado"] = it }
 
@@ -74,7 +67,10 @@ class ComprasRepositoryImpl @Inject constructor(
                 val result = jsonRpcResponse?.result
 
                 android.util.Log.d("ComprasRepo", "Result: $result")
-                android.util.Log.d("ComprasRepo", "compraId: ${result?.compraId}, error: ${result?.error}")
+                android.util.Log.d(
+                        "ComprasRepo",
+                        "compraId: ${result?.compraId}, error: ${result?.error}"
+                )
 
                 // Check for backend error in result (API returns error in result object)
                 if (result?.error != null) {
@@ -86,12 +82,18 @@ class ComprasRepositoryImpl @Inject constructor(
                     android.util.Log.e("ComprasRepo", "JSON-RPC Error: ${jsonRpcResponse.error}")
                     emit(Resource.Error(jsonRpcResponse.error.message ?: "Error al crear compra"))
                 } else {
-                    android.util.Log.e("ComprasRepo", "compraId is null and no error, result: $result")
+                    android.util.Log.e(
+                            "ComprasRepo",
+                            "compraId is null and no error, result: $result"
+                    )
                     emit(Resource.Error("Error al crear compra"))
                 }
             } else {
                 val errorBody = response.errorBody()?.string()
-                android.util.Log.e("ComprasRepo", "HTTP Error: ${response.code()}, body: $errorBody")
+                android.util.Log.e(
+                        "ComprasRepo",
+                        "HTTP Error: ${response.code()}, body: $errorBody"
+                )
                 emit(Resource.Error("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
@@ -103,9 +105,35 @@ class ComprasRepositoryImpl @Inject constructor(
     override fun cancelarCompra(compraId: Int): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
         try {
-            // TODO: Implementar cancelación con endpoint DELETE
-            emit(Resource.Error("Funcionalidad no implementada"))
+            val request = JsonRpcRequest()
+            val response = comprasApiService.cancelarCompra(request, compraId)
+
+            android.util.Log.d("ComprasRepo", "Cancelar response code: ${response.code()}")
+            android.util.Log.d("ComprasRepo", "Cancelar response body: ${response.body()}")
+
+            if (response.isSuccessful) {
+                val jsonRpcResponse = response.body()
+                val result = jsonRpcResponse?.result
+
+                // Check for backend error in result
+                if (result?.error != null) {
+                    android.util.Log.e("ComprasRepo", "Backend error: ${result.error}")
+                    emit(Resource.Error(result.error))
+                } else if (jsonRpcResponse?.error != null) {
+                    emit(Resource.Error(jsonRpcResponse.error.message ?: "Error al cancelar"))
+                } else {
+                    emit(Resource.Success(Unit))
+                }
+            } else {
+                val errorBody = response.errorBody()?.string()
+                android.util.Log.e(
+                        "ComprasRepo",
+                        "HTTP Error: ${response.code()}, body: $errorBody"
+                )
+                emit(Resource.Error("Error: ${response.code()}"))
+            }
         } catch (e: Exception) {
+            android.util.Log.e("ComprasRepo", "Exception: ${e.message}", e)
             emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
         }
     }
@@ -155,7 +183,10 @@ class ComprasRepositoryImpl @Inject constructor(
                 }
             } else {
                 val errorBody = response.errorBody()?.string()
-                android.util.Log.e("ComprasRepo", "HTTP Error: ${response.code()}, body: $errorBody")
+                android.util.Log.e(
+                        "ComprasRepo",
+                        "HTTP Error: ${response.code()}, body: $errorBody"
+                )
                 emit(Resource.Error("Error: ${response.code()}"))
             }
         } catch (e: Exception) {
