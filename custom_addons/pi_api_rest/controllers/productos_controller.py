@@ -18,10 +18,16 @@ class ProductosController(http.Controller):
             precio_min = kwargs.get('precio_min') or request.httprequest.args.get('precio_min', type=float)
             precio_max = kwargs.get('precio_max') or request.httprequest.args.get('precio_max', type=float)
             ubicacion = kwargs.get('ubicacion') or request.httprequest.args.get('ubicacion')
+            estado_venta = kwargs.get('estado_venta') or request.httprequest.args.get('estado_venta')
             offset = kwargs.get('offset', 0) if 'offset' in kwargs else request.httprequest.args.get('offset', 0, type=int)
             limit = kwargs.get('limit', 20) if 'limit' in kwargs else request.httprequest.args.get('limit', 20, type=int)
             
-            domain = []  # Sin filtro por estado_venta para mostrar todos los productos
+            # Por defecto solo mostrar productos disponibles, a menos que se especifique otro estado_venta
+            domain = []
+            if estado_venta:
+                domain.append(('estado_venta', '=', estado_venta))
+            else:
+                domain.append(('estado_venta', '=', 'disponible'))
             
             if categoria_id:
                 domain.append(('categoria_id', '=', categoria_id))

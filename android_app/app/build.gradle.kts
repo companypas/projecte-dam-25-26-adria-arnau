@@ -21,8 +21,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // URL base de la API - cambiar según el entorno
-        //buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8069/\"")
-        buildConfigField("String", "API_BASE_URL", "\"http://192.168.236.228:8069/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8069/\"")
+        //buildConfigField("String", "API_BASE_URL", "\"http://192.168.236.228:8069/\"")
 
     }
 
