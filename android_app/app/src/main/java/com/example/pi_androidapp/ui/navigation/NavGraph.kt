@@ -14,6 +14,10 @@ import com.example.pi_androidapp.ui.screens.auth.LoginScreen
 import com.example.pi_androidapp.ui.screens.auth.LoginViewModel
 import com.example.pi_androidapp.ui.screens.auth.RegisterScreen
 import com.example.pi_androidapp.ui.screens.auth.RegisterViewModel
+import com.example.pi_androidapp.ui.screens.chat.ChatScreen
+import com.example.pi_androidapp.ui.screens.chat.ChatViewModel
+import com.example.pi_androidapp.ui.screens.chat.ConversationsListScreen
+import com.example.pi_androidapp.ui.screens.chat.ConversationsListViewModel
 import com.example.pi_androidapp.ui.screens.home.HomeScreen
 import com.example.pi_androidapp.ui.screens.home.HomeViewModel
 import com.example.pi_androidapp.ui.screens.product.CreateProductScreen
@@ -108,7 +112,8 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
                     onCreateProductClick = { navController.navigate(Routes.CreateProduct.route) },
                     onProfileClick = { navController.navigate(Routes.Profile.route) },
                     onMyPurchasesClick = { navController.navigate(Routes.MyPurchases.route) },
-                    onMySalesClick = { navController.navigate(Routes.MySales.route) }
+                    onMySalesClick = { navController.navigate(Routes.MySales.route) },
+                    onChatsClick = { navController.navigate(Routes.ConversationsList.route) }
             )
         }
 
@@ -132,6 +137,9 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
                     },
                     onSellerClick = { sellerId ->
                         navController.navigate(Routes.SellerProfile.createRoute(sellerId))
+                    },
+                    onChatClick = { productoId ->
+                        navController.navigate(Routes.ChatFromProduct.createRoute(productoId))
                     }
             )
         }
@@ -198,5 +206,48 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
 
             MySalesScreen(viewModel = viewModel, onBackClick = { navController.popBackStack() })
         }
+
+        // Conversations List Screen
+        composable(Routes.ConversationsList.route) {
+            val viewModel: ConversationsListViewModel = hiltViewModel()
+
+            ConversationsListScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onConversationClick = { conversacionId ->
+                        navController.navigate(Routes.Chat.createRoute(conversacionId))
+                    }
+            )
+        }
+
+        // Chat Screen (existing conversation)
+        composable(
+                route = Routes.Chat.route,
+                arguments = listOf(navArgument("conversacionId") { type = NavType.IntType })
+        ) {
+            val viewModel: ChatViewModel = hiltViewModel()
+            val uiState by viewModel.uiState.collectAsState()
+
+            ChatScreen(
+                    viewModel = viewModel,
+                    otroUsuarioNombre = null,
+                    onBackClick = { navController.popBackStack() }
+            )
+        }
+
+        // Chat Screen (from product — initiates chat first)
+        composable(
+                route = Routes.ChatFromProduct.route,
+                arguments = listOf(navArgument("productoId") { type = NavType.IntType })
+        ) {
+            val viewModel: ChatViewModel = hiltViewModel()
+
+            ChatScreen(
+                    viewModel = viewModel,
+                    otroUsuarioNombre = null,
+                    onBackClick = { navController.popBackStack() }
+            )
+        }
     }
 }
+

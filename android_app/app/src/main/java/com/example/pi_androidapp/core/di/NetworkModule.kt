@@ -5,6 +5,7 @@ import com.example.pi_androidapp.core.network.AuthInterceptor
 import com.example.pi_androidapp.data.remote.api.AuthApiService
 import com.example.pi_androidapp.data.remote.api.CategoriasApiService
 import com.example.pi_androidapp.data.remote.api.ComprasApiService
+import com.example.pi_androidapp.data.remote.api.ConversacionesApiService
 import com.example.pi_androidapp.data.remote.api.ProductosApiService
 import com.example.pi_androidapp.data.remote.api.UsuariosApiService
 import dagger.Module
@@ -93,5 +94,12 @@ object NetworkModule {
     @Singleton
     fun provideUsuariosApiService(retrofit: Retrofit): UsuariosApiService {
         return retrofit.create(UsuariosApiService::class.java)
+    }
+
+    /** Provee el servicio de conversaciones. */
+    @Provides
+    @Singleton
+    fun provideConversacionesApiService(retrofit: Retrofit): ConversacionesApiService {
+        return retrofit.create(ConversacionesApiService::class.java)
     }
 }

@@ -6,7 +6,7 @@ import json
 
 class ConversacionesController(http.Controller):
     
-    @http.route('/api/v1/conversaciones', type='json', auth='public', methods=['GET'])
+    @http.route('/api/v1/conversaciones', type='json', auth='public', methods=['POST'], csrf=False)
     @jwt_required
     def listar_conversaciones(self, **kwargs):
         """Lista las conversaciones del usuario"""
@@ -61,7 +61,7 @@ class ConversacionesController(http.Controller):
             return APIUtils.error_response(str(e), 500)
     
     
-    @http.route('/api/v1/conversaciones/<int:conversacion_id>', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/conversaciones/<int:conversacion_id>', type='json', auth='public', methods=['GET', 'POST'], csrf=False)
     @jwt_required
     def obtener_conversacion(self, conversacion_id, **kwargs):
         """Obtiene los detalles de una conversación específica"""
@@ -100,7 +100,7 @@ class ConversacionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/conversaciones/<int:conversacion_id>', type='json', auth='none', methods=['PUT'])
+    @http.route('/api/v1/conversaciones/<int:conversacion_id>/actualizar', type='json', auth='public', methods=['POST'], csrf=False)
     @jwt_required
     def actualizar_conversacion(self, conversacion_id, **kwargs):
         """Actualiza el estado de una conversación (archivar, etc.)"""
@@ -137,7 +137,7 @@ class ConversacionesController(http.Controller):
             return APIUtils.error_response(str(e), 500)
     
     
-    @http.route('/api/v1/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/conversaciones/<int:conversacion_id>/mensajes/listar', type='json', auth='public', methods=['POST'], csrf=False)
     @jwt_required
     def obtener_mensajes(self, conversacion_id, **kwargs):
         """Obtiene los mensajes de una conversación"""
@@ -179,7 +179,7 @@ class ConversacionesController(http.Controller):
             return APIUtils.error_response(str(e), 500)
     
     
-    @http.route('/api/v1/conversaciones/<int:conversacion_id>/mensajes', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/conversaciones/<int:conversacion_id>/mensajes/enviar', type='json', auth='public', methods=['POST'], csrf=False)
     @jwt_required
     def enviar_mensaje(self, conversacion_id, **kwargs):
         """Envía un mensaje en una conversación"""
@@ -221,7 +221,7 @@ class ConversacionesController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/productos/<int:producto_id>/iniciar-chat', type='json', auth='public', methods=['POST'])
+    @http.route('/api/v1/productos/<int:producto_id>/iniciar-chat', type='json', auth='public', methods=['POST'], csrf=False)
     @jwt_required
     def iniciar_chat_producto(self, producto_id, **kwargs):
         """Inicia un chat sobre un producto"""

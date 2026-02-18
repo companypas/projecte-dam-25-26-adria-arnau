@@ -39,4 +39,17 @@ sealed class Routes(val route: String) {
 
     /** Pantalla de mis productos */
     data object MyProducts : Routes("my_products")
+
+    /** Pantalla de lista de conversaciones */
+    data object ConversationsList : Routes("conversations")
+
+    /** Pantalla de chat con una conversación existente */
+    data object Chat : Routes("chat/{conversacionId}") {
+        fun createRoute(conversacionId: Int) = "chat/$conversacionId"
+    }
+
+    /** Pantalla de chat iniciado desde un producto */
+    data object ChatFromProduct : Routes("chat_product/{productoId}") {
+        fun createRoute(productoId: Int) = "chat_product/$productoId"
+    }
 }

@@ -1,0 +1,70 @@
+﻿> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+
+> Task :app:processDebugMainManifest FAILED
+.\gradlew.bat : C:\Users\arn
+au\OneDrive\Documentos\DAM\2
+DAM\PI\projecte-dam-25-26-ad
+ria-arnau\android_app\app\sr
+c\main\AndroidManifest.xml:2
+4:13-44 Error:
+En línea: 1 Carácter: 1
++ .\gradlew.bat 
+processDebugManifest 2>&1 | 
+Out-File -FilePath build_er 
+...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (C:\Us  
+  ers\arnau\...24:13-44 E   
+ rror::String) [], Remot    
+eException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+	Attribute meta-data#com.goo
+gle.android.geo.API_KEY@valu
+e at AndroidManifest.xml:24:
+13-44 requires a 
+placeholder substitution 
+but no value for 
+<MAPS_API_KEY> is provided.
+C:\Users\arnau\OneDrive\Docu
+mentos\DAM\2DAM\PI\projecte-
+dam-25-26-adria-arnau\androi
+d_app\app\src\main\AndroidMa
+nifest.xml Error:
+	Validation failed, exiting
+
+See https://developer.android.com/r/studio-ui/build/manifest-merger for more information about the manifest merger.
+
+
+FAILURE: Build failed with 
+an exception.
+
+* What went wrong:
+Execution failed for task ':
+app:processDebugMainManifest
+'.
+> Manifest merger failed 
+with multiple errors, see 
+logs
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get more 
+log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 1s
+4 actionable tasks: 1 executed, 3 up-to-date

@@ -3,6 +3,7 @@ package com.example.pi_androidapp.ui.screens.product
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pi_androidapp.core.util.Resource
+import com.example.pi_androidapp.core.security.EncryptedPrefsManager
 import com.example.pi_androidapp.domain.model.Producto
 import com.example.pi_androidapp.domain.repository.ComprasRepository
 import com.example.pi_androidapp.domain.repository.ProductosRepository
@@ -22,10 +23,13 @@ class ProductDetailViewModel
 @Inject
 constructor(
         private val productosRepository: ProductosRepository,
-        private val comprasRepository: ComprasRepository
+        private val comprasRepository: ComprasRepository,
+        private val encryptedPrefsManager: EncryptedPrefsManager
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ProductDetailUiState())
+    private val _uiState = MutableStateFlow(ProductDetailUiState(
+        currentUserOdooId = encryptedPrefsManager.getOdooId()
+    ))
     val uiState: StateFlow<ProductDetailUiState> = _uiState
 
     /** Carga los detalles de un producto. */
@@ -89,9 +93,13 @@ constructor(
 /** Estado de la UI de detalle de producto. */
 data class ProductDetailUiState(
         val producto: Producto? = null,
+        val currentUserOdooId: Int = -1,
         val isLoading: Boolean = false,
         val error: String? = null,
         val isPurchasing: Boolean = false,
         val purchaseSuccess: Boolean = false,
         val purchaseError: String? = null
-)
+) {
+    val isOwnProduct: Boolean
+        get() = producto != null && currentUserOdooId > 0 && producto.propietarioId == currentUserOdooId
+}

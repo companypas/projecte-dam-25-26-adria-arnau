@@ -3,11 +3,13 @@ package com.example.pi_androidapp.core.di
 import com.example.pi_androidapp.data.repository.AuthRepositoryImpl
 import com.example.pi_androidapp.data.repository.CategoriasRepositoryImpl
 import com.example.pi_androidapp.data.repository.ComprasRepositoryImpl
+import com.example.pi_androidapp.data.repository.ConversacionesRepositoryImpl
 import com.example.pi_androidapp.data.repository.ProductosRepositoryImpl
 import com.example.pi_androidapp.data.repository.UsuariosRepositoryImpl
 import com.example.pi_androidapp.domain.repository.AuthRepository
 import com.example.pi_androidapp.domain.repository.CategoriasRepository
 import com.example.pi_androidapp.domain.repository.ComprasRepository
+import com.example.pi_androidapp.domain.repository.ConversacionesRepository
 import com.example.pi_androidapp.domain.repository.ProductosRepository
 import com.example.pi_androidapp.domain.repository.UsuariosRepository
 import dagger.Binds
@@ -53,4 +55,11 @@ abstract class RepositoryModule {
         abstract fun bindUsuariosRepository(
                 usuariosRepositoryImpl: UsuariosRepositoryImpl
         ): UsuariosRepository
+
+        /** Vincula ConversacionesRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindConversacionesRepository(
+                conversacionesRepositoryImpl: ConversacionesRepositoryImpl
+        ): ConversacionesRepository
 }

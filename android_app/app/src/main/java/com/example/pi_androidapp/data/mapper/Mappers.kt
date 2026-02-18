@@ -3,11 +3,16 @@ package com.example.pi_androidapp.data.mapper
 import com.example.pi_androidapp.data.remote.dto.auth.UsuarioDto
 import com.example.pi_androidapp.data.remote.dto.categorias.CategoriaItemDto
 import com.example.pi_androidapp.data.remote.dto.compras.CompraDto
+import com.example.pi_androidapp.data.remote.dto.conversaciones.ConversacionDto
+import com.example.pi_androidapp.data.remote.dto.conversaciones.MensajeDto
 import com.example.pi_androidapp.data.remote.dto.productos.ProductoDto
 import com.example.pi_androidapp.domain.model.Categoria
 import com.example.pi_androidapp.domain.model.Compra
 import com.example.pi_androidapp.domain.model.CompradorVendedorInfo
+import com.example.pi_androidapp.domain.model.Conversacion
 import com.example.pi_androidapp.domain.model.EstadoCompra
+import com.example.pi_androidapp.domain.model.Mensaje
+import com.example.pi_androidapp.domain.model.OtroUsuarioInfo
 import com.example.pi_androidapp.domain.model.Producto
 import com.example.pi_androidapp.domain.model.ProductoCompraInfo
 import com.example.pi_androidapp.domain.model.Usuario
@@ -95,3 +100,36 @@ fun CompraDto.toDomain(): Compra {
                     }
     )
 }
+
+/** Convierte ConversacionDto a Conversacion del dominio. */
+fun ConversacionDto.toDomain(): Conversacion {
+    return Conversacion(
+            id = id,
+            asunto = asunto ?: "",
+            otroUsuario =
+                    OtroUsuarioInfo(
+                            id = otroUsuario?.id ?: 0,
+                            nombre = otroUsuario?.nombre ?: ""
+                    ),
+            estado = estado ?: "abierta",
+            totalMensajes = totalMensajes ?: 0,
+            ultimoMensaje = ultimoMensaje,
+            fechaUltimoMensaje = fechaUltimoMensaje,
+            productoId = productoId
+    )
+}
+
+/** Convierte MensajeDto a Mensaje del dominio. */
+fun MensajeDto.toDomain(): Mensaje {
+    return Mensaje(
+            id = id,
+            contenido = contenido ?: "",
+            fechaEnvio = fechaEnvio,
+            leido = leido ?: false,
+            remitenteId = remitente?.id ?: 0,
+            remitenteNombre = remitente?.nombre ?: "",
+            esDeComprador = esDeComprador ?: false,
+            esDeVendedor = esDeVendedor ?: false
+    )
+}
+
