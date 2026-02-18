@@ -1,8 +1,5 @@
 package com.example.pi_androidapp.ui.screens.seller
 
-import android.graphics.BitmapFactory
-import android.util.Base64
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,15 +42,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.pi_androidapp.domain.model.Producto
+import com.example.pi_androidapp.ui.components.Base64Image
 import com.example.pi_androidapp.ui.components.ErrorMessage
 import com.example.pi_androidapp.ui.components.LoadingIndicator
 
@@ -284,7 +279,7 @@ private fun SellerProductCard(producto: Producto, onClick: () -> Unit) {
             shape = RoundedCornerShape(12.dp)
     ) {
         Column {
-            // Imagen del producto
+            // Imagen del producto con Coil
             Box(
                     modifier =
                             Modifier.fillMaxWidth()
@@ -292,44 +287,12 @@ private fun SellerProductCard(producto: Producto, onClick: () -> Unit) {
                                     .background(MaterialTheme.colorScheme.surfaceVariant),
                     contentAlignment = Alignment.Center
             ) {
-                if (producto.imagenPrincipal != null) {
-                    val bitmap =
-                            remember(producto.imagenPrincipal) {
-                                try {
-                                    val decodedBytes =
-                                            Base64.decode(producto.imagenPrincipal, Base64.DEFAULT)
-                                    BitmapFactory.decodeByteArray(
-                                            decodedBytes,
-                                            0,
-                                            decodedBytes.size
-                                    )
-                                } catch (e: Exception) {
-                                    null
-                                }
-                            }
-                    if (bitmap != null) {
-                        Image(
-                                bitmap = bitmap.asImageBitmap(),
-                                contentDescription = producto.nombre,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                        )
-                    } else {
-                        Icon(
-                                imageVector = Icons.Default.ShoppingCart,
-                                contentDescription = null,
-                                modifier = Modifier.size(40.dp),
-                                tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                } else {
-                    Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Base64Image(
+                        base64String = producto.imagenPrincipal,
+                        contentDescription = producto.nombre,
+                        modifier = Modifier.fillMaxSize(),
+                        placeholderIconSize = 40
+                )
             }
 
             Column(modifier = Modifier.padding(8.dp)) {

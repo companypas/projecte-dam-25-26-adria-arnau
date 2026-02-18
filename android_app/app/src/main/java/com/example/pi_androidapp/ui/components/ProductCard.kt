@@ -1,8 +1,5 @@
 package com.example.pi_androidapp.ui.components
 
-import android.graphics.BitmapFactory
-import android.util.Base64
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,13 +22,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,7 +33,7 @@ import com.example.pi_androidapp.domain.model.Producto
 
 /**
  * Tarjeta de producto para mostrar en listas. Muestra imagen, nombre, precio y ubicación del
- * producto.
+ * producto. Usa [Base64Image] con Coil para renderizar la imagen de forma eficiente.
  *
  * @param producto Datos del producto
  * @param onClick Callback al pulsar la tarjeta
@@ -53,7 +46,7 @@ fun ProductCard(producto: Producto, onClick: () -> Unit, modifier: Modifier = Mo
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
-            // Imagen del producto
+            // Imagen del producto con Coil
             Box(
                 modifier =
                     Modifier.fillMaxWidth()
@@ -61,29 +54,11 @@ fun ProductCard(producto: Producto, onClick: () -> Unit, modifier: Modifier = Mo
                         .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
                         .background(MaterialTheme.colorScheme.surfaceVariant)
             ) {
-                if (producto.imagenPrincipal != null) {
-                    // Decodificar imagen Base64
-                    val bitmap = remember(producto.imagenPrincipal) {
-                        try {
-                            val imageBytes = Base64.decode(producto.imagenPrincipal, Base64.DEFAULT)
-                            BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                        } catch (e: Exception) {
-                            null
-                        }
-                    }
-                    if (bitmap != null) {
-                        Image(
-                            bitmap = bitmap.asImageBitmap(),
-                            contentDescription = producto.nombre,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop
-                        )
-                    } else {
-                        PlaceholderImage(Modifier.align(Alignment.Center))
-                    }
-                } else {
-                    PlaceholderImage(Modifier.align(Alignment.Center))
-                }
+                Base64Image(
+                    base64String = producto.imagenPrincipal,
+                    contentDescription = producto.nombre,
+                    modifier = Modifier.fillMaxSize()
+                )
 
                 // Badge de vendido
                 if (producto.estadoVenta == "vendido") {
@@ -148,14 +123,4 @@ fun ProductCard(producto: Producto, onClick: () -> Unit, modifier: Modifier = Mo
             }
         }
     }
-}
-
-@Composable
-private fun PlaceholderImage(modifier: Modifier = Modifier) {
-    Icon(
-        imageVector = Icons.Default.Image,
-        contentDescription = null,
-        modifier = modifier.size(48.dp),
-        tint = MaterialTheme.colorScheme.onSurfaceVariant
-    )
 }

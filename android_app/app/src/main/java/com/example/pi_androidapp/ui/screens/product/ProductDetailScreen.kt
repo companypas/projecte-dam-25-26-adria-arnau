@@ -1,8 +1,5 @@
 package com.example.pi_androidapp.ui.screens.product
 
-import android.graphics.BitmapFactory
-import android.util.Base64
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Schedule
@@ -44,10 +40,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.pi_androidapp.ui.components.Base64Image
 import com.example.pi_androidapp.ui.components.ErrorMessage
 import com.example.pi_androidapp.ui.components.LoadingIndicator
 import com.example.pi_androidapp.ui.components.SmallLoadingIndicator
@@ -102,7 +97,7 @@ fun ProductDetailScreen(
                                         .padding(paddingValues)
                                         .verticalScroll(rememberScrollState())
                 ) {
-                    // Imagen del producto
+                    // Imagen del producto con Coil
                     Box(
                             modifier =
                                     Modifier.fillMaxWidth()
@@ -110,47 +105,12 @@ fun ProductDetailScreen(
                                             .background(MaterialTheme.colorScheme.surfaceVariant),
                             contentAlignment = Alignment.Center
                     ) {
-                        if (producto.imagenPrincipal != null) {
-                            val bitmap =
-                                    remember(producto.imagenPrincipal) {
-                                        try {
-                                            val imageBytes =
-                                                    Base64.decode(
-                                                            producto.imagenPrincipal,
-                                                            Base64.DEFAULT
-                                                    )
-                                            BitmapFactory.decodeByteArray(
-                                                    imageBytes,
-                                                    0,
-                                                    imageBytes.size
-                                            )
-                                        } catch (e: Exception) {
-                                            null
-                                        }
-                                    }
-                            if (bitmap != null) {
-                                Image(
-                                        bitmap = bitmap.asImageBitmap(),
-                                        contentDescription = producto.nombre,
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Crop
-                                )
-                            } else {
-                                Icon(
-                                        imageVector = Icons.Default.Image,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(64.dp),
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        } else {
-                            Icon(
-                                    imageVector = Icons.Default.Image,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(64.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
+                        Base64Image(
+                                base64String = producto.imagenPrincipal,
+                                contentDescription = producto.nombre,
+                                modifier = Modifier.fillMaxSize(),
+                                placeholderIconSize = 64
+                        )
                     }
 
                     // Información del producto

@@ -18,7 +18,7 @@ package com.example.pi_androidapp.domain.model
  * @property propietarioId ID del propietario
  * @property propietarioNombre Nombre del propietario
  * @property propietarioValoracion Valoración del propietario
- * @property imagenPrincipal URL de la imagen principal (Base64)
+ * @property imagenPrincipal Imagen principal codificada en Base64
  * @property totalComentarios Número total de comentarios
  */
 data class Producto(

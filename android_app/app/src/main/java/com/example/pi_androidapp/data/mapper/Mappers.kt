@@ -36,11 +36,6 @@ fun UsuarioDto.toDomain(): Usuario {
 
 /** Convierte ProductoDto a Producto del dominio. */
 fun ProductoDto.toDomain(): Producto {
-    android.util.Log.d("ProductoMapper", "Mapping producto id=$id, nombre=$nombre")
-    android.util.Log.d(
-            "ProductoMapper",
-            "imagenPrincipal: ${if (imagenPrincipal != null) "exists, len=${imagenPrincipal.length}" else "NULL"}"
-    )
     return Producto(
             id = id,
             idProducto = idProducto ?: "",

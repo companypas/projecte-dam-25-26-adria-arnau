@@ -48,28 +48,20 @@ class APIUtils:
         
         imagen_principal = None
         try:
-            _logger.info(f"Product {producto.id}: imagenes_ids count = {len(producto.imagenes_ids) if producto.imagenes_ids else 0}")
             if producto.imagenes_ids:
                 img = producto.imagenes_ids[0]
-                _logger.info(f"Product {producto.id}: First image id = {img.id}, has imagen = {bool(img.imagen)}")
                 img_data = img.imagen
                 if img_data:
-                    _logger.info(f"Product {producto.id}: imagen data type = {type(img_data)}, len = {len(img_data) if hasattr(img_data, '__len__') else 'N/A'}")
-                    # Handle different types that Odoo might return
-                    if isinstance(img_data, memoryview):
-                        imagen_principal = base64.b64encode(bytes(img_data)).decode('utf-8')
-                    elif isinstance(img_data, bytes):
-                        imagen_principal = base64.b64encode(img_data).decode('utf-8')
-                    elif isinstance(img_data, str):
-                        # Already base64 encoded string
+                    # Odoo Binary fields (attachment=True) always return Base64-encoded data.
+                    # - str: already a Base64 string, use directly
+                    # - bytes/memoryview: Base64 string encoded as bytes, just decode to str
+                    # IMPORTANT: Do NOT call base64.b64encode() again — that causes double encoding.
+                    if isinstance(img_data, str):
                         imagen_principal = img_data
-                    _logger.info(f"Product {producto.id}: imagen_principal len = {len(imagen_principal) if imagen_principal else 0}")
-                else:
-                    _logger.warning(f"Product {producto.id}: imagen field is None/empty")
-            else:
-                _logger.info(f"Product {producto.id}: No imagenes_ids")
+                    elif isinstance(img_data, (bytes, memoryview)):
+                        imagen_principal = bytes(img_data).decode('utf-8')
         except Exception as e:
-            _logger.warning(f"Error getting product image: {e}")
+            _logger.warning(f"Error getting product image for id={producto.id}: {e}")
         
         return {
             'id': producto.id,
