@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Person
@@ -17,6 +19,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sell
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,8 +40,8 @@ import com.example.pi_androidapp.ui.components.LoadingIndicator
 import com.example.pi_androidapp.ui.components.ProductCard
 
 /**
- * Pantalla principal con lista de productos. Incluye búsqueda, pull-to-refresh y navegación a otras
- * secciones.
+ * Pantalla principal con lista de productos. Incluye búsqueda, filtro por categoría,
+ * pull-to-refresh y navegación a otras secciones.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,6 +89,32 @@ fun HomeScreen(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
             )
+
+            // Filtro por categoría
+            if (uiState.categorias.isNotEmpty()) {
+                LazyRow(
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                ) {
+                    // Chip "Todas"
+                    item {
+                        FilterChip(
+                                selected = uiState.selectedCategoriaId == null,
+                                onClick = { viewModel.onCategoriaSelect(null) },
+                                label = { Text("Todas") }
+                        )
+                    }
+                    // Chip por cada categoría
+                    items(items = uiState.categorias, key = { it.id }) { categoria ->
+                        FilterChip(
+                                selected = uiState.selectedCategoriaId == categoria.id,
+                                onClick = { viewModel.onCategoriaSelect(categoria.id) },
+                                label = { Text(categoria.nombre) }
+                        )
+                    }
+                }
+            }
 
             // Contenido principal
             when {

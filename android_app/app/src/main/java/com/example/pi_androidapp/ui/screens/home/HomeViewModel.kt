@@ -3,7 +3,9 @@ package com.example.pi_androidapp.ui.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pi_androidapp.core.util.Resource
+import com.example.pi_androidapp.domain.model.Categoria
 import com.example.pi_androidapp.domain.model.Producto
+import com.example.pi_androidapp.domain.repository.CategoriasRepository
 import com.example.pi_androidapp.domain.repository.ProductosRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -15,10 +17,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-/** ViewModel para la pantalla Home. Gestiona la lista de productos y la búsqueda. */
+/** ViewModel para la pantalla Home. Gestiona la lista de productos, la búsqueda y el filtro por categoría. */
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val productosRepository: ProductosRepository) :
-        ViewModel() {
+class HomeViewModel @Inject constructor(
+        private val productosRepository: ProductosRepository,
+        private val categoriasRepository: CategoriasRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState
@@ -26,17 +30,37 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
     private var searchJob: Job? = null
 
     init {
+        loadCategorias()
         loadProductos()
+    }
+
+    /** Carga la lista de categorías disponibles. */
+    private fun loadCategorias() {
+        categoriasRepository
+                .listarCategorias()
+                .onEach { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            _uiState.value =
+                                    _uiState.value.copy(categorias = result.data ?: emptyList())
+                        }
+                        is Resource.Error -> {}
+                        is Resource.Loading -> {}
+                    }
+                }
+                .launchIn(viewModelScope)
     }
 
     /** Carga la lista de productos desde la API. */
     fun loadProductos() {
         val searchTerm = _uiState.value.searchQuery.ifBlank { null }
-        android.util.Log.d("HomeViewModel", "loadProductos called with searchTerm: $searchTerm")
+        val categoriaId = _uiState.value.selectedCategoriaId
+        android.util.Log.d("HomeViewModel", "loadProductos called with searchTerm: $searchTerm, categoriaId: $categoriaId")
         productosRepository
                 .listarProductos(
                         offset = 0,
                         limit = 50,
+                        categoriaId = categoriaId,
                         busqueda = searchTerm
                 )
                 .onEach { result ->
@@ -64,6 +88,13 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
                     }
                 }
                 .launchIn(viewModelScope)
+    }
+
+    /** Selecciona o deselecciona una categoría para filtrar. Pasa null para mostrar todas. */
+    fun onCategoriaSelect(categoriaId: Int?) {
+        _uiState.value = _uiState.value.copy(selectedCategoriaId = categoriaId)
+        searchJob?.cancel()
+        loadProductos()
     }
 
     /** Actualiza el término de búsqueda con debounce automático. */
@@ -105,6 +136,8 @@ class HomeViewModel @Inject constructor(private val productosRepository: Product
 /** Estado de la UI de Home. */
 data class HomeUiState(
         val productos: List<Producto> = emptyList(),
+        val categorias: List<Categoria> = emptyList(),
+        val selectedCategoriaId: Int? = null,
         val isLoading: Boolean = false,
         val isRefreshing: Boolean = false,
         val error: String? = null,
