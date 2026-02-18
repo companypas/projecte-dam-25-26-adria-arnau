@@ -40,12 +40,64 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.pi_androidapp.ui.components.Base64Image
 import com.example.pi_androidapp.ui.components.ErrorMessage
 import com.example.pi_androidapp.ui.components.LoadingIndicator
 import com.example.pi_androidapp.ui.components.SmallLoadingIndicator
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
+
+/**
+ * Devuelve las coordenadas (latitud, longitud) asociadas a un nombre de ubicación.
+ * La búsqueda es case-insensitive y se recorta el texto.
+ * Si la ubicación no se encuentra en el mapa, se devuelven coordenadas del centro de España.
+ */
+private fun getCoordinatesForLocation(ubicacion: String): LatLng {
+    val coordsMap = mapOf(
+        "carlet" to LatLng(39.226358, -0.521611),
+        "valencia" to LatLng(39.4699, -0.3763),
+        "madrid" to LatLng(40.4168, -3.7038),
+        "barcelona" to LatLng(41.3851, 2.1734),
+        "sevilla" to LatLng(37.3891, -5.9845),
+        "zaragoza" to LatLng(41.6488, -0.8891),
+        "malaga" to LatLng(36.7213, -4.4214),
+        "murcia" to LatLng(37.9922, -1.1307),
+        "palma" to LatLng(39.5696, 2.6502),
+        "bilbao" to LatLng(43.2630, -2.9350),
+        "alicante" to LatLng(38.3452, -0.4810),
+        "cordoba" to LatLng(37.8882, -4.7794),
+        "valladolid" to LatLng(41.6523, -4.7245),
+        "vigo" to LatLng(42.2406, -8.7207),
+        "gijon" to LatLng(43.5322, -5.6611),
+        "granada" to LatLng(37.1773, -3.5986),
+        "alzira" to LatLng(39.1510, -0.4366),
+        "xativa" to LatLng(38.9903, -0.5189),
+        "gandia" to LatLng(38.9667, -0.1833),
+        "sueca" to LatLng(39.2026, -0.3113),
+        "albacete" to LatLng(38.9942, -1.8585),
+        "castellon" to LatLng(39.9864, -0.0513),
+        "elche" to LatLng(38.2669, -0.6986),
+        "torrent" to LatLng(39.4372, -0.4656),
+        "sagunto" to LatLng(39.6833, -0.2667),
+        "algemesi" to LatLng(39.1898, -0.4355),
+        "carcaixent" to LatLng(39.1243, -0.4528),
+        "benifaio" to LatLng(39.2847, -0.4263),
+        "alginet" to LatLng(39.2633, -0.4744),
+        "guadassuar" to LatLng(39.1892, -0.5097),
+        "l'alcudia" to LatLng(39.1937, -0.5008),
+        "alcudia" to LatLng(39.1937, -0.5008),
+    )
+
+    val key = ubicacion.trim().lowercase()
+    return coordsMap[key] ?: LatLng(40.0, -3.5) // Fallback: centro de España
+}
 
 /** Pantalla de detalle de producto. Muestra información completa y permite comprar. */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -204,6 +256,43 @@ fun ProductDetailScreen(
 
                         Spacer(modifier = Modifier.height(24.dp))
 
+                        // ── Google Maps ──
+                        Text(
+                                text = "Ubicación",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        val position = remember(producto.ubicacion) {
+                            getCoordinatesForLocation(producto.ubicacion)
+                        }
+                        val cameraPositionState = rememberCameraPositionState {
+                            this.position = CameraPosition.fromLatLngZoom(position, 14f)
+                        }
+
+                        Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            GoogleMap(
+                                    modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(220.dp)
+                                            .clip(RoundedCornerShape(12.dp)),
+                                    cameraPositionState = cameraPositionState
+                            ) {
+                                Marker(
+                                        state = MarkerState(position = position),
+                                        title = producto.nombre,
+                                        snippet = producto.ubicacion
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
                         // Botón de compra
                         if (producto.estadoVenta == "disponible") {
                             Button(
@@ -246,3 +335,4 @@ fun ProductDetailScreen(
         }
     }
 }
+
