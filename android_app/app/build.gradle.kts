@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.secrets.gradle.plugin)
 }
 
 android {
@@ -86,6 +87,9 @@ dependencies {
 
     // Coroutines
     implementation(libs.coroutines.android)
+
+    // Google Maps
+    implementation(libs.maps.compose)
 
     // Testing
     testImplementation(libs.junit)
