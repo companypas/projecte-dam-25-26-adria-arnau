@@ -1,6 +1,7 @@
 package com.example.pi_androidapp.ui.screens.product
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -152,23 +155,90 @@ fun ProductDetailScreen(
                                                         .padding(paddingValues)
                                                         .verticalScroll(rememberScrollState())
                                 ) {
-                                        // Imagen del producto con Coil
-                                        Box(
-                                                modifier =
-                                                        Modifier.fillMaxWidth()
-                                                                .aspectRatio(1f)
+                                        // Galería de imágenes con pager
+                                        val imageList = producto.imagenes.ifEmpty {
+                                            listOfNotNull(producto.imagenPrincipal)
+                                        }
+
+                                        if (imageList.size > 1) {
+                                            val pagerState = rememberPagerState(pageCount = { imageList.size })
+
+                                            Box(
+                                                    modifier = Modifier.fillMaxWidth()
+                                                            .aspectRatio(1f)
+                                            ) {
+                                                HorizontalPager(
+                                                        state = pagerState,
+                                                        modifier = Modifier.fillMaxSize()
+                                                ) { page ->
+                                                    Box(
+                                                            modifier = Modifier.fillMaxSize()
+                                                                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                                                            contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Base64Image(
+                                                                base64String = imageList[page],
+                                                                contentDescription = "${producto.nombre} - Imagen ${page + 1}",
+                                                                modifier = Modifier.fillMaxSize(),
+                                                                placeholderIconSize = 64
+                                                        )
+                                                    }
+                                                }
+
+                                                // Indicador de página (contador)
+                                                Box(
+                                                        modifier = Modifier
+                                                                .align(Alignment.TopEnd)
+                                                                .padding(12.dp)
                                                                 .background(
-                                                                        MaterialTheme.colorScheme
-                                                                                .surfaceVariant
-                                                                ),
-                                                contentAlignment = Alignment.Center
-                                        ) {
+                                                                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
+                                                                        shape = RoundedCornerShape(16.dp)
+                                                                )
+                                                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                                                ) {
+                                                    Text(
+                                                            text = "${pagerState.currentPage + 1}/${imageList.size}",
+                                                            style = MaterialTheme.typography.labelMedium,
+                                                            color = MaterialTheme.colorScheme.onSurface
+                                                    )
+                                                }
+
+                                                // Indicadores (dots) en la parte inferior
+                                                Row(
+                                                        Modifier.align(Alignment.BottomCenter)
+                                                                .padding(bottom = 12.dp),
+                                                        horizontalArrangement = Arrangement.Center
+                                                ) {
+                                                    repeat(imageList.size) { index ->
+                                                        val color = if (pagerState.currentPage == index)
+                                                            MaterialTheme.colorScheme.primary
+                                                        else
+                                                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                                                        Box(
+                                                                modifier = Modifier
+                                                                        .padding(horizontal = 3.dp)
+                                                                        .size(8.dp)
+                                                                        .clip(RoundedCornerShape(50))
+                                                                        .background(color)
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            // Solo 1 imagen o ninguna
+                                            Box(
+                                                    modifier = Modifier.fillMaxWidth()
+                                                            .aspectRatio(1f)
+                                                            .background(MaterialTheme.colorScheme.surfaceVariant),
+                                                    contentAlignment = Alignment.Center
+                                            ) {
                                                 Base64Image(
                                                         base64String = producto.imagenPrincipal,
                                                         contentDescription = producto.nombre,
                                                         modifier = Modifier.fillMaxSize(),
                                                         placeholderIconSize = 64
                                                 )
+                                            }
                                         }
 
                                         // Información del producto

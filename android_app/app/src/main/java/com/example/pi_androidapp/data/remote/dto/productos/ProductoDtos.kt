@@ -33,6 +33,7 @@ data class ProductoDto(
     @SerializedName("total_comentarios") val totalComentarios: Int?,
     @SerializedName("total_imagenes") val totalImagenes: Int?,
     @SerializedName("imagen_principal") val imagenPrincipal: String?,
+    @SerializedName("imagenes") val imagenes: List<String>?,
     @SerializedName("fecha_publicacion") val fechaPublicacion: String?
 )
 
@@ -62,7 +63,6 @@ data class CreateProductoRequest(
     @SerializedName("precio") val precio: Double,
     @SerializedName("estado") val estado: String,
     @SerializedName("ubicacion") val ubicacion: String,
-    @SerializedName("antiguedad") val antiguedad: Int,
     @SerializedName("categoria_id") val categoriaId: Int,
     @SerializedName("imagenes") val imagenes: List<String>? = null
 )

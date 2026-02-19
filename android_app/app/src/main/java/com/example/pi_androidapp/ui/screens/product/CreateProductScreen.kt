@@ -69,9 +69,10 @@ fun CreateProductScreen(
     var categoriaExpanded by remember { mutableStateOf(false) }
 
     val imagePickerLauncher =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri
-                ->
-                uri?.let { viewModel.addImage(it) }
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents()) { uris ->
+                if (uris.isNotEmpty()) {
+                    viewModel.addImages(uris)
+                }
             }
 
     LaunchedEffect(uiState.isSuccess) { if (uiState.isSuccess) onProductCreated() }

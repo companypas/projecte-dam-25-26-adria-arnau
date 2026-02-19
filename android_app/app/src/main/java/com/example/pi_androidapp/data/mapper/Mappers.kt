@@ -60,6 +60,7 @@ fun ProductoDto.toDomain(): Producto {
             totalComentarios = totalComentarios ?: 0,
             totalImagenes = totalImagenes ?: 0,
             imagenPrincipal = imagenPrincipal,
+            imagenes = imagenes ?: emptyList(),
             fechaPublicacion = fechaPublicacion
     )
 }

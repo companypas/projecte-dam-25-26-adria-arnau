@@ -19,6 +19,7 @@ package com.example.pi_androidapp.domain.model
  * @property propietarioNombre Nombre del propietario
  * @property propietarioValoracion Valoración del propietario
  * @property imagenPrincipal Imagen principal codificada en Base64
+ * @property imagenes Lista de todas las imágenes codificadas en Base64
  * @property totalComentarios Número total de comentarios
  */
 data class Producto(
@@ -40,5 +41,6 @@ data class Producto(
     val etiquetas: List<String> = emptyList(),
     val totalComentarios: Int = 0,
     val totalImagenes: Int = 0,
-    val imagenPrincipal: String? = null
+    val imagenPrincipal: String? = null,
+    val imagenes: List<String> = emptyList()
 )

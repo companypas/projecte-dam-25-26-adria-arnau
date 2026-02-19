@@ -87,6 +87,15 @@ constructor(
         }
     }
 
+    fun addImages(uris: List<Uri>) {
+        val currentImages = _uiState.value.imageUris.toMutableList()
+        val remaining = 10 - currentImages.size
+        if (remaining > 0) {
+            currentImages.addAll(uris.take(remaining))
+            _uiState.value = _uiState.value.copy(imageUris = currentImages)
+        }
+    }
+
     fun removeImage(uri: Uri) {
         val currentImages = _uiState.value.imageUris.toMutableList()
         currentImages.remove(uri)

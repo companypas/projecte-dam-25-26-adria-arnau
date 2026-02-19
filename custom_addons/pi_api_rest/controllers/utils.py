@@ -47,19 +47,26 @@ class APIUtils:
         _logger = logging.getLogger(__name__)
         
         imagen_principal = None
+        imagenes = []
         try:
             if producto.imagenes_ids:
-                img = producto.imagenes_ids[0]
-                img_data = img.imagen
-                if img_data:
-                    # Odoo Binary fields (attachment=True) always return Base64-encoded data.
-                    # - str: already a Base64 string, use directly
-                    # - bytes/memoryview: Base64 string encoded as bytes, just decode to str
-                    # IMPORTANT: Do NOT call base64.b64encode() again — that causes double encoding.
-                    if isinstance(img_data, str):
-                        imagen_principal = img_data
-                    elif isinstance(img_data, (bytes, memoryview)):
-                        imagen_principal = bytes(img_data).decode('utf-8')
+                imagenes_ordenadas = producto.imagenes_ids.sorted('sequence')
+                for img in imagenes_ordenadas:
+                    img_data = img.imagen
+                    if img_data:
+                        # Odoo Binary fields (attachment=True) always return Base64-encoded data.
+                        # - str: already a Base64 string, use directly
+                        # - bytes/memoryview: Base64 string encoded as bytes, just decode to str
+                        # IMPORTANT: Do NOT call base64.b64encode() again — that causes double encoding.
+                        if isinstance(img_data, str):
+                            img_str = img_data
+                        elif isinstance(img_data, (bytes, memoryview)):
+                            img_str = bytes(img_data).decode('utf-8')
+                        else:
+                            continue
+                        imagenes.append(img_str)
+                        if imagen_principal is None:
+                            imagen_principal = img_str
         except Exception as e:
             _logger.warning(f"Error getting product image for id={producto.id}: {e}")
         
@@ -86,6 +93,7 @@ class APIUtils:
             'total_comentarios': producto.total_comentarios,
             'total_imagenes': producto.total_imagenes,
             'imagen_principal': imagen_principal,
+            'imagenes': imagenes,
             'fecha_publicacion': producto.fecha_publicacion.isoformat() if producto.fecha_publicacion else None,
         }
     
