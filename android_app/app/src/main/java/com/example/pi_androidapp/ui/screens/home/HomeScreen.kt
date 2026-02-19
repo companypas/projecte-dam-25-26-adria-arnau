@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -60,22 +62,41 @@ fun HomeScreen(
     Scaffold(
             topBar = {
                 TopAppBar(
-                        title = { Text(text = "PI Marketplace", fontWeight = FontWeight.Bold) },
-                        actions = {
-                            IconButton(onClick = onChatsClick) {
-                                Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Chats")
-                            }
-                            IconButton(onClick = onMySalesClick) {
-                                Icon(Icons.Default.Sell, contentDescription = "Mis Ventas")
-                            }
-                            IconButton(onClick = onMyPurchasesClick) {
-                                Icon(Icons.Default.ShoppingCart, contentDescription = "Mis Compras")
-                            }
-                            IconButton(onClick = onProfileClick) {
-                                Icon(Icons.Default.Person, contentDescription = "Perfil")
+                        title = {
+                            Box(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                        text = "Marketplace",
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontWeight = FontWeight.Bold
+                                )
                             }
                         }
                 )
+            },
+            bottomBar = {
+                Row(
+                        modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = onChatsClick) {
+                        Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Chats")
+                    }
+                    IconButton(onClick = onMySalesClick) {
+                        Icon(Icons.Default.Sell, contentDescription = "Mis Ventas")
+                    }
+                    IconButton(onClick = onMyPurchasesClick) {
+                        Icon(Icons.Default.ShoppingCart, contentDescription = "Mis Compras")
+                    }
+                    IconButton(onClick = onProfileClick) {
+                        Icon(Icons.Default.Person, contentDescription = "Perfil")
+                    }
+                }
             },
             floatingActionButton = {
                 FloatingActionButton(
