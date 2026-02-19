@@ -22,6 +22,8 @@ import com.example.pi_androidapp.ui.screens.home.HomeScreen
 import com.example.pi_androidapp.ui.screens.home.HomeViewModel
 import com.example.pi_androidapp.ui.screens.product.CreateProductScreen
 import com.example.pi_androidapp.ui.screens.product.CreateProductViewModel
+import com.example.pi_androidapp.ui.screens.product.EditProductScreen
+import com.example.pi_androidapp.ui.screens.product.EditProductViewModel
 import com.example.pi_androidapp.ui.screens.product.ProductDetailScreen
 import com.example.pi_androidapp.ui.screens.product.ProductDetailViewModel
 import com.example.pi_androidapp.ui.screens.profile.ProfileScreen
@@ -159,6 +161,25 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
             )
         }
 
+        // Edit Product Screen
+        composable(
+                route = Routes.EditProduct.route,
+                arguments = listOf(navArgument("productId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val productId = backStackEntry.arguments?.getInt("productId") ?: 0
+            val viewModel: EditProductViewModel = hiltViewModel()
+
+            LaunchedEffect(productId) { viewModel.loadProduct(productId) }
+
+            EditProductScreen(
+                    viewModel = viewModel,
+                    onBackClick = { navController.popBackStack() },
+                    onProductUpdated = {
+                        navController.popBackStack()
+                    }
+            )
+        }
+
         // Profile Screen
         composable(Routes.Profile.route) {
             val viewModel: ProfileViewModel = hiltViewModel()
@@ -173,6 +194,9 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
                     },
                     onProductClick = { productId ->
                         navController.navigate(Routes.ProductDetail.createRoute(productId))
+                    },
+                    onEditProductClick = { productId ->
+                        navController.navigate(Routes.EditProduct.createRoute(productId))
                     }
             )
         }

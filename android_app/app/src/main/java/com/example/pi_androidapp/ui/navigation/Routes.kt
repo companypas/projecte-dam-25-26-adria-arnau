@@ -23,6 +23,11 @@ sealed class Routes(val route: String) {
     /** Pantalla de creación de producto */
     data object CreateProduct : Routes("create_product")
 
+    /** Pantalla de edición de producto */
+    data object EditProduct : Routes("edit_product/{productId}") {
+        fun createRoute(productId: Int) = "edit_product/$productId"
+    }
+
     /** Pantalla de perfil del usuario */
     data object Profile : Routes("profile")
 

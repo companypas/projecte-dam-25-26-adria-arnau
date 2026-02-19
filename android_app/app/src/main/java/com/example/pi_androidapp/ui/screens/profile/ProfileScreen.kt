@@ -25,6 +25,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Inventory2
 import androidx.compose.material.icons.filled.LocationOn
@@ -72,7 +73,8 @@ fun ProfileScreen(
         viewModel: ProfileViewModel,
         onBackClick: () -> Unit,
         onLogout: () -> Unit,
-        onProductClick: (Int) -> Unit = {}
+        onProductClick: (Int) -> Unit = {},
+        onEditProductClick: (Int) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -252,7 +254,8 @@ fun ProfileScreen(
                             items(uiState.productos) { producto ->
                                 MyProductCard(
                                         producto = producto,
-                                        onClick = { onProductClick(producto.id) }
+                                        onClick = { onProductClick(producto.id) },
+                                        onEditClick = { onEditProductClick(producto.id) }
                                 )
                             }
                         }
@@ -317,7 +320,7 @@ private fun ProfileStatCard(
 }
 
 @Composable
-private fun MyProductCard(producto: Producto, onClick: () -> Unit) {
+private fun MyProductCard(producto: Producto, onClick: () -> Unit, onEditClick: () -> Unit) {
     Card(
             modifier = Modifier.width(140.dp).clickable(onClick = onClick),
             shape = RoundedCornerShape(12.dp)
@@ -361,6 +364,21 @@ private fun MyProductCard(producto: Producto, onClick: () -> Unit) {
                             color = MaterialTheme.colorScheme.onPrimary,
                             fontWeight = FontWeight.Bold
                     )
+                }
+
+                // Botón de editar
+                if (producto.estadoVenta != "vendido") {
+                    IconButton(
+                            onClick = onEditClick,
+                            modifier = Modifier.align(Alignment.TopEnd)
+                    ) {
+                        Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Editar",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(18.dp)
+                        )
+                    }
                 }
             }
 

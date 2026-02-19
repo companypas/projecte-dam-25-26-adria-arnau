@@ -148,6 +148,41 @@ constructor(private val productosApiService: ProductosApiService) : ProductosRep
         }
     }
 
+    override fun actualizarProducto(
+            productoId: Int,
+            nombre: String,
+            descripcion: String,
+            precio: Double,
+            ubicacion: String
+    ): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+        try {
+            val params =
+                    mapOf<String, Any?>(
+                            "nombre" to nombre,
+                            "descripcion" to descripcion,
+                            "precio" to precio,
+                            "ubicacion" to ubicacion
+                    )
+
+            val request = JsonRpcRequest(params = params)
+            val response = productosApiService.actualizarProducto(request, productoId)
+
+            if (response.isSuccessful) {
+                val jsonRpcResponse = response.body()
+                if (jsonRpcResponse?.error != null) {
+                    emit(Resource.Error(jsonRpcResponse.error.message ?: "Error al actualizar"))
+                } else {
+                    emit(Resource.Success(Unit))
+                }
+            } else {
+                emit(Resource.Error("Error: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
+        }
+    }
+
     override fun eliminarProducto(productoId: Int): Flow<Resource<Unit>> = flow {
         emit(Resource.Loading())
         try {

@@ -53,6 +53,23 @@ interface ProductosRepository {
     ): Flow<Resource<Int>>
 
     /**
+     * Actualizar un producto existente.
+     * @param productoId ID del producto a actualizar
+     * @param nombre Nombre del producto
+     * @param descripcion Descripción
+     * @param precio Precio
+     * @param ubicacion Ubicación
+     * @return Flow con el resultado
+     */
+    fun actualizarProducto(
+            productoId: Int,
+            nombre: String,
+            descripcion: String,
+            precio: Double,
+            ubicacion: String
+    ): Flow<Resource<Unit>>
+
+    /**
      * Eliminar un producto.
      * @param productoId ID del producto
      * @return Flow con el resultado
