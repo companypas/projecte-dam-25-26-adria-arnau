@@ -65,7 +65,7 @@ class ProductosController(http.Controller):
             if not producto.exists():
                 return APIUtils.error_response('Producto no encontrado', 404)
             
-            return APIUtils.json_response(APIUtils.producto_to_dict(producto))
+            return APIUtils.json_response(APIUtils.producto_to_dict(producto, include_all_images=True))
             
         except Exception as e:
             return APIUtils.error_response(str(e), 500)

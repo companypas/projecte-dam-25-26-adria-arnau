@@ -12,10 +12,10 @@ object ApiConstants {
     const val CONNECT_TIMEOUT = 30L
 
     /** Timeout de lectura en segundos */
-    const val READ_TIMEOUT = 30L
+    const val READ_TIMEOUT = 60L
 
     /** Timeout de escritura en segundos */
-    const val WRITE_TIMEOUT = 30L
+    const val WRITE_TIMEOUT = 60L
 
     /** Header de autorización */
     const val HEADER_AUTHORIZATION = "Authorization"

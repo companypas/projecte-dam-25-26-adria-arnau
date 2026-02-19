@@ -41,8 +41,14 @@ class APIUtils:
         }
     
     @staticmethod
-    def producto_to_dict(producto):
-        """Convierte un producto a diccionario"""
+    def producto_to_dict(producto, include_all_images=False):
+        """Convierte un producto a diccionario
+        
+        Args:
+            producto: Registro de producto
+            include_all_images: Si True, incluye todas las imágenes (para detalle).
+                              Si False, solo incluye imagen_principal (para listados).
+        """
         import logging
         _logger = logging.getLogger(__name__)
         
@@ -54,23 +60,22 @@ class APIUtils:
                 for img in imagenes_ordenadas:
                     img_data = img.imagen
                     if img_data:
-                        # Odoo Binary fields (attachment=True) always return Base64-encoded data.
-                        # - str: already a Base64 string, use directly
-                        # - bytes/memoryview: Base64 string encoded as bytes, just decode to str
-                        # IMPORTANT: Do NOT call base64.b64encode() again — that causes double encoding.
                         if isinstance(img_data, str):
                             img_str = img_data
                         elif isinstance(img_data, (bytes, memoryview)):
                             img_str = bytes(img_data).decode('utf-8')
                         else:
                             continue
-                        imagenes.append(img_str)
+                        if include_all_images:
+                            imagenes.append(img_str)
                         if imagen_principal is None:
                             imagen_principal = img_str
+                            if not include_all_images:
+                                break
         except Exception as e:
             _logger.warning(f"Error getting product image for id={producto.id}: {e}")
         
-        return {
+        result = {
             'id': producto.id,
             'id_producto': producto.id_producto,
             'nombre': producto.nombre_producto,
@@ -93,9 +98,13 @@ class APIUtils:
             'total_comentarios': producto.total_comentarios,
             'total_imagenes': producto.total_imagenes,
             'imagen_principal': imagen_principal,
-            'imagenes': imagenes,
             'fecha_publicacion': producto.fecha_publicacion.isoformat() if producto.fecha_publicacion else None,
         }
+        
+        if include_all_images:
+            result['imagenes'] = imagenes
+        
+        return result
     
     @staticmethod
     def comentario_to_dict(comentario):
