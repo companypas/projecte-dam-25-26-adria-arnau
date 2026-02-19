@@ -8,6 +8,7 @@ import com.example.pi_androidapp.data.remote.dto.productos.ProductosResultData
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 /**
  * Servicio de API para productos usando JSON-RPC de Odoo.
@@ -42,9 +43,9 @@ interface ProductosApiService {
     ): Response<JsonRpcResponse<CreateProductoResultData>>
 
     /**
-     * Actualizar un producto existente.
+     * Actualizar un producto existente. El backend solo acepta PUT.
      */
-    @POST("api/v1/productos/{producto_id}")
+    @PUT("api/v1/productos/{producto_id}")
     suspend fun actualizarProducto(
         @Body request: JsonRpcRequest,
         @retrofit2.http.Path("producto_id") productoId: Int

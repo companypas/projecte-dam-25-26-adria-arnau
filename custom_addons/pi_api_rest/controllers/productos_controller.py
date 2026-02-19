@@ -161,8 +161,9 @@ class ProductosController(http.Controller):
             if producto.propietario_id.id != usuario.id:
                 return APIUtils.error_response('No tienes permisos para actualizar este producto', 403)
             
-            # Obtener datos JSON correctamente
-            data = kwargs if kwargs else (request.jsonrequest if hasattr(request, 'jsonrequest') else json.loads(request.httprequest.data))
+            # Obtener datos JSON correctamente (la app envía JSON-RPC con params)
+            raw = kwargs if kwargs else (request.jsonrequest if hasattr(request, 'jsonrequest') else json.loads(request.httprequest.data))
+            data = raw.get('params', raw) if isinstance(raw, dict) else raw
             
             vals = {}
             if 'nombre' in data:
