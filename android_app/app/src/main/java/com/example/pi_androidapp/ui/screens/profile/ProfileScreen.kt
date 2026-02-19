@@ -178,11 +178,6 @@ fun ProfileScreen(
                                 label = "Comprados",
                                 icon = Icons.Default.ShoppingCart
                         )
-                        ProfileStatCard(
-                                value = "${usuario.antiguedad}d",
-                                label = "Miembro",
-                                icon = Icons.Default.CalendarToday
-                        )
                     }
 
                     Spacer(modifier = Modifier.height(24.dp))
