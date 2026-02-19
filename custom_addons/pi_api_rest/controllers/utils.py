@@ -24,6 +24,18 @@ class APIUtils:
     @staticmethod
     def usuario_to_dict(usuario):
         """Convierte un usuario a diccionario"""
+        # Obtener imagen del usuario (heredada de res.partner: image_1920)
+        imagen_b64 = None
+        try:
+            if usuario.image_1920:
+                img_data = usuario.image_1920
+                if isinstance(img_data, str):
+                    imagen_b64 = img_data
+                elif isinstance(img_data, (bytes, memoryview)):
+                    imagen_b64 = bytes(img_data).decode('utf-8')
+        except Exception:
+            pass
+
         return {
             'id': usuario.id,
             'id_usuario': usuario.id_usuario,
@@ -38,6 +50,7 @@ class APIUtils:
             'total_productos_venta': usuario.total_productos_venta,
             'total_productos_vendidos': usuario.total_productos_vendidos,
             'total_productos_comprados': usuario.total_productos_comprados,
+            'imagen': imagen_b64,
         }
     
     @staticmethod

@@ -35,7 +35,8 @@ fun UsuarioDto.toDomain(): Usuario {
             totalValoraciones = totalValoraciones ?: 0,
             totalProductosVenta = totalProductosVenta ?: 0,
             totalProductosVendidos = totalProductosVendidos ?: 0,
-            totalProductosComprados = totalProductosComprados ?: 0
+            totalProductosComprados = totalProductosComprados ?: 0,
+            imagen = imagen
     )
 }
 

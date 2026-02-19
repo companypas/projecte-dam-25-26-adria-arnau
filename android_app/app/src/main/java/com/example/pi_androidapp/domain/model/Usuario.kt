@@ -17,6 +17,7 @@ package com.example.pi_androidapp.domain.model
  * @property totalProductosVenta Productos actualmente en venta
  * @property totalProductosVendidos Productos vendidos históricamente
  * @property totalProductosComprados Productos comprados históricamente
+ * @property imagen Foto de perfil del usuario codificada en Base64 (opcional)
  */
 data class Usuario(
     val id: Int,
@@ -32,5 +33,6 @@ data class Usuario(
     val totalValoraciones: Int = 0,
     val totalProductosVenta: Int = 0,
     val totalProductosVendidos: Int = 0,
-    val totalProductosComprados: Int = 0
+    val totalProductosComprados: Int = 0,
+    val imagen: String? = null
 )

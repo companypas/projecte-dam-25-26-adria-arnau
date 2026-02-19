@@ -42,7 +42,8 @@ data class UsuarioDto(
         @SerializedName("total_valoraciones") val totalValoraciones: Int?,
         @SerializedName("total_productos_venta") val totalProductosVenta: Int?,
         @SerializedName("total_productos_vendidos") val totalProductosVendidos: Int?,
-        @SerializedName("total_productos_comprados") val totalProductosComprados: Int?
+        @SerializedName("total_productos_comprados") val totalProductosComprados: Int?,
+        @SerializedName("imagen") val imagen: String? = null
 )
 
 /** DTO para la petición de refresh token. */

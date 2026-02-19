@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -44,6 +45,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -93,12 +96,23 @@ fun SellerProfileScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // Avatar
-                    Icon(
-                            imageVector = Icons.Default.AccountCircle,
-                            contentDescription = null,
-                            modifier = Modifier.size(100.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                    )
+                    if (!usuario.imagen.isNullOrBlank()) {
+                        Base64Image(
+                                base64String = usuario.imagen,
+                                contentDescription = "Foto de ${usuario.nombre}",
+                                modifier = Modifier
+                                        .size(100.dp)
+                                        .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Icon(
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = null,
+                                modifier = Modifier.size(100.dp),
+                                tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(12.dp))
 
