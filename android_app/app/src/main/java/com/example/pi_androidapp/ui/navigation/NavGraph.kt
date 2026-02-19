@@ -170,6 +170,9 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
                         navController.navigate(Routes.Login.route) {
                             popUpTo(0) { inclusive = true }
                         }
+                    },
+                    onProductClick = { productId ->
+                        navController.navigate(Routes.ProductDetail.createRoute(productId))
                     }
             )
         }
