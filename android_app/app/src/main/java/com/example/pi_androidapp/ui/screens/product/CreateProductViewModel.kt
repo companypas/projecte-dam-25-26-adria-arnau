@@ -69,9 +69,7 @@ constructor(
         _uiState.value = _uiState.value.copy(ubicacion = ubicacion, ubicacionError = null)
     }
 
-    fun onAntiguedadChange(antiguedad: String) {
-        _uiState.value = _uiState.value.copy(antiguedad = antiguedad)
-    }
+
 
     fun onEstadoChange(estado: String) {
         _uiState.value = _uiState.value.copy(estado = estado)
@@ -137,7 +135,7 @@ constructor(
             return
         }
 
-        val antiguedad = _uiState.value.antiguedad.toIntOrNull() ?: 0
+
 
         // Convertir imágenes a base64
         val imagenesBase64 = _uiState.value.imageUris.mapNotNull { uri -> uriToBase64(uri) }
@@ -149,7 +147,7 @@ constructor(
                         precio = precio,
                         estado = _uiState.value.estado,
                         ubicacion = _uiState.value.ubicacion,
-                        antiguedad = antiguedad,
+
                         categoriaId = _uiState.value.selectedCategoria!!.id,
                         imagenes = imagenesBase64
                 )
@@ -182,7 +180,7 @@ data class CreateProductUiState(
         val descripcion: String = "",
         val precio: String = "",
         val ubicacion: String = "",
-        val antiguedad: String = "0",
+
         val estado: String = "nuevo",
         val selectedCategoria: Categoria? = null,
         val categorias: List<Categoria> = emptyList(),

@@ -38,7 +38,6 @@ interface ProductosRepository {
      * @param precio Precio
      * @param estado Estado del producto (nuevo, segunda_mano)
      * @param ubicacion Ubicación
-     * @param antiguedad Antigüedad en meses
      * @param categoriaId ID de la categoría
      * @param imagenes Lista de imágenes en base64
      * @return Flow con el ID del producto creado
@@ -49,7 +48,6 @@ interface ProductosRepository {
             precio: Double,
             estado: String,
             ubicacion: String,
-            antiguedad: Int,
             categoriaId: Int,
             imagenes: List<String>
     ): Flow<Resource<Int>>

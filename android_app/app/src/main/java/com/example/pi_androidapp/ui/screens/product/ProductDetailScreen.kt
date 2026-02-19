@@ -231,7 +231,7 @@ fun ProductDetailScreen(
                                                         Spacer(Modifier.width(4.dp))
                                                         Text(
                                                                 text =
-                                                                        "Antigüedad: ${producto.antiguedadMeses} meses",
+                                                                        "Publicado hace ${producto.antiguedadMeses} meses",
                                                                 style =
                                                                         MaterialTheme.typography
                                                                                 .bodyMedium

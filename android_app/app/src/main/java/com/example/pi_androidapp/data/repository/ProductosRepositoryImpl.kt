@@ -109,7 +109,6 @@ constructor(private val productosApiService: ProductosApiService) : ProductosRep
             precio: Double,
             estado: String,
             ubicacion: String,
-            antiguedad: Int,
             categoriaId: Int,
             imagenes: List<String>
     ): Flow<Resource<Int>> = flow {
@@ -122,7 +121,7 @@ constructor(private val productosApiService: ProductosApiService) : ProductosRep
                             "precio" to precio,
                             "estado" to estado,
                             "ubicacion" to ubicacion,
-                            "antiguedad" to antiguedad,
+
                             "categoria_id" to categoriaId,
                             "imagenes" to imagenes
                     )

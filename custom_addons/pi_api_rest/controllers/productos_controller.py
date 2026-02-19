@@ -90,7 +90,7 @@ class ProductosController(http.Controller):
             precio = data.get('precio')
             categoria_id = data.get('categoria_id')
             estado = data.get('estado', 'nuevo')
-            antiguedad = data.get('antiguedad', 0)
+
             ubicacion = data.get('ubicacion')
             etiquetas_ids = data.get('etiquetas_ids', [])
             imagenes = data.get('imagenes', [])  # Lista de imágenes en base64
@@ -102,7 +102,6 @@ class ProductosController(http.Controller):
             try:
                 precio = float(precio)
                 categoria_id = int(categoria_id)
-                antiguedad = int(antiguedad) if antiguedad else 0
             except (ValueError, TypeError) as e:
                 return APIUtils.error_response(f'Error en formato de datos: {str(e)}', 400)
             
@@ -127,7 +126,7 @@ class ProductosController(http.Controller):
                 'categoria_id': categoria_id,
                 'estado': estado,
                 'estado_venta': 'disponible',  # Nuevo producto siempre disponible
-                'antiguedad_producto': antiguedad,
+
                 'ubicacion': ubicacion,
                 'propietario_id': usuario.id,
                 'etiquetas_ids': [(6, 0, etiquetas_ids)] if etiquetas_ids else None,

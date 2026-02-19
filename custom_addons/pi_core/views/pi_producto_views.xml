@@ -65,7 +65,7 @@
                             <field name="categoria_id" options="{'no_create': True}"/>
                             <field name="propietario_id" options="{'no_create': True}"/>
                             <field name="estado"/>
-                            <field name="antiguedad_producto"/>
+                            <field name="antiguedad_producto" readonly="1"/>
                         </group>
                         <group string="Detalles de Publicación">
                             <field name="ubicacion"/>

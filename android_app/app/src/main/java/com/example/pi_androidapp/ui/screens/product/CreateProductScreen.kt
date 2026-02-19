@@ -201,18 +201,6 @@ fun CreateProductScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Antiguedad
-            OutlinedTextField(
-                    value = uiState.antiguedad,
-                    onValueChange = viewModel::onAntiguedadChange,
-                    label = { Text("Antigüedad (meses)") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
             // Estado del producto
             Text("Estado del producto", style = MaterialTheme.typography.titleSmall)
             Spacer(modifier = Modifier.height(8.dp))

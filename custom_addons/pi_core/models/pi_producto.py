@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from dateutil.relativedelta import relativedelta
 import time
 import random
 
@@ -14,7 +15,7 @@ class piProducto(models.Model):
     id_producto = fields.Char(string='ID Producto', required=True, copy=False, readonly=True, default='Nuevo')
     nombre_producto = fields.Char(string='Nombre del Producto', required=True, tracking=True)
     descripcion = fields.Text(string='Descripción', required=True)
-    antiguedad_producto = fields.Integer(string='Antigüedad del Producto (meses)', required=True)
+    antiguedad_producto = fields.Integer(string='Antigüedad del Producto (meses)', compute='_compute_antiguedad_producto', store=True)
     estado = fields.Selection([
         ('nuevo', 'Nuevo'),
         ('segunda_mano', 'Segunda Mano'),
@@ -88,6 +89,15 @@ class piProducto(models.Model):
                 record.imagen_principal = imagenes_ordenadas[0].imagen
             else:
                 record.imagen_principal = False
+    
+    @api.depends('fecha_publicacion')
+    def _compute_antiguedad_producto(self):
+        for record in self:
+            if record.fecha_publicacion:
+                delta = relativedelta(fields.Datetime.now(), record.fecha_publicacion)
+                record.antiguedad_producto = delta.years * 12 + delta.months
+            else:
+                record.antiguedad_producto = 0
     
     @api.constrains('etiquetas_ids')
     def _check_etiquetas_limit(self):
