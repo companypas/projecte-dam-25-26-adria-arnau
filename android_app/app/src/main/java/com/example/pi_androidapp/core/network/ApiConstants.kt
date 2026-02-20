@@ -8,14 +8,14 @@ object ApiConstants {
     /** URL base de la API REST de Odoo */
     const val BASE_URL = BuildConfig.API_BASE_URL
 
-    /** Timeout de conexión en segundos */
-    const val CONNECT_TIMEOUT = 30L
+    /** Timeout de conexión en segundos - aumentado para conexiones más lentas */
+    const val CONNECT_TIMEOUT = 45L
 
-    /** Timeout de lectura en segundos */
-    const val READ_TIMEOUT = 60L
+    /** Timeout de lectura en segundos - aumentado para respuestas más lentas */
+    const val READ_TIMEOUT = 90L
 
-    /** Timeout de escritura en segundos */
-    const val WRITE_TIMEOUT = 60L
+    /** Timeout de escritura en segundos - aumentado para subidas más lentas */
+    const val WRITE_TIMEOUT = 90L
 
     /** Header de autorización */
     const val HEADER_AUTHORIZATION = "Authorization"

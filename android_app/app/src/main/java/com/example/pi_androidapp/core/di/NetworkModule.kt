@@ -2,6 +2,7 @@ package com.example.pi_androidapp.core.di
 
 import com.example.pi_androidapp.core.network.ApiConstants
 import com.example.pi_androidapp.core.network.AuthInterceptor
+import com.example.pi_androidapp.core.network.RetryInterceptor
 import com.example.pi_androidapp.data.remote.api.AuthApiService
 import com.example.pi_androidapp.data.remote.api.CategoriasApiService
 import com.example.pi_androidapp.data.remote.api.ComprasApiService
@@ -39,14 +40,22 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
             loggingInterceptor: HttpLoggingInterceptor,
-            authInterceptor: AuthInterceptor
+            authInterceptor: AuthInterceptor,
+            retryInterceptor: RetryInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
+                // El orden de los interceptores es importante:
+                // 1. RetryInterceptor primero para manejar reintentos automáticos
+                // 2. AuthInterceptor para añadir el token
+                // 3. LoggingInterceptor al final para registrar todas las peticiones (incluyendo reintentos)
+                .addInterceptor(retryInterceptor)
                 .addInterceptor(authInterceptor)
                 .addInterceptor(loggingInterceptor)
                 .connectTimeout(ApiConstants.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(ApiConstants.READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(ApiConstants.WRITE_TIMEOUT, TimeUnit.SECONDS)
+                // Habilitar reintentos automáticos a nivel de OkHttp (complementa nuestro interceptor)
+                .retryOnConnectionFailure(true)
                 .build()
     }
 
