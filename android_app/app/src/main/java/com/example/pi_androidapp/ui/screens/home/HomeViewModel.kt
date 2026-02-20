@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
     }
 
     /** Carga la lista de categorías disponibles. */
-    private fun loadCategorias() {
+    fun loadCategorias() {
         categoriasRepository
                 .listarCategorias()
                 .onEach { result ->
@@ -125,10 +125,11 @@ class HomeViewModel @Inject constructor(
         loadProductos()
     }
 
-    /** Refresca la lista de productos. */
+    /** Refresca la lista de productos y categorías. */
     fun refresh() {
         searchJob?.cancel()
         _uiState.value = _uiState.value.copy(isRefreshing = true)
+        loadCategorias()
         loadProductos()
     }
 }

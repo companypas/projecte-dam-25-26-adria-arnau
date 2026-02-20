@@ -103,8 +103,14 @@ fun NavGraph(navController: NavHostController, startDestination: String = Routes
         }
 
         // Home Screen
-        composable(Routes.Home.route) {
+        composable(Routes.Home.route) { backStackEntry ->
             val viewModel: HomeViewModel = hiltViewModel()
+
+            // Recargar categorías cuando se vuelve a la pantalla Home para mostrar nuevas categorías creadas
+            // Se ejecuta cada vez que se compone la pantalla (incluyendo cuando se vuelve desde otra pantalla)
+            LaunchedEffect(backStackEntry.id) {
+                viewModel.loadCategorias()
+            }
 
             HomeScreen(
                     viewModel = viewModel,
