@@ -1,0 +1,72 @@
+﻿
+[Incubating] Problems report is available at: file:///C:/Users/adric/Desktop/DAM25-26/projecte-dam-25-26-adria-arnau/android_app/build/reports/problems/problems-report.html
+.\gradlew.bat : 
+En línea: 1 Carácter: 1
++ .\gradlew.bat 
+:app:assembleDebug 2>&1 | 
+Out-File -FilePath 
+build_outp ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo          
+    : NotSpecified: (:Stri  
+  ng) [], RemoteException
+    + FullyQualifiedErrorId 
+    : NativeCommandError
+ 
+FAILURE: Build failed with 
+an exception.
+
+* Where:
+Build file 'C:\Users\adric\D
+esktop\DAM25-26\projecte-dam
+-25-26-adria-arnau\android_a
+pp\app\build.gradle.kts' 
+line: 1
+
+* What went wrong:
+An exception occurred 
+applying plugin request 
+[id: 
+'com.android.application', 
+version: '8.7.3']
+> Failed to apply plugin 'co
+m.android.internal.applicati
+on'.
+   > Android Gradle plugin 
+requires Java 17 to run. 
+You are currently using 
+Java 11.
+      Your current JDK is 
+located in C:\Program 
+Files\Java\jdk-11
+      You can try some of 
+the following options:
+       - changing the IDE 
+settings.
+       - changing the 
+JAVA_HOME environment 
+variable.
+       - changing 
+`org.gradle.java.home` in 
+`gradle.properties`.
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get more 
+log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 2s

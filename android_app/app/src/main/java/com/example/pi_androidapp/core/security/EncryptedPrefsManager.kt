@@ -28,18 +28,40 @@ class EncryptedPrefsManager @Inject constructor(@ApplicationContext private val 
 
     /**
      * SharedPreferences encriptadas usando AES256. El MasterKey se almacena en el Android Keystore.
+     *
+     * Si las preferencias están corruptas (p.ej. tras reinstalar la app o invalidación del
+     * Keystore), se eliminan y se recrean desde cero. El usuario deberá iniciar sesión de nuevo.
      */
     private val encryptedPrefs: SharedPreferences by lazy {
-        val masterKey =
-                MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+        createEncryptedPrefs()
+    }
 
-        EncryptedSharedPreferences.create(
-                context,
-                PREFS_FILE_NAME,
-                masterKey,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
+    private fun createEncryptedPrefs(): SharedPreferences {
+        return try {
+            val masterKey =
+                    MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+            EncryptedSharedPreferences.create(
+                    context,
+                    PREFS_FILE_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        } catch (e: Exception) {
+            // AEADBadTagException u otras excepciones de seguridad ocurren cuando la clave del
+            // Keystore ha sido invalidada (reinstalación, reset del dispositivo, etc.).
+            // Borramos las prefs corruptas y las recreamos limpias.
+            context.deleteSharedPreferences(PREFS_FILE_NAME)
+            val masterKey =
+                    MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+            EncryptedSharedPreferences.create(
+                    context,
+                    PREFS_FILE_NAME,
+                    masterKey,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        }
     }
 
     /**
