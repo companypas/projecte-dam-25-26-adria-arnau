@@ -5,9 +5,11 @@ import com.example.pi_androidapp.core.network.AuthInterceptor
 import com.example.pi_androidapp.core.network.RetryInterceptor
 import com.example.pi_androidapp.data.remote.api.AuthApiService
 import com.example.pi_androidapp.data.remote.api.CategoriasApiService
+import com.example.pi_androidapp.data.remote.api.ComentariosApiService
 import com.example.pi_androidapp.data.remote.api.ComprasApiService
 import com.example.pi_androidapp.data.remote.api.ConversacionesApiService
 import com.example.pi_androidapp.data.remote.api.ProductosApiService
+import com.example.pi_androidapp.data.remote.api.ReportesApiService
 import com.example.pi_androidapp.data.remote.api.UsuariosApiService
 import dagger.Module
 import dagger.Provides
@@ -110,5 +112,19 @@ object NetworkModule {
     @Singleton
     fun provideConversacionesApiService(retrofit: Retrofit): ConversacionesApiService {
         return retrofit.create(ConversacionesApiService::class.java)
+    }
+
+    /** Provee el servicio de comentarios. */
+    @Provides
+    @Singleton
+    fun provideComentariosApiService(retrofit: Retrofit): ComentariosApiService {
+        return retrofit.create(ComentariosApiService::class.java)
+    }
+
+    /** Provee el servicio de reportes. */
+    @Provides
+    @Singleton
+    fun provideReportesApiService(retrofit: Retrofit): ReportesApiService {
+        return retrofit.create(ReportesApiService::class.java)
     }
 }

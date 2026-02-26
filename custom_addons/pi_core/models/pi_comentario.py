@@ -26,7 +26,11 @@ class piComentario(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('id_comentario', 'Nuevo') == 'Nuevo':
-            vals['id_comentario'] = self.env['ir.sequence'].next_by_code('pi.comentario') or 'COM-NEW'
+            seq = self.env['ir.sequence'].next_by_code('pi.comentario')
+            if not seq:
+                import uuid
+                seq = 'COM-' + str(uuid.uuid4())[:8].upper()
+            vals['id_comentario'] = seq
         
         result = super(piComentario, self).create(vals)
         

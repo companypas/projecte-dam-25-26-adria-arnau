@@ -16,11 +16,10 @@ import kotlinx.coroutines.flow.flow
 /**
  * Implementación del repositorio de categorías con caché local (SQLDelight).
  *
- * Estrategia: **cache-first con TTL de 24 horas**.
- * - Si hay datos en caché y no han expirado → se devuelven directamente (sin red).
- * - Si la caché está vacía o ha expirado → se hace petición a la API, se guarda en BD y se emite.
- * - Si la petición falla pero hay caché (aunque expirada) → se devuelven los datos cacheados
- *   con un error informativo (modo offline).
+ * Estrategia: **network-first con fallback a caché** (TTL de 5 minutos).
+ * - Siempre intenta la petición de red primero para garantizar datos frescos.
+ * - Si la red falla → devuelve caché aunque haya expirado (modo offline).
+ * - Tras cada petición exitosa → actualiza la caché.
  */
 @Singleton
 class CategoriasRepositoryImpl
@@ -31,23 +30,15 @@ constructor(
 ) : CategoriasRepository {
 
     companion object {
-        /** TTL de la caché de categorías: 24 horas en ms. Las categorías cambian raramente. */
-        private const val CACHE_TTL_MS = 24 * 60 * 60 * 1000L
+        /** TTL de la caché de categorías: 5 minutos. */
+        private const val CACHE_TTL_MS = 5 * 60 * 1000L
     }
 
     override fun listarCategorias(): Flow<Resource<List<Categoria>>> = flow {
         emit(Resource.Loading())
 
+        // Leer caché para tener disponible como fallback en caso de error de red
         val cachedList = db.categoriaQueries.getAllCategorias().executeAsList()
-        val oldestCachedAt = db.categoriaQueries.getOldestCachedAt().executeAsOneOrNull()?.MIN ?: 0L
-        val isCacheValid = cachedList.isNotEmpty() &&
-                (System.currentTimeMillis() - oldestCachedAt) < CACHE_TTL_MS
-
-        if (isCacheValid) {
-            // Caché válida → emitir directamente sin petición de red
-            emit(Resource.Success(cachedList.map { it.toDomainFromCache() }))
-            return@flow
-        }
 
         // Caché vacía o expirada → pedir a la API
         try {

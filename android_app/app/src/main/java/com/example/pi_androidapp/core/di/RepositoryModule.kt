@@ -2,15 +2,19 @@ package com.example.pi_androidapp.core.di
 
 import com.example.pi_androidapp.data.repository.AuthRepositoryImpl
 import com.example.pi_androidapp.data.repository.CategoriasRepositoryImpl
+import com.example.pi_androidapp.data.repository.ComentariosRepositoryImpl
 import com.example.pi_androidapp.data.repository.ComprasRepositoryImpl
 import com.example.pi_androidapp.data.repository.ConversacionesRepositoryImpl
 import com.example.pi_androidapp.data.repository.ProductosRepositoryImpl
+import com.example.pi_androidapp.data.repository.ReportesRepositoryImpl
 import com.example.pi_androidapp.data.repository.UsuariosRepositoryImpl
 import com.example.pi_androidapp.domain.repository.AuthRepository
 import com.example.pi_androidapp.domain.repository.CategoriasRepository
+import com.example.pi_androidapp.domain.repository.ComentariosRepository
 import com.example.pi_androidapp.domain.repository.ComprasRepository
 import com.example.pi_androidapp.domain.repository.ConversacionesRepository
 import com.example.pi_androidapp.domain.repository.ProductosRepository
+import com.example.pi_androidapp.domain.repository.ReportesRepository
 import com.example.pi_androidapp.domain.repository.UsuariosRepository
 import dagger.Binds
 import dagger.Module
@@ -62,4 +66,18 @@ abstract class RepositoryModule {
         abstract fun bindConversacionesRepository(
                 conversacionesRepositoryImpl: ConversacionesRepositoryImpl
         ): ConversacionesRepository
+
+        /** Vincula ComentariosRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindComentariosRepository(
+                comentariosRepositoryImpl: ComentariosRepositoryImpl
+        ): ComentariosRepository
+
+        /** Vincula ReportesRepository con su implementación. */
+        @Binds
+        @Singleton
+        abstract fun bindReportesRepository(
+                reportesRepositoryImpl: ReportesRepositoryImpl
+        ): ReportesRepository
 }

@@ -49,24 +49,17 @@ constructor(
     ): Flow<Resource<List<Producto>>> = flow {
         emit(Resource.Loading())
 
-        // Solo usar caché para el listado sin filtros (offset=0, sin búsqueda activa)
+        // Solo usar caché como fallback para el listado sin filtros (offset=0, sin búsqueda activa)
         val useCache = offset == 0 && busqueda.isNullOrBlank()
 
-        if (useCache) {
-            val cachedList = if (categoriaId != null) {
+        // Leer caché para tener disponible como fallback en caso de error de red
+        val cachedList: List<ProductoEntity> = if (useCache) {
+            if (categoriaId != null) {
                 db.productoQueries.getProductosByCategoria(categoriaId.toLong()).executeAsList()
             } else {
                 db.productoQueries.getAllProductos().executeAsList()
             }
-            val oldestCachedAt = db.productoQueries.getOldestCachedAt().executeAsOneOrNull()?.MIN ?: 0L
-            val isCacheValid = cachedList.isNotEmpty() &&
-                    (System.currentTimeMillis() - oldestCachedAt) < CACHE_TTL_MS
-
-            if (isCacheValid) {
-                emit(Resource.Success(cachedList.map { it.toDomainFromCache() }))
-                return@flow
-            }
-        }
+        } else emptyList()
 
         // Petición de red
         try {
@@ -104,16 +97,9 @@ constructor(
         } catch (e: Exception) {
             android.util.Log.e("ProductosRepo", "Exception: ${e.message}", e)
             // Red caída → intentar devolver caché aunque haya expirado
-            if (useCache) {
-                val cachedList = if (categoriaId != null) {
-                    db.productoQueries.getProductosByCategoria(categoriaId.toLong()).executeAsList()
-                } else {
-                    db.productoQueries.getAllProductos().executeAsList()
-                }
-                if (cachedList.isNotEmpty()) {
-                    emit(Resource.Success(cachedList.map { it.toDomainFromCache() }))
-                    return@flow
-                }
+            if (useCache && cachedList.isNotEmpty()) {
+                emit(Resource.Success(cachedList.map { it.toDomainFromCache() }))
+                return@flow
             }
             emit(Resource.Error("Error de conexión: ${e.localizedMessage}"))
         }
@@ -122,14 +108,8 @@ constructor(
     override fun obtenerProducto(productoId: Int): Flow<Resource<Producto>> = flow {
         emit(Resource.Loading())
 
-        // Comprobar caché primero para detalle de producto
+        // Leer caché como fallback para caso de error de red
         val cached = db.productoQueries.getProducto(productoId.toLong()).executeAsOneOrNull()
-        val isCacheValid = cached != null &&
-                (System.currentTimeMillis() - cached.cachedAt) < CACHE_TTL_MS
-        if (isCacheValid) {
-            emit(Resource.Success(cached!!.toDomainFromCache()))
-            return@flow
-        }
 
         try {
             android.util.Log.d("ProductosRepo", "Obteniendo producto con ID: $productoId")

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,32 +22,45 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.pi_androidapp.domain.model.Comentario
 import com.example.pi_androidapp.ui.components.Base64Image
 import com.example.pi_androidapp.ui.components.ErrorMessage
 import com.example.pi_androidapp.ui.components.LoadingIndicator
@@ -104,7 +118,7 @@ private fun getCoordinatesForLocation(ubicacion: String): LatLng {
         return coordsMap[key] ?: LatLng(40.0, -3.5) // Fallback: centro de España
 }
 
-/** Pantalla de detalle de producto. Muestra información completa y permite comprar. */
+/** Pantalla de detalle de producto. Muestra información completa, comentarios y permite reportar. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
@@ -126,6 +140,112 @@ fun ProductDetailScreen(
                 }
         }
 
+        LaunchedEffect(uiState.comentariosError) {
+                uiState.comentariosError?.let {
+                        snackbarHostState.showSnackbar(it)
+                        viewModel.clearComentariosError()
+                }
+        }
+
+        LaunchedEffect(uiState.reporteExitoMsg) {
+                uiState.reporteExitoMsg?.let {
+                        snackbarHostState.showSnackbar(it)
+                        viewModel.clearReporteExitoMsg()
+                }
+        }
+
+        LaunchedEffect(uiState.reporteErrorMsg) {
+                uiState.reporteErrorMsg?.let {
+                        snackbarHostState.showSnackbar(it)
+                        viewModel.clearReporteErrorMsg()
+                }
+        }
+
+        // Cargar comentarios cuando se carga el producto
+        LaunchedEffect(uiState.producto?.id) {
+                uiState.producto?.id?.let { viewModel.cargarComentarios(it) }
+        }
+
+        // ── Diálogo: Reportar Producto ─────────────────────────────────────────
+        if (uiState.showReportarProductoDialog) {
+                AlertDialog(
+                        onDismissRequest = viewModel::hideReportarProductoDialog,
+                        icon = { Icon(Icons.Default.Flag, contentDescription = null) },
+                        title = { Text("Reportar producto") },
+                        text = {
+                                Column {
+                                        Text(
+                                                "Describe el motivo del reporte (opcional):",
+                                                style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        Spacer(Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                                value = uiState.reporteMotivoInput,
+                                                onValueChange = viewModel::onReporteMotivoChanged,
+                                                placeholder = { Text("Ej: contenido inapropiado, fraude...") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                minLines = 3,
+                                                maxLines = 5
+                                        )
+                                }
+                        },
+                        confirmButton = {
+                                Button(
+                                        onClick = viewModel::enviarReporteProducto,
+                                        enabled = !uiState.enviandoReporte
+                                ) {
+                                        if (uiState.enviandoReporte) SmallLoadingIndicator()
+                                        else Text("Enviar reporte")
+                                }
+                        },
+                        dismissButton = {
+                                TextButton(onClick = viewModel::hideReportarProductoDialog) {
+                                        Text("Cancelar")
+                                }
+                        }
+                )
+        }
+
+        // ── Diálogo: Reportar Comentario ────────────────────────────────────────
+        if (uiState.showReportarComentarioDialog) {
+                AlertDialog(
+                        onDismissRequest = viewModel::hideReportarComentarioDialog,
+                        icon = { Icon(Icons.Default.Flag, contentDescription = null) },
+                        title = { Text("Reportar comentario") },
+                        text = {
+                                Column {
+                                        Text(
+                                                "Describe el motivo del reporte (opcional):",
+                                                style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        Spacer(Modifier.height(8.dp))
+                                        OutlinedTextField(
+                                                value = uiState.reporteMotivoInput,
+                                                onValueChange = viewModel::onReporteMotivoChanged,
+                                                placeholder = { Text("Ej: spam, lenguaje ofensivo...") },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                minLines = 3,
+                                                maxLines = 5
+                                        )
+                                }
+                        },
+                        confirmButton = {
+                                Button(
+                                        onClick = viewModel::enviarReporteComentario,
+                                        enabled = !uiState.enviandoReporte
+                                ) {
+                                        if (uiState.enviandoReporte) SmallLoadingIndicator()
+                                        else Text("Enviar reporte")
+                                }
+                        },
+                        dismissButton = {
+                                TextButton(onClick = viewModel::hideReportarComentarioDialog) {
+                                        Text("Cancelar")
+                                }
+                        }
+                )
+        }
+
         Scaffold(
                 snackbarHost = { SnackbarHost(snackbarHostState) },
                 topBar = {
@@ -137,6 +257,18 @@ fun ProductDetailScreen(
                                                         Icons.AutoMirrored.Filled.ArrowBack,
                                                         contentDescription = "Volver"
                                                 )
+                                        }
+                                },
+                                actions = {
+                                        // Solo mostrar el botón de reportar si no es producto propio
+                                        if (uiState.producto != null && !uiState.isOwnProduct) {
+                                                IconButton(onClick = viewModel::showReportarProductoDialog) {
+                                                        Icon(
+                                                                Icons.Default.Flag,
+                                                                contentDescription = "Reportar producto",
+                                                                tint = MaterialTheme.colorScheme.error
+                                                        )
+                                                }
                                         }
                                 }
                         )
@@ -153,6 +285,7 @@ fun ProductDetailScreen(
                                         modifier =
                                                 Modifier.fillMaxSize()
                                                         .padding(paddingValues)
+                                                        .imePadding()
                                                         .verticalScroll(rememberScrollState())
                                 ) {
                                         // Galería de imágenes con pager
@@ -519,7 +652,7 @@ fun ProductDetailScreen(
 
                                                     // Botón de chatear con el vendedor
                                                     if (producto.propietarioId > 0) {
-                                                        androidx.compose.material3.OutlinedButton(
+                                                        OutlinedButton(
                                                                 onClick = {
                                                                         onChatClick(producto.id)
                                                                 },
@@ -548,8 +681,247 @@ fun ProductDetailScreen(
                                                 }
 
                                                 Spacer(modifier = Modifier.height(32.dp))
+
+                                                // ── Sección de Comentarios ────────────────────────
+                                                ComentariosSection(
+                                                        comentarios = uiState.comentarios,
+                                                        isLoading = uiState.comentariosLoading,
+                                                        textoNuevoComentario = uiState.comentarioTexto,
+                                                        enviandoComentario = uiState.enviandoComentario,
+                                                        currentUserOdooId = uiState.currentUserOdooId,
+                                                        onTextoChanged = viewModel::onComentarioTextoChanged,
+                                                        onEnviarComentario = {
+                                                                viewModel.enviarComentario(producto.id, uiState.comentarioTexto)
+                                                        },
+                                                        onReportarComentario = viewModel::showReportarComentarioDialog
+                                                )
+
+                                                Spacer(modifier = Modifier.height(32.dp))
                                         }
                                 }
+                        }
+                }
+        }
+}
+
+// ─── Sección de Comentarios ───────────────────────────────────────────────────
+
+@Composable
+private fun ComentariosSection(
+        comentarios: List<Comentario>,
+        isLoading: Boolean,
+        textoNuevoComentario: String,
+        enviandoComentario: Boolean,
+        currentUserOdooId: Int,
+        onTextoChanged: (String) -> Unit,
+        onEnviarComentario: () -> Unit,
+        onReportarComentario: (Int) -> Unit
+) {
+        Text(
+                text = "Comentarios (${comentarios.size})",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        // Campo para escribir un comentario (solo si está autenticado)
+        if (currentUserOdooId > 0) {
+                Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Bottom
+                ) {
+                        OutlinedTextField(
+                                value = textoNuevoComentario,
+                                onValueChange = onTextoChanged,
+                                placeholder = { Text("Escribe un comentario...") },
+                                modifier = Modifier.weight(1f),
+                                maxLines = 4,
+                                shape = RoundedCornerShape(12.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        IconButton(
+                                onClick = onEnviarComentario,
+                                enabled = textoNuevoComentario.isNotBlank() && !enviandoComentario,
+                                modifier = Modifier
+                                        .size(48.dp)
+                                        .background(
+                                                color = if (textoNuevoComentario.isNotBlank() && !enviandoComentario)
+                                                        MaterialTheme.colorScheme.primary
+                                                else
+                                                        MaterialTheme.colorScheme.surfaceVariant,
+                                                shape = RoundedCornerShape(12.dp)
+                                        )
+                        ) {
+                                if (enviandoComentario) {
+                                        SmallLoadingIndicator()
+                                } else {
+                                        Icon(
+                                                Icons.AutoMirrored.Filled.Send,
+                                                contentDescription = "Enviar comentario",
+                                                tint = if (textoNuevoComentario.isNotBlank())
+                                                        MaterialTheme.colorScheme.onPrimary
+                                                else
+                                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                }
+                        }
+                }
+
+                Spacer(Modifier.height(16.dp))
+        }
+
+        if (isLoading) {
+                Box(modifier = Modifier.fillMaxWidth().height(80.dp), contentAlignment = Alignment.Center) {
+                        SmallLoadingIndicator()
+                }
+        } else if (comentarios.isEmpty()) {
+                Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                ) {
+                        Text(
+                                text = "Sé el primero en comentar este producto.",
+                                modifier = Modifier.padding(16.dp),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                }
+        } else {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        comentarios.forEach { comentario ->
+                                ComentarioItem(
+                                        comentario = comentario,
+                                        currentUserOdooId = currentUserOdooId,
+                                        onReportar = { onReportarComentario(comentario.id) }
+                                )
+                        }
+                }
+        }
+}
+
+// ─── Item de Comentario ───────────────────────────────────────────────────────
+
+@Composable
+private fun ComentarioItem(
+        comentario: Comentario,
+        currentUserOdooId: Int,
+        onReportar: () -> Unit
+) {
+        var menuExpanded by remember { mutableStateOf(false) }
+        val esPropio = comentario.usuarioId == currentUserOdooId
+
+        Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                        containerColor = if (esPropio)
+                                MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+                        else
+                                MaterialTheme.colorScheme.surfaceVariant
+                ),
+                shape = RoundedCornerShape(10.dp)
+        ) {
+                Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)) {
+                        Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                        ) {
+                                // Avatar
+                                Box(
+                                        modifier = Modifier
+                                                .size(32.dp)
+                                                .background(
+                                                        MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                                                        shape = RoundedCornerShape(50)
+                                                ),
+                                        contentAlignment = Alignment.Center
+                                ) {
+                                        Icon(
+                                                Icons.Default.Person,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp),
+                                                tint = MaterialTheme.colorScheme.primary
+                                        )
+                                }
+
+                                Spacer(Modifier.width(8.dp))
+
+                                Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                                text = comentario.usuarioNombre.ifEmpty { "Usuario" },
+                                                style = MaterialTheme.typography.labelMedium,
+                                                fontWeight = FontWeight.SemiBold
+                                        )
+                                        if (!comentario.fecha.isNullOrEmpty()) {
+                                                Text(
+                                                        text = comentario.fecha,
+                                                        style = MaterialTheme.typography.labelSmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                )
+                                        }
+                                }
+
+                                // Menú opciones (solo si NO es comentario propio)
+                                if (!esPropio && currentUserOdooId > 0) {
+                                        Box {
+                                                IconButton(
+                                                        onClick = { menuExpanded = true },
+                                                        modifier = Modifier.size(28.dp)
+                                                ) {
+                                                        Icon(
+                                                                Icons.Default.MoreVert,
+                                                                contentDescription = "Opciones",
+                                                                modifier = Modifier.size(18.dp)
+                                                        )
+                                                }
+                                                DropdownMenu(
+                                                        expanded = menuExpanded,
+                                                        onDismissRequest = { menuExpanded = false }
+                                                ) {
+                                                        DropdownMenuItem(
+                                                                text = {
+                                                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                                                                Icon(
+                                                                                        Icons.Default.Flag,
+                                                                                        contentDescription = null,
+                                                                                        modifier = Modifier.size(16.dp),
+                                                                                        tint = MaterialTheme.colorScheme.error
+                                                                                )
+                                                                                Spacer(Modifier.width(6.dp))
+                                                                                Text(
+                                                                                        "Reportar comentario",
+                                                                                        color = MaterialTheme.colorScheme.error
+                                                                                )
+                                                                        }
+                                                                },
+                                                                onClick = {
+                                                                        menuExpanded = false
+                                                                        onReportar()
+                                                                }
+                                                        )
+                                                }
+                                        }
+                                }
+                        }
+
+                        Spacer(Modifier.height(8.dp))
+                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                        Spacer(Modifier.height(8.dp))
+
+                        Text(
+                                text = comentario.texto,
+                                style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        if (comentario.editado) {
+                                Spacer(Modifier.height(4.dp))
+                                Text(
+                                        text = "(editado)",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                         }
                 }
         }

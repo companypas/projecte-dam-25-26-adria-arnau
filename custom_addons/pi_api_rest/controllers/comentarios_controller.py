@@ -59,7 +59,7 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='none', methods=['GET'])
+    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='none', methods=['GET', 'POST'])
     @jwt_required
     def obtener_comentarios(self, producto_id, **kwargs):
         """Obtiene comentarios de un producto"""
@@ -85,39 +85,48 @@ class ComentariosController(http.Controller):
         except Exception as e:
             return APIUtils.error_response(str(e), 500)
     
-    @http.route('/api/v1/productos/<int:producto_id>/comentarios', type='json', auth='none', methods=['POST'])
+    @http.route('/api/v1/productos/<int:producto_id>/comentarios/crear', type='json', auth='none', methods=['POST'])
     @jwt_required
     def crear_comentario(self, producto_id, **kwargs):
         """Crea un comentario en un producto"""
+        import logging
+        _logger = logging.getLogger(__name__)
         try:
             usuario_data = request.usuario_actual
-            
+            _logger.info(f"[crear_comentario] usuario_data={usuario_data}, producto_id={producto_id}, kwargs={kwargs}")
+
             # Buscar el usuario por id_usuario para obtener su ID numérico de Odoo
             usuario = request.env['pi.usuario'].sudo().search([('id_usuario', '=', usuario_data['id'])], limit=1)
             if not usuario:
-                return APIUtils.error_response('Usuario no encontrado', 404)
+                _logger.warning(f"[crear_comentario] Usuario no encontrado: {usuario_data['id']}")
+                return {'error': 'Usuario no encontrado', 'status': 404}
+
             producto = request.env['pi.producto'].sudo().browse(producto_id)
-            
             if not producto.exists():
-                return APIUtils.error_response('Producto no encontrado', 404)
-            
-            # Obtener datos JSON correctamente
-            data = kwargs if kwargs else (request.jsonrequest if hasattr(request, 'jsonrequest') else json.loads(request.httprequest.data))
-            
-            texto = data.get('texto')
-            if not texto:
-                return APIUtils.error_response('El texto del comentario es requerido', 400)
-            
+                return {'error': 'Producto no encontrado', 'status': 404}
+
+            # Con type='json' en Odoo, los params del JSON-RPC llegan directamente en kwargs.
+            # El texto puede venir directo en kwargs: {"texto": "..."} 
+            # o anidado si el cliente envió params dentro de params: kwargs.get('params', {})
+            texto = kwargs.get('texto') or (kwargs.get('params') or {}).get('texto')
+            _logger.info(f"[crear_comentario] texto='{texto}'")
+
+            if not texto or not texto.strip():
+                return {'error': 'El texto del comentario es requerido', 'status': 400}
+
             comentario = request.env['pi.comentario'].sudo().create({
-                'texto': texto,
+                'texto': texto.strip(),
                 'producto_id': producto_id,
                 'usuario_id': usuario.id,
             })
-            
-            return APIUtils.json_response({
+            _logger.info(f"[crear_comentario] Comentario creado id={comentario.id}")
+
+            return {
                 'mensaje': 'Comentario creado exitosamente',
                 'comentario': APIUtils.comentario_to_dict(comentario)
-            }, 201)
-            
+            }
+
         except Exception as e:
-            return APIUtils.error_response(str(e), 500)
+            import traceback
+            _logger.error(f"[crear_comentario] Error: {e}\n{traceback.format_exc()}")
+            return {'error': str(e), 'status': 500}
