@@ -138,3 +138,12 @@ tasks.configureEach {
         dependsOn("generateReleaseAppDatabaseInterface")
     }
 }
+
+// Configuración de Dokka para generar documentación en formato HTML y Javadoc
+tasks.dokkaHtml.configure {
+    outputDirectory.set(layout.buildDirectory.dir("dokka/html"))
+}
+
+tasks.dokkaJavadoc.configure {
+    outputDirectory.set(layout.buildDirectory.dir("dokka/javadoc"))
+}
