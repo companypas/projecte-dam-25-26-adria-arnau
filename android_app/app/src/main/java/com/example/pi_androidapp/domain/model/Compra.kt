@@ -1,7 +1,7 @@
 package com.example.pi_androidapp.domain.model
 
 /**
- * Modelo de dominio que representa una compra en el marketplace.
+ * Modelo de dominio que representa una compra en Vendoo.
  *
  * @property id ID interno de la compra
  * @property idCompra ID único de la compra

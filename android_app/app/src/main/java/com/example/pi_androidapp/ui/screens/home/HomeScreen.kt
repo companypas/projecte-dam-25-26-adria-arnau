@@ -71,7 +71,7 @@ fun HomeScreen(
                                     contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                        text = "Marketplace",
+                                        text = "Vendoo",
                                         style = MaterialTheme.typography.titleLarge,
                                         fontWeight = FontWeight.Bold
                                 )

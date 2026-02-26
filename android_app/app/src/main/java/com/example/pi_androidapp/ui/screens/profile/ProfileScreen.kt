@@ -24,6 +24,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Brightness4
+import androidx.compose.material.icons.filled.BrightnessLow
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
@@ -230,6 +232,27 @@ fun ProfileScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
+                    // Selector de tema
+                    Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                            )
+                    ) {
+                        ListItem(
+                                headlineContent = { Text("Tema Oscuro") },
+                                supportingContent = { Text("Intercambia entre tema claro y oscuro") },
+                                trailingContent = {
+                                    androidx.compose.material3.Switch(
+                                            checked = uiState.isDarkTheme,
+                                            onCheckedChange = viewModel::toggleTheme
+                                    )
+                                }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
                     // Mis productos
                     Text(
                             text = "Mis productos",
@@ -260,6 +283,8 @@ fun ProfileScreen(
                             }
                         }
                     }
+
+
 
                     Spacer(modifier = Modifier.height(32.dp))
 

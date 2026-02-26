@@ -28,14 +28,21 @@ constructor(
         private val authRepository: AuthRepository,
         private val usuariosRepository: UsuariosRepository,
         private val productosRepository: ProductosRepository,
-        private val encryptedPrefsManager: EncryptedPrefsManager
+        private val encryptedPrefsManager: EncryptedPrefsManager,
+        private val preferenceManager: com.example.pi_androidapp.core.util.PreferenceManager
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ProfileUiState())
+    private val _uiState = MutableStateFlow(ProfileUiState(isDarkTheme = preferenceManager.isDarkThemeEnabled()))
     val uiState: StateFlow<ProfileUiState> = _uiState
 
     init {
         loadProfile()
+    }
+
+    /** Cambia el tema de la aplicación. */
+    fun toggleTheme(enabled: Boolean) {
+        preferenceManager.setDarkTheme(enabled)
+        _uiState.value = _uiState.value.copy(isDarkTheme = enabled)
     }
 
     private fun loadProfile() {
@@ -108,5 +115,6 @@ data class ProfileUiState(
         val isLoading: Boolean = false,
         val isLoadingProducts: Boolean = false,
         val isLoggedOut: Boolean = false,
+        val isDarkTheme: Boolean = false,
         val error: String? = null
 )

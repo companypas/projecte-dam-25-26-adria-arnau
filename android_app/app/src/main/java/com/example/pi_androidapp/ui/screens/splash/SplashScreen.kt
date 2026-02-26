@@ -37,7 +37,7 @@ fun SplashScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                    text = "PI Marketplace",
+                    text = "Vendoo",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight.Bold

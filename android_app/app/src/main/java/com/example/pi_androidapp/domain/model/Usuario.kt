@@ -1,7 +1,7 @@
 package com.example.pi_androidapp.domain.model
 
 /**
- * Modelo de dominio que representa un usuario del marketplace.
+ * Modelo de dominio que representa un usuario de Vendoo.
  *
  * @property id ID interno del usuario
  * @property idUsuario ID único del usuario en el sistema (formato: USR-XXXXX)

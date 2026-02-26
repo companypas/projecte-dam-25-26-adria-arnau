@@ -1,7 +1,7 @@
 package com.example.pi_androidapp.domain.model
 
 /**
- * Modelo de dominio que representa un producto del marketplace.
+ * Modelo de dominio que representa un producto de Vendoo.
  *
  * @property id ID interno del producto
  * @property idProducto ID único del producto (ej: PRD-00000001)
