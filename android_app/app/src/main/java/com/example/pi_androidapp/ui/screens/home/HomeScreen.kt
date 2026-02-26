@@ -133,7 +133,11 @@ fun HomeScreen(
                         FilterChip(
                                 selected = uiState.selectedCategoriaId == null,
                                 onClick = { viewModel.onCategoriaSelect(null) },
-                                label = { Text("Todas") }
+                                label = { Text("Todas") },
+                                colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
+                                )
                         )
                     }
                     // Chip por cada categoría
@@ -141,7 +145,11 @@ fun HomeScreen(
                         FilterChip(
                                 selected = uiState.selectedCategoriaId == categoria.id,
                                 onClick = { viewModel.onCategoriaSelect(categoria.id) },
-                                label = { Text(categoria.nombre) }
+                                label = { Text(categoria.nombre) },
+                                colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
+                                )
                         )
                     }
                 }

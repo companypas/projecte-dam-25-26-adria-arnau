@@ -659,7 +659,14 @@ fun ProductDetailScreen(
                                                                 modifier =
                                                                         Modifier.fillMaxWidth()
                                                                                 .height(48.dp),
-                                                                shape = RoundedCornerShape(12.dp)
+                                                                shape = RoundedCornerShape(12.dp),
+                                                                colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(
+                                                                    contentColor = MaterialTheme.colorScheme.primary
+                                                                ),
+                                                                border = androidx.compose.foundation.BorderStroke(
+                                                                    1.dp, 
+                                                                    MaterialTheme.colorScheme.primary
+                                                                )
                                                         ) {
                                                                 Icon(
                                                                         Icons.AutoMirrored.Filled

@@ -291,7 +291,14 @@ fun ProfileScreen(
                     // Botón de cerrar sesión
                     OutlinedButton(
                             onClick = viewModel::logout,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.primary
+                            ),
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp, 
+                                MaterialTheme.colorScheme.primary
+                            )
                     ) {
                         Icon(Icons.AutoMirrored.Filled.Logout, null)
                         Spacer(modifier = Modifier.size(8.dp))
