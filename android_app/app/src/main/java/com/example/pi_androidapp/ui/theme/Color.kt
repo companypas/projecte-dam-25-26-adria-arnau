@@ -11,10 +11,10 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-// Colores de la marca
-val PrimaryBlue = Color(0xFF2196F3)
-val PrimaryBlueDark = Color(0xFF1976D2)
-val PrimaryBlueLight = Color(0xFFBBDEFB)
+// Colores de la marca Vendoo
+val PrimaryBlue = Color(0xFF172536)      // Color principal Vendoo
+val PrimaryBlueDark = Color(0xFF0D1923)  // Variante oscura
+val PrimaryBlueLight = Color(0xFF2E4A6A) // Variante clara
 
 val SecondaryOrange = Color(0xFFFF9800)
 val SecondaryOrangeDark = Color(0xFFF57C00)

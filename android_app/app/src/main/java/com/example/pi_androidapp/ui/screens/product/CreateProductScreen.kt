@@ -115,21 +115,24 @@ fun CreateProductScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 uiState.imageUris.forEach { uri ->
-                    Box(modifier = Modifier.size(80.dp).clip(RoundedCornerShape(8.dp))) {
+                    Box(modifier = Modifier.size(80.dp)) {
                         AsyncImage(
                                 model = uri,
                                 contentDescription = null,
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(8.dp)),
                                 contentScale = ContentScale.Crop
                         )
                         IconButton(
                                 onClick = { viewModel.removeImage(uri) },
-                                modifier = Modifier.align(Alignment.TopEnd)
+                                modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .size(28.dp)
                         ) {
                             Icon(
                                     Icons.Default.Close,
-                                    "Eliminar",
-                                    tint = MaterialTheme.colorScheme.error
+                                    contentDescription = "Eliminar imagen",
+                                    tint = MaterialTheme.colorScheme.error,
+                                    modifier = Modifier.size(18.dp)
                             )
                         }
                     }

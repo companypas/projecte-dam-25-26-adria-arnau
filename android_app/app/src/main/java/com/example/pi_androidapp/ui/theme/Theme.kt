@@ -56,7 +56,7 @@ private val LightColorScheme =
 @Composable
 fun PI_AndroidAppTheme(
         darkTheme: Boolean = isSystemInDarkTheme(),
-        dynamicColor: Boolean = true,
+        dynamicColor: Boolean = false, // Desactivado para usar siempre el color de Vendoo
         content: @Composable () -> Unit
 ) {
     val colorScheme =
