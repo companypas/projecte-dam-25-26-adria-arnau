@@ -7,4 +7,5 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.dokka) apply false
     alias(libs.plugins.secrets.gradle.plugin) apply false
+    alias(libs.plugins.sqldelight) apply false
 }

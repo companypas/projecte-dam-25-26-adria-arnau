@@ -1,13 +1,13 @@
 ﻿
 [Incubating] Problems report is available at: file:///C:/Users/adric/Desktop/DAM25-26/projecte-dam-25-26-adria-arnau/android_app/build/reports/problems/problems-report.html
-.\gradlew.bat : 
+.\gradlew : 
 En línea: 1 Carácter: 1
-+ .\gradlew.bat 
-:app:assembleDebug 2>&1 | 
++ .\gradlew 
+:app:kspDebugKotlin 2>&1 | 
 Out-File -FilePath 
-build_outp ...
+"build_output ...
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~
-~~~~~~~~~~~
+~~~~~~~~
     + CategoryInfo          
     : NotSpecified: (:Stri  
   ng) [], RemoteException
@@ -17,41 +17,29 @@ build_outp ...
 FAILURE: Build failed with 
 an exception.
 
-* Where:
-Build file 'C:\Users\adric\D
-esktop\DAM25-26\projecte-dam
--25-26-adria-arnau\android_a
-pp\app\build.gradle.kts' 
-line: 1
-
 * What went wrong:
-An exception occurred 
-applying plugin request 
-[id: 
-'com.android.application', 
-version: '8.7.3']
-> Failed to apply plugin 'co
-m.android.internal.applicati
-on'.
-   > Android Gradle plugin 
-requires Java 17 to run. 
-You are currently using 
-Java 11.
-      Your current JDK is 
-located in C:\Program 
-Files\Java\jdk-11
-      You can try some of 
-the following options:
-       - changing the IDE 
-settings.
-       - changing the 
-JAVA_HOME environment 
-variable.
-       - changing 
-`org.gradle.java.home` in 
-`gradle.properties`.
+A problem occurred 
+configuring root project 
+'PI_AndroidApp'.
+> Could not resolve all 
+artifacts for configuration 
+'classpath'.
+   > Could not resolve app.c
+ash.sqldelight:gradle-plugin
+:2.0.2.
+     Required by:
+         root project : > ap
+p.cash.sqldelight:app.cash.s
+qldelight.gradle.plugin:2.0.
+2
+      > Dependency requires 
+at least JVM runtime 
+version 17. This build uses 
+a Java 11 JVM.
 
 * Try:
+> Run this build using a 
+Java 17 or newer JVM.
 > Run with --stacktrace 
 option to get the stack 
 trace.

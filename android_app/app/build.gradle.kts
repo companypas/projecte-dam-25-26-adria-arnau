@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.dokka)
     alias(libs.plugins.secrets.gradle.plugin)
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -22,8 +23,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         // URL base de la API - cambiar según el entorno
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8069/\"")
-        //buildConfigField("String", "API_BASE_URL", "\"http://192.168.236.228:8069/\"")
+        //buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8069/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.116:8069/\"")
 
     }
 
@@ -46,6 +47,26 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    // SQLDelight 2.x + AGP 8.x: el directorio generado no siempre se registra
+    // automáticamente como source set. Sin esto, KSP (Hilt) no encuentra AppDatabase
+    // aunque el archivo exista en disco.
+    sourceSets {
+        getByName("debug") {
+            java.srcDir("build/generated/sqldelight/code/AppDatabase/debug")
+        }
+        getByName("release") {
+            java.srcDir("build/generated/sqldelight/code/AppDatabase/release")
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.example.pi_androidapp.data.local")
+        }
     }
 }
 
@@ -91,6 +112,10 @@ dependencies {
     // Google Maps
     implementation(libs.maps.compose)
 
+    // SQLDelight
+    implementation(libs.sqldelight.android.driver)
+    implementation(libs.sqldelight.coroutines.extensions)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -99,4 +124,17 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+// Asegura que SQLDelight genere AppDatabase antes de que KSP (Hilt) lo procese.
+// Tanto KSP como SQLDelight registran sus tasks de forma lazy, por eso afterEvaluate
+// + findByName falla (devuelve null). tasks.configureEach a nivel raíz se ejecuta
+// cuando Gradle registra cada task, independientemente de si es lazy o eager.
+tasks.configureEach {
+    if (name == "kspDebugKotlin") {
+        dependsOn("generateDebugAppDatabaseInterface")
+    }
+    if (name == "kspReleaseKotlin") {
+        dependsOn("generateReleaseAppDatabaseInterface")
+    }
 }

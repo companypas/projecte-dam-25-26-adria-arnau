@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS CategoriaEntity (
+    id              INTEGER NOT NULL PRIMARY KEY,
+    idCategoria     TEXT    NOT NULL,
+    nombre          TEXT    NOT NULL,
+    descripcion     TEXT,
+    totalProductos  INTEGER NOT NULL DEFAULT 0,
+    imagen          TEXT,
+    cachedAt        INTEGER NOT NULL  -- epoch millis
+);
+
+getAllCategorias:
+SELECT * FROM CategoriaEntity ORDER BY nombre ASC;
+
+upsertCategoria:
+INSERT OR REPLACE INTO CategoriaEntity(id, idCategoria, nombre, descripcion, totalProductos, imagen, cachedAt)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM CategoriaEntity;
+
+countCategorias:
+SELECT COUNT(*) FROM CategoriaEntity;
+
+getOldestCachedAt:
+SELECT MIN(cachedAt) FROM CategoriaEntity;

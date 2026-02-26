@@ -1,0 +1,51 @@
+CREATE TABLE IF NOT EXISTS ProductoEntity (
+    id                    INTEGER NOT NULL PRIMARY KEY,
+    idProducto            TEXT    NOT NULL,
+    nombre                TEXT    NOT NULL,
+    descripcion           TEXT    NOT NULL DEFAULT '',
+    precio                REAL    NOT NULL DEFAULT 0.0,
+    estado                TEXT    NOT NULL DEFAULT 'nuevo',
+    estadoVenta           TEXT    NOT NULL DEFAULT 'disponible',
+    ubicacion             TEXT    NOT NULL DEFAULT '',
+    antiguedadMeses       INTEGER NOT NULL DEFAULT 0,
+    fechaPublicacion      TEXT,
+    categoriaId           INTEGER NOT NULL DEFAULT 0,
+    categoriaNombre       TEXT    NOT NULL DEFAULT '',
+    propietarioId         INTEGER NOT NULL DEFAULT 0,
+    propietarioNombre     TEXT    NOT NULL DEFAULT '',
+    propietarioValoracion REAL    NOT NULL DEFAULT 0.0,
+    etiquetas             TEXT    NOT NULL DEFAULT '',  -- JSON array como texto
+    totalComentarios      INTEGER NOT NULL DEFAULT 0,
+    totalImagenes         INTEGER NOT NULL DEFAULT 0,
+    imagenPrincipal       TEXT,
+    cachedAt              INTEGER NOT NULL  -- epoch millis
+);
+
+getAllProductos:
+SELECT * FROM ProductoEntity ORDER BY cachedAt DESC;
+
+getProductosByCategoria:
+SELECT * FROM ProductoEntity WHERE categoriaId = ? ORDER BY cachedAt DESC;
+
+getProducto:
+SELECT * FROM ProductoEntity WHERE id = ?;
+
+upsertProducto:
+INSERT OR REPLACE INTO ProductoEntity(
+    id, idProducto, nombre, descripcion, precio, estado, estadoVenta,
+    ubicacion, antiguedadMeses, fechaPublicacion, categoriaId, categoriaNombre,
+    propietarioId, propietarioNombre, propietarioValoracion, etiquetas,
+    totalComentarios, totalImagenes, imagenPrincipal, cachedAt
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteAll:
+DELETE FROM ProductoEntity;
+
+deleteProducto:
+DELETE FROM ProductoEntity WHERE id = ?;
+
+getOldestCachedAt:
+SELECT MIN(cachedAt) FROM ProductoEntity;
+
+countProductos:
+SELECT COUNT(*) FROM ProductoEntity;
