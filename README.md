@@ -42,7 +42,7 @@ El sistema se compone de una aplicación nativa Android y un potente backend bas
 
 ## 📖 Documentación
 
-### Generación de Docs con Dokka (Android)
+### 📱 Documentación Android — Dokka
 Para generar la documentación técnica de la aplicación Android en formatos HTML o Javadoc, utiliza los siguientes comandos desde la carpeta `android_app`:
 
 ```bash
@@ -53,6 +53,71 @@ Para generar la documentación técnica de la aplicación Android en formatos HT
 ./gradlew :app:dokkaJavadoc
 ```
 Los archivos generados se encontrarán en `android_app/app/build/dokka/`.
+
+---
+
+### 🐍 Documentación Backend (Odoo + API) — Sphinx
+
+La documentación del backend (módulos Odoo y API REST) se genera con **Sphinx** y se encuentra en `docs/modulos_odoo_y_api/`.
+
+#### 1. Instalar las dependencias
+
+Desde la raíz del proyecto, ejecuta:
+
+```bash
+pip install -r docs/modulos_odoo_y_api/requirements-docs.txt
+```
+
+Esto instalará:
+- `sphinx` – motor principal de documentación
+- `sphinx-rtd-theme` – tema visual Read the Docs
+- `myst-parser` – soporte para ficheros Markdown (`.md`)
+- `sphinx-autodoc-typehints` – extracción de tipos desde docstrings
+- `sphinx-autobuild` – recarga en vivo *(opcional)*
+
+#### 2. Generar la documentación HTML
+
+Accede a la carpeta de docs y ejecuta `make`:
+
+```bash
+cd docs/modulos_odoo_y_api
+
+# En Linux / macOS / Git Bash
+make html
+
+# En Windows (CMD / PowerShell)
+.\make.bat html
+```
+
+La documentación generada estará disponible en:
+```
+docs/modulos_odoo_y_api/_build/html/index.html
+```
+Abre ese fichero en tu navegador para consultarla.
+
+#### 3. Modo recarga en vivo *(opcional)*
+
+Si quieres que la documentación se recargue automáticamente al editar los ficheros `.rst` o `.md`:
+
+```bash
+# Linux / macOS / Git Bash
+make livehtml
+
+# Windows
+.\make.bat livehtml
+```
+
+Se abrirá un servidor local en `http://127.0.0.1:8000` con recarga automática.
+
+#### 4. Limpiar la documentación generada
+
+```bash
+# Linux / macOS / Git Bash
+make clean
+
+# Windows
+.\make.bat clean
+```
 
 ---
 
