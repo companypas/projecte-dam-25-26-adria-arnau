@@ -24,7 +24,7 @@ android {
 
         // URL base de la API - cambiar según el entorno
         //buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8069/\"")
-        buildConfigField("String", "API_BASE_URL", "\"http://192.168.1.116:8069/\"")
+        buildConfigField("String", "API_BASE_URL", "\"http://10.150.182.228:8069/\"")
 
     }
 
