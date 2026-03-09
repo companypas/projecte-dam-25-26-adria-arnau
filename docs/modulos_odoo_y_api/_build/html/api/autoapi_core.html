@@ -1,0 +1,1103 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Referencia de código – pi_core &mdash; Vendoo – Docs Técnica</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+    <link rel="shortcut icon" href="../_static/logo3.png"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=36c4ab74"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" />
+    <link rel="next" title="Referencia de código – pi_api_rest" href="autoapi_rest.html" />
+    <link rel="prev" title="API REST – Comentarios, Compras, Valoraciones y más" href="endpoints_otros.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Vendoo – Documentación Técnica Módulos Odoo
+              <img src="../_static/logo3.png" class="logo" alt="Logotipo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Módulos Odoo</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/pi_core.html">Módulo <code class="docutils literal notranslate"><span class="pre">pi_core</span></code> – Núcleo Vendoo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_core.html#descripcion-funcional">Descripción funcional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_core.html#instalacion-y-dependencias">Instalación y dependencias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_core.html#modelos-principales">Modelos principales</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-usuario">pi.usuario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-producto">pi.producto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-compra">pi.compra</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-comentario">pi.comentario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-valoracion">pi.valoracion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-reporte">pi.reporte</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#pi-conversacion-y-pi-mensaje">pi.conversacion y pi.mensaje</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../modules/pi_core.html#otros-modelos-auxiliares">Otros modelos auxiliares</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_core.html#seguridad-roles">Seguridad / Roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_core.html#vistas-menus">Vistas / Menús</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_core.html#secuencias-automaticas">Secuencias automáticas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/pi_api_rest.html">Módulo <code class="docutils literal notranslate"><span class="pre">pi_api_rest</span></code> – API REST Vendoo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#descripcion-funcional">Descripción funcional</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#instalacion-y-dependencias">Instalación y dependencias</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#autenticacion-jwt">Autenticación JWT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#controladores-controllers">Controladores (Controllers)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#seguridad">Seguridad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#modelos-propios">Modelos propios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/pi_api_rest.html#vease-tambien">Véase también</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Referencia de la API REST</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="endpoints_auth.html">API REST – Autenticación (Auth)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_auth.html#post-api-v1-auth-registro">POST /api/v1/auth/registro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_auth.html#post-api-v1-auth-login">POST /api/v1/auth/login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_auth.html#post-api-v1-auth-refresh">POST /api/v1/auth/refresh</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints_productos.html">API REST – Productos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_productos.html#get-post-api-v1-productos-listar">GET/POST /api/v1/productos/listar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_productos.html#get-post-api-v1-productos-id">GET/POST /api/v1/productos/&lt;id&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_productos.html#post-api-v1-productos">POST /api/v1/productos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_productos.html#put-api-v1-productos-id">PUT /api/v1/productos/&lt;id&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_productos.html#delete-api-v1-productos-id">DELETE /api/v1/productos/&lt;id&gt;</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints_usuarios.html">API REST – Usuarios</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_usuarios.html#get-post-api-v1-usuarios-perfil">GET/POST /api/v1/usuarios/perfil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_usuarios.html#get-post-api-v1-usuarios-id-usuario">GET/POST /api/v1/usuarios/&lt;id_usuario&gt;</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_usuarios.html#put-api-v1-usuarios-perfil">PUT /api/v1/usuarios/perfil</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_usuarios.html#get-post-api-v1-usuarios-id-usuario-productos">GET/POST /api/v1/usuarios/&lt;id_usuario&gt;/productos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="endpoints_otros.html">API REST – Comentarios, Compras, Valoraciones y más</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#comentarios">Comentarios</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#post-api-v1-comentarios">POST /api/v1/comentarios</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-comentarios-producto-id">GET/POST /api/v1/comentarios/&lt;producto_id&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#put-api-v1-comentarios-id">PUT /api/v1/comentarios/&lt;id&gt;</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#delete-api-v1-comentarios-id">DELETE /api/v1/comentarios/&lt;id&gt;</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#compras">Compras</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#post-api-v1-compras">POST /api/v1/compras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-compras-mis-compras">GET/POST /api/v1/compras/mis-compras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-compras-mis-ventas">GET/POST /api/v1/compras/mis-ventas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#valoraciones">Valoraciones</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#post-api-v1-valoraciones">POST /api/v1/valoraciones</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#reportes">Reportes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#post-api-v1-reportes">POST /api/v1/reportes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#conversaciones-y-mensajes">Conversaciones y Mensajes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#post-api-v1-conversaciones">POST /api/v1/conversaciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-conversaciones-mis-conversaciones">GET/POST /api/v1/conversaciones/mis-conversaciones</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#post-api-v1-mensajes">POST /api/v1/mensajes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-mensajes-conversacion-id">GET/POST /api/v1/mensajes/&lt;conversacion_id&gt;</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#categorias-y-etiquetas">Categorías y Etiquetas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-categorias">GET/POST /api/v1/categorias</a></li>
+<li class="toctree-l3"><a class="reference internal" href="endpoints_otros.html#get-post-api-v1-etiquetas">GET/POST /api/v1/etiquetas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoints_otros.html#codigos-de-error-comunes">Códigos de error comunes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Referencia de código (autodoc)</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Referencia de código – <code class="docutils literal notranslate"><span class="pre">pi_core</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-pi_core.models.pi_usuarios">Módulo <code class="docutils literal notranslate"><span class="pre">pi_core.models</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario"><code class="docutils literal notranslate"><span class="pre">PiUsuario</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.partner_id"><code class="docutils literal notranslate"><span class="pre">PiUsuario.partner_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.valoraciones_recibidas"><code class="docutils literal notranslate"><span class="pre">PiUsuario.valoraciones_recibidas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.valoraciones_realizadas"><code class="docutils literal notranslate"><span class="pre">PiUsuario.valoraciones_realizadas</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.productos_venta"><code class="docutils literal notranslate"><span class="pre">PiUsuario.productos_venta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.productos_vendidos"><code class="docutils literal notranslate"><span class="pre">PiUsuario.productos_vendidos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.productos_comprados"><code class="docutils literal notranslate"><span class="pre">PiUsuario.productos_comprados</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.reportes_realizados"><code class="docutils literal notranslate"><span class="pre">PiUsuario.reportes_realizados</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.reportes_recibidos"><code class="docutils literal notranslate"><span class="pre">PiUsuario.reportes_recibidos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.conversaciones_comprador_ids"><code class="docutils literal notranslate"><span class="pre">PiUsuario.conversaciones_comprador_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.conversaciones_vendedor_ids"><code class="docutils literal notranslate"><span class="pre">PiUsuario.conversaciones_vendedor_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.mensajes_enviados_ids"><code class="docutils literal notranslate"><span class="pre">PiUsuario.mensajes_enviados_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.create"><code class="docutils literal notranslate"><span class="pre">PiUsuario.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.write"><code class="docutils literal notranslate"><span class="pre">PiUsuario.write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.action_reportar_usuario"><code class="docutils literal notranslate"><span class="pre">PiUsuario.action_reportar_usuario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_usuarios.PiUsuario.action_ver_perfil_publico"><code class="docutils literal notranslate"><span class="pre">PiUsuario.action_ver_perfil_publico()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto"><code class="docutils literal notranslate"><span class="pre">piProducto</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.estado"><code class="docutils literal notranslate"><span class="pre">piProducto.estado</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.company_currency_id"><code class="docutils literal notranslate"><span class="pre">piProducto.company_currency_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.propietario_id"><code class="docutils literal notranslate"><span class="pre">piProducto.propietario_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.categoria_id"><code class="docutils literal notranslate"><span class="pre">piProducto.categoria_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.etiquetas_ids"><code class="docutils literal notranslate"><span class="pre">piProducto.etiquetas_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.imagenes_ids"><code class="docutils literal notranslate"><span class="pre">piProducto.imagenes_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.comentarios_ids"><code class="docutils literal notranslate"><span class="pre">piProducto.comentarios_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.compra_id"><code class="docutils literal notranslate"><span class="pre">piProducto.compra_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.reportes_ids"><code class="docutils literal notranslate"><span class="pre">piProducto.reportes_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.estado_venta"><code class="docutils literal notranslate"><span class="pre">piProducto.estado_venta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.create"><code class="docutils literal notranslate"><span class="pre">piProducto.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.action_agregar_comentario"><code class="docutils literal notranslate"><span class="pre">piProducto.action_agregar_comentario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.action_reportar_producto"><code class="docutils literal notranslate"><span class="pre">piProducto.action_reportar_producto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.action_iniciar_chat"><code class="docutils literal notranslate"><span class="pre">piProducto.action_iniciar_chat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.action_marcar_vendido"><code class="docutils literal notranslate"><span class="pre">piProducto.action_marcar_vendido()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto.piProducto.action_marcar_disponible"><code class="docutils literal notranslate"><span class="pre">piProducto.action_marcar_disponible()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra"><code class="docutils literal notranslate"><span class="pre">piCompra</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.currency_id"><code class="docutils literal notranslate"><span class="pre">piCompra.currency_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.comprador_id"><code class="docutils literal notranslate"><span class="pre">piCompra.comprador_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.vendedor_id"><code class="docutils literal notranslate"><span class="pre">piCompra.vendedor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.producto_id"><code class="docutils literal notranslate"><span class="pre">piCompra.producto_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.estado"><code class="docutils literal notranslate"><span class="pre">piCompra.estado</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.valoracion_comprador_id"><code class="docutils literal notranslate"><span class="pre">piCompra.valoracion_comprador_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.valoracion_vendedor_id"><code class="docutils literal notranslate"><span class="pre">piCompra.valoracion_vendedor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.create"><code class="docutils literal notranslate"><span class="pre">piCompra.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.action_procesar_compra"><code class="docutils literal notranslate"><span class="pre">piCompra.action_procesar_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.action_confirmar_compra"><code class="docutils literal notranslate"><span class="pre">piCompra.action_confirmar_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.action_valorar_vendedor"><code class="docutils literal notranslate"><span class="pre">piCompra.action_valorar_vendedor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_compra.piCompra.action_valorar_comprador"><code class="docutils literal notranslate"><span class="pre">piCompra.action_valorar_comprador()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario"><code class="docutils literal notranslate"><span class="pre">piComentario</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.producto_id"><code class="docutils literal notranslate"><span class="pre">piComentario.producto_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.usuario_id"><code class="docutils literal notranslate"><span class="pre">piComentario.usuario_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.reportes_ids"><code class="docutils literal notranslate"><span class="pre">piComentario.reportes_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.create"><code class="docutils literal notranslate"><span class="pre">piComentario.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.write"><code class="docutils literal notranslate"><span class="pre">piComentario.write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.action_editar_comentario"><code class="docutils literal notranslate"><span class="pre">piComentario.action_editar_comentario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.action_eliminar_comentario"><code class="docutils literal notranslate"><span class="pre">piComentario.action_eliminar_comentario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_comentario.piComentario.action_reportar_comentario"><code class="docutils literal notranslate"><span class="pre">piComentario.action_reportar_comentario()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion"><code class="docutils literal notranslate"><span class="pre">piValoracion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.valoracion"><code class="docutils literal notranslate"><span class="pre">piValoracion.valoracion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.usuario_valorado_id"><code class="docutils literal notranslate"><span class="pre">piValoracion.usuario_valorado_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.usuario_valorador_id"><code class="docutils literal notranslate"><span class="pre">piValoracion.usuario_valorador_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.compra_id"><code class="docutils literal notranslate"><span class="pre">piValoracion.compra_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.producto_id"><code class="docutils literal notranslate"><span class="pre">piValoracion.producto_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.tipo_valoracion"><code class="docutils literal notranslate"><span class="pre">piValoracion.tipo_valoracion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.create"><code class="docutils literal notranslate"><span class="pre">piValoracion.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_valoracion.piValoracion.action_modificar_valoracion"><code class="docutils literal notranslate"><span class="pre">piValoracion.action_modificar_valoracion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte"><code class="docutils literal notranslate"><span class="pre">PiReporte</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.estado"><code class="docutils literal notranslate"><span class="pre">PiReporte.estado</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.tipo_reporte"><code class="docutils literal notranslate"><span class="pre">PiReporte.tipo_reporte</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.reportado_por_id"><code class="docutils literal notranslate"><span class="pre">PiReporte.reportado_por_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.producto_reportado_id"><code class="docutils literal notranslate"><span class="pre">PiReporte.producto_reportado_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.usuario_reportado_id"><code class="docutils literal notranslate"><span class="pre">PiReporte.usuario_reportado_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.comentario_reportado_id"><code class="docutils literal notranslate"><span class="pre">PiReporte.comentario_reportado_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.accion_tomada"><code class="docutils literal notranslate"><span class="pre">PiReporte.accion_tomada</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.create"><code class="docutils literal notranslate"><span class="pre">PiReporte.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.action_marcar_en_revision"><code class="docutils literal notranslate"><span class="pre">PiReporte.action_marcar_en_revision()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.action_resolver_reporte"><code class="docutils literal notranslate"><span class="pre">PiReporte.action_resolver_reporte()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporte.action_rechazar_reporte"><code class="docutils literal notranslate"><span class="pre">PiReporte.action_rechazar_reporte()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporteResolverWizard"><code class="docutils literal notranslate"><span class="pre">PiReporteResolverWizard</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporteResolverWizard.reporte_id"><code class="docutils literal notranslate"><span class="pre">PiReporteResolverWizard.reporte_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporteResolverWizard.accion_tomada"><code class="docutils literal notranslate"><span class="pre">PiReporteResolverWizard.accion_tomada</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_reporte.PiReporteResolverWizard.action_confirmar_resolucion"><code class="docutils literal notranslate"><span class="pre">PiReporteResolverWizard.action_confirmar_resolucion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion"><code class="docutils literal notranslate"><span class="pre">PiConversacion</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.comprador_id"><code class="docutils literal notranslate"><span class="pre">PiConversacion.comprador_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.vendedor_id"><code class="docutils literal notranslate"><span class="pre">PiConversacion.vendedor_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.producto_id"><code class="docutils literal notranslate"><span class="pre">PiConversacion.producto_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.compra_id"><code class="docutils literal notranslate"><span class="pre">PiConversacion.compra_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.mensaje_ids"><code class="docutils literal notranslate"><span class="pre">PiConversacion.mensaje_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.state"><code class="docutils literal notranslate"><span class="pre">PiConversacion.state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.action_cerrar_conversacion"><code class="docutils literal notranslate"><span class="pre">PiConversacion.action_cerrar_conversacion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_conversacion.PiConversacion.action_reabrir_conversacion"><code class="docutils literal notranslate"><span class="pre">PiConversacion.action_reabrir_conversacion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_mensaje.PiMensaje"><code class="docutils literal notranslate"><span class="pre">PiMensaje</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_mensaje.PiMensaje.conversacion_id"><code class="docutils literal notranslate"><span class="pre">PiMensaje.conversacion_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_mensaje.PiMensaje.remitente_id"><code class="docutils literal notranslate"><span class="pre">PiMensaje.remitente_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_mensaje.PiMensaje.tipo_contenido"><code class="docutils literal notranslate"><span class="pre">PiMensaje.tipo_contenido</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_categoria.piCategoria"><code class="docutils literal notranslate"><span class="pre">piCategoria</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_categoria.piCategoria.productos_ids"><code class="docutils literal notranslate"><span class="pre">piCategoria.productos_ids</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_categoria.piCategoria.create"><code class="docutils literal notranslate"><span class="pre">piCategoria.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_categoria.piCategoria.action_listar_productos"><code class="docutils literal notranslate"><span class="pre">piCategoria.action_listar_productos()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_etiqueta.piEtiqueta"><code class="docutils literal notranslate"><span class="pre">piEtiqueta</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_etiqueta.piEtiqueta.productos_ids"><code class="docutils literal notranslate"><span class="pre">piEtiqueta.productos_ids</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pi_core.models.pi_producto_imagen.piProductoImagen"><code class="docutils literal notranslate"><span class="pre">piProductoImagen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto_imagen.piProductoImagen.producto_id"><code class="docutils literal notranslate"><span class="pre">piProductoImagen.producto_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pi_core.models.pi_producto_imagen.piProductoImagen.create"><code class="docutils literal notranslate"><span class="pre">piProductoImagen.create()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi_rest.html">Referencia de código – <code class="docutils literal notranslate"><span class="pre">pi_api_rest</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="autoapi_rest.html#module-pi_api_rest.controllers.auth">Módulo <code class="docutils literal notranslate"><span class="pre">pi_api_rest.controllers</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth"><code class="docutils literal notranslate"><span class="pre">JWTAuth</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth.SECRET_KEY"><code class="docutils literal notranslate"><span class="pre">JWTAuth.SECRET_KEY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth.ALGORITHM"><code class="docutils literal notranslate"><span class="pre">JWTAuth.ALGORITHM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth.TOKEN_EXPIRY"><code class="docutils literal notranslate"><span class="pre">JWTAuth.TOKEN_EXPIRY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth.generar_token"><code class="docutils literal notranslate"><span class="pre">JWTAuth.generar_token()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth.verificar_token"><code class="docutils literal notranslate"><span class="pre">JWTAuth.verificar_token()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.JWTAuth.obtener_token_desde_header"><code class="docutils literal notranslate"><span class="pre">JWTAuth.obtener_token_desde_header()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth.jwt_required"><code class="docutils literal notranslate"><span class="pre">jwt_required()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils"><code class="docutils literal notranslate"><span class="pre">APIUtils</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils.json_response"><code class="docutils literal notranslate"><span class="pre">APIUtils.json_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils.error_response"><code class="docutils literal notranslate"><span class="pre">APIUtils.error_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils.usuario_to_dict"><code class="docutils literal notranslate"><span class="pre">APIUtils.usuario_to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils.producto_to_dict"><code class="docutils literal notranslate"><span class="pre">APIUtils.producto_to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils.comentario_to_dict"><code class="docutils literal notranslate"><span class="pre">APIUtils.comentario_to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.utils.APIUtils.mensaje_to_dict"><code class="docutils literal notranslate"><span class="pre">APIUtils.mensaje_to_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth_controller.AuthController"><code class="docutils literal notranslate"><span class="pre">AuthController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth_controller.AuthController.registro"><code class="docutils literal notranslate"><span class="pre">AuthController.registro()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth_controller.AuthController.login"><code class="docutils literal notranslate"><span class="pre">AuthController.login()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.auth_controller.AuthController.refresh_token"><code class="docutils literal notranslate"><span class="pre">AuthController.refresh_token()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.productos_controller.ProductosController"><code class="docutils literal notranslate"><span class="pre">ProductosController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.productos_controller.ProductosController.listar_productos"><code class="docutils literal notranslate"><span class="pre">ProductosController.listar_productos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.productos_controller.ProductosController.obtener_producto"><code class="docutils literal notranslate"><span class="pre">ProductosController.obtener_producto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.productos_controller.ProductosController.crear_producto"><code class="docutils literal notranslate"><span class="pre">ProductosController.crear_producto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.productos_controller.ProductosController.actualizar_producto"><code class="docutils literal notranslate"><span class="pre">ProductosController.actualizar_producto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.productos_controller.ProductosController.eliminar_producto"><code class="docutils literal notranslate"><span class="pre">ProductosController.eliminar_producto()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController"><code class="docutils literal notranslate"><span class="pre">UsuariosController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.listar_usuarios"><code class="docutils literal notranslate"><span class="pre">UsuariosController.listar_usuarios()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.obtener_usuario"><code class="docutils literal notranslate"><span class="pre">UsuariosController.obtener_usuario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.obtener_productos_usuario"><code class="docutils literal notranslate"><span class="pre">UsuariosController.obtener_productos_usuario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.obtener_valoraciones_usuario"><code class="docutils literal notranslate"><span class="pre">UsuariosController.obtener_valoraciones_usuario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.obtener_perfil_actual"><code class="docutils literal notranslate"><span class="pre">UsuariosController.obtener_perfil_actual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.actualizar_perfil"><code class="docutils literal notranslate"><span class="pre">UsuariosController.actualizar_perfil()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.usuarios_controller.UsuariosController.eliminar_cuenta"><code class="docutils literal notranslate"><span class="pre">UsuariosController.eliminar_cuenta()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.comentarios_controller.ComentariosController"><code class="docutils literal notranslate"><span class="pre">ComentariosController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.comentarios_controller.ComentariosController.listar_comentarios_usuario"><code class="docutils literal notranslate"><span class="pre">ComentariosController.listar_comentarios_usuario()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.comentarios_controller.ComentariosController.obtener_comentario_individual"><code class="docutils literal notranslate"><span class="pre">ComentariosController.obtener_comentario_individual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.comentarios_controller.ComentariosController.obtener_comentarios"><code class="docutils literal notranslate"><span class="pre">ComentariosController.obtener_comentarios()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.comentarios_controller.ComentariosController.crear_comentario"><code class="docutils literal notranslate"><span class="pre">ComentariosController.crear_comentario()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController"><code class="docutils literal notranslate"><span class="pre">ComprasController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.listar_compras"><code class="docutils literal notranslate"><span class="pre">ComprasController.listar_compras()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.crear_compra"><code class="docutils literal notranslate"><span class="pre">ComprasController.crear_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.obtener_compra"><code class="docutils literal notranslate"><span class="pre">ComprasController.obtener_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.actualizar_compra"><code class="docutils literal notranslate"><span class="pre">ComprasController.actualizar_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.cancelar_compra"><code class="docutils literal notranslate"><span class="pre">ComprasController.cancelar_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.confirmar_compra"><code class="docutils literal notranslate"><span class="pre">ComprasController.confirmar_compra()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.compras_controller.ComprasController.rechazar_compra"><code class="docutils literal notranslate"><span class="pre">ComprasController.rechazar_compra()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.valoraciones_controller.ValoracionesController"><code class="docutils literal notranslate"><span class="pre">ValoracionesController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.valoraciones_controller.ValoracionesController.listar_valoraciones"><code class="docutils literal notranslate"><span class="pre">ValoracionesController.listar_valoraciones()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.valoraciones_controller.ValoracionesController.obtener_valoracion"><code class="docutils literal notranslate"><span class="pre">ValoracionesController.obtener_valoracion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.valoraciones_controller.ValoracionesController.crear_valoracion"><code class="docutils literal notranslate"><span class="pre">ValoracionesController.crear_valoracion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.reportes_controller.ReportesController"><code class="docutils literal notranslate"><span class="pre">ReportesController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.reportes_controller.ReportesController.listar_reportes"><code class="docutils literal notranslate"><span class="pre">ReportesController.listar_reportes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.reportes_controller.ReportesController.obtener_reporte"><code class="docutils literal notranslate"><span class="pre">ReportesController.obtener_reporte()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.reportes_controller.ReportesController.crear_reporte"><code class="docutils literal notranslate"><span class="pre">ReportesController.crear_reporte()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController"><code class="docutils literal notranslate"><span class="pre">ConversacionesController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController.listar_conversaciones"><code class="docutils literal notranslate"><span class="pre">ConversacionesController.listar_conversaciones()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController.obtener_conversacion"><code class="docutils literal notranslate"><span class="pre">ConversacionesController.obtener_conversacion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController.actualizar_conversacion"><code class="docutils literal notranslate"><span class="pre">ConversacionesController.actualizar_conversacion()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController.obtener_mensajes"><code class="docutils literal notranslate"><span class="pre">ConversacionesController.obtener_mensajes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController.enviar_mensaje"><code class="docutils literal notranslate"><span class="pre">ConversacionesController.enviar_mensaje()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.conversaciones_controller.ConversacionesController.iniciar_chat_producto"><code class="docutils literal notranslate"><span class="pre">ConversacionesController.iniciar_chat_producto()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.categorias_controller.CategoriasController"><code class="docutils literal notranslate"><span class="pre">CategoriasController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.categorias_controller.CategoriasController.listar_categorias"><code class="docutils literal notranslate"><span class="pre">CategoriasController.listar_categorias()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.categorias_controller.CategoriasController.obtener_categoria"><code class="docutils literal notranslate"><span class="pre">CategoriasController.obtener_categoria()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.etiquetas_controller.EtiquetasController"><code class="docutils literal notranslate"><span class="pre">EtiquetasController</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.etiquetas_controller.EtiquetasController.listar_etiquetas"><code class="docutils literal notranslate"><span class="pre">EtiquetasController.listar_etiquetas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.etiquetas_controller.EtiquetasController.obtener_etiqueta"><code class="docutils literal notranslate"><span class="pre">EtiquetasController.obtener_etiqueta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="autoapi_rest.html#pi_api_rest.controllers.etiquetas_controller.EtiquetasController.crear_etiqueta"><code class="docutils literal notranslate"><span class="pre">EtiquetasController.crear_etiqueta()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Vendoo – Documentación Técnica Módulos Odoo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Referencia de código – <code class="docutils literal notranslate"><span class="pre">pi_core</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/autoapi_core.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="referencia-de-codigo-pi-core">
+<span id="autoapi-core"></span><h1>Referencia de código – <code class="docutils literal notranslate"><span class="pre">pi_core</span></code><a class="headerlink" href="#referencia-de-codigo-pi-core" title="Link to this heading"></a></h1>
+<p>Esta página incluye la documentación generada automáticamente desde los
+docstrings del código Python del módulo <code class="docutils literal notranslate"><span class="pre">pi_core</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Para regenerar esta sección ejecuta:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sphinx-apidoc<span class="w"> </span>-f<span class="w"> </span>-o<span class="w"> </span>docs/api/autoapi<span class="w"> </span>custom_addons/pi_core
+make<span class="w"> </span>-C<span class="w"> </span>docs<span class="w"> </span>html
+</pre></div>
+</div>
+</div>
+<hr class="docutils" />
+<section id="module-pi_core.models.pi_usuarios">
+<span id="modulo-pi-core-models"></span><h2>Módulo <code class="docutils literal notranslate"><span class="pre">pi_core.models</span></code><a class="headerlink" href="#module-pi_core.models.pi_usuarios" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_usuarios.</span></span><span class="sig-name descname"><span class="pre">PiUsuario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_usuarios.html#PiUsuario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.partner_id">
+<span class="sig-name descname"><span class="pre">partner_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'res.partner'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.partner_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.valoraciones_recibidas">
+<span class="sig-name descname"><span class="pre">valoraciones_recibidas</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.valoracion'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.valoraciones_recibidas" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.valoraciones_realizadas">
+<span class="sig-name descname"><span class="pre">valoraciones_realizadas</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.valoracion'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.valoraciones_realizadas" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.productos_venta">
+<span class="sig-name descname"><span class="pre">productos_venta</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.productos_venta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.productos_vendidos">
+<span class="sig-name descname"><span class="pre">productos_vendidos</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.compra'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.productos_vendidos" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.productos_comprados">
+<span class="sig-name descname"><span class="pre">productos_comprados</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.compra'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.productos_comprados" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.reportes_realizados">
+<span class="sig-name descname"><span class="pre">reportes_realizados</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.reporte'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.reportes_realizados" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.reportes_recibidos">
+<span class="sig-name descname"><span class="pre">reportes_recibidos</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.reporte'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.reportes_recibidos" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.conversaciones_comprador_ids">
+<span class="sig-name descname"><span class="pre">conversaciones_comprador_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.conversacion'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.conversaciones_comprador_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.conversaciones_vendedor_ids">
+<span class="sig-name descname"><span class="pre">conversaciones_vendedor_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.conversacion'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.conversaciones_vendedor_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.mensajes_enviados_ids">
+<span class="sig-name descname"><span class="pre">mensajes_enviados_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.mensaje'</span></span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.mensajes_enviados_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_usuarios.html#PiUsuario.write"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.write" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.action_reportar_usuario">
+<span class="sig-name descname"><span class="pre">action_reportar_usuario</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_usuarios.html#PiUsuario.action_reportar_usuario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.action_reportar_usuario" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_usuarios.PiUsuario.action_ver_perfil_publico">
+<span class="sig-name descname"><span class="pre">action_ver_perfil_publico</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_usuarios.html#PiUsuario.action_ver_perfil_publico"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_usuarios.PiUsuario.action_ver_perfil_publico" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_producto">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_producto.</span></span><span class="sig-name descname"><span class="pre">piProducto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto.html#piProducto"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto.piProducto" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.estado">
+<span class="sig-name descname"><span class="pre">estado</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('nuevo',</span> <span class="pre">'Nuevo'),</span> <span class="pre">('segunda_mano',</span> <span class="pre">'Segunda</span> <span class="pre">Mano')]</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.estado" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.company_currency_id">
+<span class="sig-name descname"><span class="pre">company_currency_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'res.currency'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.company_currency_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.propietario_id">
+<span class="sig-name descname"><span class="pre">propietario_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.propietario_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.categoria_id">
+<span class="sig-name descname"><span class="pre">categoria_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.categoria'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.categoria_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.etiquetas_ids">
+<span class="sig-name descname"><span class="pre">etiquetas_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.etiqueta'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.etiquetas_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.imagenes_ids">
+<span class="sig-name descname"><span class="pre">imagenes_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto.imagen'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.imagenes_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.comentarios_ids">
+<span class="sig-name descname"><span class="pre">comentarios_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.comentario'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.comentarios_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.compra_id">
+<span class="sig-name descname"><span class="pre">compra_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.compra'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.compra_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.reportes_ids">
+<span class="sig-name descname"><span class="pre">reportes_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.reporte'</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.reportes_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.estado_venta">
+<span class="sig-name descname"><span class="pre">estado_venta</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('disponible',</span> <span class="pre">'Disponible'),</span> <span class="pre">('vendido',</span> <span class="pre">'Vendido')]</span></span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.estado_venta" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.action_agregar_comentario">
+<span class="sig-name descname"><span class="pre">action_agregar_comentario</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto.html#piProducto.action_agregar_comentario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.action_agregar_comentario" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.action_reportar_producto">
+<span class="sig-name descname"><span class="pre">action_reportar_producto</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto.html#piProducto.action_reportar_producto"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.action_reportar_producto" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.action_iniciar_chat">
+<span class="sig-name descname"><span class="pre">action_iniciar_chat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto.html#piProducto.action_iniciar_chat"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.action_iniciar_chat" title="Link to this definition"></a></dt>
+<dd><p>Abre o crea un chat entre el usuario actual y el vendedor del producto</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.action_marcar_vendido">
+<span class="sig-name descname"><span class="pre">action_marcar_vendido</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto.html#piProducto.action_marcar_vendido"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.action_marcar_vendido" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto.piProducto.action_marcar_disponible">
+<span class="sig-name descname"><span class="pre">action_marcar_disponible</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto.html#piProducto.action_marcar_disponible"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto.piProducto.action_marcar_disponible" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_compra">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_compra.</span></span><span class="sig-name descname"><span class="pre">piCompra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_compra.html#piCompra"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_compra.piCompra" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.currency_id">
+<span class="sig-name descname"><span class="pre">currency_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'res.currency'</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.currency_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.comprador_id">
+<span class="sig-name descname"><span class="pre">comprador_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.comprador_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.vendedor_id">
+<span class="sig-name descname"><span class="pre">vendedor_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.vendedor_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.producto_id">
+<span class="sig-name descname"><span class="pre">producto_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.producto_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.estado">
+<span class="sig-name descname"><span class="pre">estado</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('pendiente',</span> <span class="pre">'Pendiente'),</span> <span class="pre">('procesando',</span> <span class="pre">'Procesando'),</span> <span class="pre">('confirmada',</span> <span class="pre">'Confirmada'),</span> <span class="pre">('cancelada',</span> <span class="pre">'Cancelada'),</span> <span class="pre">('rechazada',</span> <span class="pre">'Rechazada'),</span> <span class="pre">('valorada_comprador',</span> <span class="pre">'Valorada</span> <span class="pre">por</span> <span class="pre">Comprador'),</span> <span class="pre">('valorada_vendedor',</span> <span class="pre">'Valorada</span> <span class="pre">por</span> <span class="pre">Vendedor'),</span> <span class="pre">('valorada_ambos',</span> <span class="pre">'Valorada</span> <span class="pre">por</span> <span class="pre">Ambos')]</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.estado" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.valoracion_comprador_id">
+<span class="sig-name descname"><span class="pre">valoracion_comprador_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.valoracion'</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.valoracion_comprador_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.valoracion_vendedor_id">
+<span class="sig-name descname"><span class="pre">valoracion_vendedor_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.valoracion'</span></span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.valoracion_vendedor_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.action_procesar_compra">
+<span class="sig-name descname"><span class="pre">action_procesar_compra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_compra.html#piCompra.action_procesar_compra"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.action_procesar_compra" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.action_confirmar_compra">
+<span class="sig-name descname"><span class="pre">action_confirmar_compra</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_compra.html#piCompra.action_confirmar_compra"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.action_confirmar_compra" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.action_valorar_vendedor">
+<span class="sig-name descname"><span class="pre">action_valorar_vendedor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_compra.html#piCompra.action_valorar_vendedor"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.action_valorar_vendedor" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_compra.piCompra.action_valorar_comprador">
+<span class="sig-name descname"><span class="pre">action_valorar_comprador</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_compra.html#piCompra.action_valorar_comprador"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_compra.piCompra.action_valorar_comprador" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_comentario">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_comentario.</span></span><span class="sig-name descname"><span class="pre">piComentario</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_comentario.html#piComentario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.producto_id">
+<span class="sig-name descname"><span class="pre">producto_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.producto_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.usuario_id">
+<span class="sig-name descname"><span class="pre">usuario_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.usuario_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.reportes_ids">
+<span class="sig-name descname"><span class="pre">reportes_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.reporte'</span></span><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.reportes_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_comentario.html#piComentario.write"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.write" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.action_editar_comentario">
+<span class="sig-name descname"><span class="pre">action_editar_comentario</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_comentario.html#piComentario.action_editar_comentario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.action_editar_comentario" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.action_eliminar_comentario">
+<span class="sig-name descname"><span class="pre">action_eliminar_comentario</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_comentario.html#piComentario.action_eliminar_comentario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.action_eliminar_comentario" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_comentario.piComentario.action_reportar_comentario">
+<span class="sig-name descname"><span class="pre">action_reportar_comentario</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_comentario.html#piComentario.action_reportar_comentario"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_comentario.piComentario.action_reportar_comentario" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_valoracion">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_valoracion.</span></span><span class="sig-name descname"><span class="pre">piValoracion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_valoracion.html#piValoracion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.valoracion">
+<span class="sig-name descname"><span class="pre">valoracion</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('1',</span> <span class="pre">'1</span> <span class="pre">Estrella'),</span> <span class="pre">('2',</span> <span class="pre">'2</span> <span class="pre">Estrellas'),</span> <span class="pre">('3',</span> <span class="pre">'3</span> <span class="pre">Estrellas'),</span> <span class="pre">('4',</span> <span class="pre">'4</span> <span class="pre">Estrellas'),</span> <span class="pre">('5',</span> <span class="pre">'5</span> <span class="pre">Estrellas')]</span></span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.valoracion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.usuario_valorado_id">
+<span class="sig-name descname"><span class="pre">usuario_valorado_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.usuario_valorado_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.usuario_valorador_id">
+<span class="sig-name descname"><span class="pre">usuario_valorador_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.usuario_valorador_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.compra_id">
+<span class="sig-name descname"><span class="pre">compra_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.compra'</span></span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.compra_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.producto_id">
+<span class="sig-name descname"><span class="pre">producto_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.producto_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.tipo_valoracion">
+<span class="sig-name descname"><span class="pre">tipo_valoracion</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('comprador',</span> <span class="pre">'Valoración</span> <span class="pre">a</span> <span class="pre">Comprador'),</span> <span class="pre">('vendedor',</span> <span class="pre">'Valoración</span> <span class="pre">a</span> <span class="pre">Vendedor')]</span></span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.tipo_valoracion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_valoracion.piValoracion.action_modificar_valoracion">
+<span class="sig-name descname"><span class="pre">action_modificar_valoracion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_valoracion.html#piValoracion.action_modificar_valoracion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_valoracion.piValoracion.action_modificar_valoracion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_reporte">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_reporte.</span></span><span class="sig-name descname"><span class="pre">PiReporte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_reporte.html#PiReporte"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.estado">
+<span class="sig-name descname"><span class="pre">estado</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('pendiente',</span> <span class="pre">'Pendiente'),</span> <span class="pre">('en_revision',</span> <span class="pre">'En</span> <span class="pre">Revisión'),</span> <span class="pre">('resuelto',</span> <span class="pre">'Resuelto'),</span> <span class="pre">('rechazado',</span> <span class="pre">'Rechazado')]</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.estado" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.tipo_reporte">
+<span class="sig-name descname"><span class="pre">tipo_reporte</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('producto',</span> <span class="pre">'Reporte</span> <span class="pre">de</span> <span class="pre">Producto'),</span> <span class="pre">('usuario',</span> <span class="pre">'Reporte</span> <span class="pre">de</span> <span class="pre">Usuario'),</span> <span class="pre">('comentario',</span> <span class="pre">'Reporte</span> <span class="pre">de</span> <span class="pre">Comentario')]</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.tipo_reporte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.reportado_por_id">
+<span class="sig-name descname"><span class="pre">reportado_por_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.reportado_por_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.producto_reportado_id">
+<span class="sig-name descname"><span class="pre">producto_reportado_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.producto_reportado_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.usuario_reportado_id">
+<span class="sig-name descname"><span class="pre">usuario_reportado_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.usuario_reportado_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.comentario_reportado_id">
+<span class="sig-name descname"><span class="pre">comentario_reportado_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.comentario'</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.comentario_reportado_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.accion_tomada">
+<span class="sig-name descname"><span class="pre">accion_tomada</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('ninguna',</span> <span class="pre">'Ninguna</span> <span class="pre">Acción'),</span> <span class="pre">('advertencia',</span> <span class="pre">'Advertencia'),</span> <span class="pre">('eliminacion_contenido',</span> <span class="pre">'Eliminación</span> <span class="pre">de</span> <span class="pre">Contenido'),</span> <span class="pre">('suspension_temporal',</span> <span class="pre">'Suspensión</span> <span class="pre">Temporal'),</span> <span class="pre">('suspension_permanente',</span> <span class="pre">'Suspensión</span> <span class="pre">Permanente')]</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.accion_tomada" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.action_marcar_en_revision">
+<span class="sig-name descname"><span class="pre">action_marcar_en_revision</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_reporte.html#PiReporte.action_marcar_en_revision"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.action_marcar_en_revision" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.action_resolver_reporte">
+<span class="sig-name descname"><span class="pre">action_resolver_reporte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_reporte.html#PiReporte.action_resolver_reporte"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.action_resolver_reporte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporte.action_rechazar_reporte">
+<span class="sig-name descname"><span class="pre">action_rechazar_reporte</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_reporte.html#PiReporte.action_rechazar_reporte"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporte.action_rechazar_reporte" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporteResolverWizard">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_reporte.</span></span><span class="sig-name descname"><span class="pre">PiReporteResolverWizard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_reporte.html#PiReporteResolverWizard"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporteResolverWizard" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TransientModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporteResolverWizard.reporte_id">
+<span class="sig-name descname"><span class="pre">reporte_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.reporte'</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporteResolverWizard.reporte_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporteResolverWizard.accion_tomada">
+<span class="sig-name descname"><span class="pre">accion_tomada</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('ninguna',</span> <span class="pre">'Ninguna</span> <span class="pre">Acción'),</span> <span class="pre">('advertencia',</span> <span class="pre">'Advertencia'),</span> <span class="pre">('eliminacion_contenido',</span> <span class="pre">'Eliminación</span> <span class="pre">de</span> <span class="pre">Contenido'),</span> <span class="pre">('suspension_temporal',</span> <span class="pre">'Suspensión</span> <span class="pre">Temporal'),</span> <span class="pre">('suspension_permanente',</span> <span class="pre">'Suspensión</span> <span class="pre">Permanente')]</span></span><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporteResolverWizard.accion_tomada" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_reporte.PiReporteResolverWizard.action_confirmar_resolucion">
+<span class="sig-name descname"><span class="pre">action_confirmar_resolucion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_reporte.html#PiReporteResolverWizard.action_confirmar_resolucion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_reporte.PiReporteResolverWizard.action_confirmar_resolucion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_conversacion">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_conversacion.</span></span><span class="sig-name descname"><span class="pre">PiConversacion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_conversacion.html#PiConversacion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.comprador_id">
+<span class="sig-name descname"><span class="pre">comprador_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.comprador_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.vendedor_id">
+<span class="sig-name descname"><span class="pre">vendedor_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.vendedor_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.producto_id">
+<span class="sig-name descname"><span class="pre">producto_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.producto_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.compra_id">
+<span class="sig-name descname"><span class="pre">compra_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.compra'</span></span><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.compra_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.mensaje_ids">
+<span class="sig-name descname"><span class="pre">mensaje_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.mensaje'</span></span><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.mensaje_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.state">
+<span class="sig-name descname"><span class="pre">state</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('abierta',</span> <span class="pre">'Abierta'),</span> <span class="pre">('cerrada',</span> <span class="pre">'Cerrada'),</span> <span class="pre">('bloqueada',</span> <span class="pre">'Bloqueada')]</span></span><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.action_cerrar_conversacion">
+<span class="sig-name descname"><span class="pre">action_cerrar_conversacion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_conversacion.html#PiConversacion.action_cerrar_conversacion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.action_cerrar_conversacion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_conversacion.PiConversacion.action_reabrir_conversacion">
+<span class="sig-name descname"><span class="pre">action_reabrir_conversacion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_conversacion.html#PiConversacion.action_reabrir_conversacion"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_conversacion.PiConversacion.action_reabrir_conversacion" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_mensaje">
+<dt class="sig sig-object py" id="pi_core.models.pi_mensaje.PiMensaje">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_mensaje.</span></span><span class="sig-name descname"><span class="pre">PiMensaje</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_mensaje.html#PiMensaje"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_mensaje.PiMensaje" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_mensaje.PiMensaje.conversacion_id">
+<span class="sig-name descname"><span class="pre">conversacion_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.conversacion'</span></span><a class="headerlink" href="#pi_core.models.pi_mensaje.PiMensaje.conversacion_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_mensaje.PiMensaje.remitente_id">
+<span class="sig-name descname"><span class="pre">remitente_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.usuario'</span></span><a class="headerlink" href="#pi_core.models.pi_mensaje.PiMensaje.remitente_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_mensaje.PiMensaje.tipo_contenido">
+<span class="sig-name descname"><span class="pre">tipo_contenido</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('texto',</span> <span class="pre">'Texto'),</span> <span class="pre">('sistema',</span> <span class="pre">'Mensaje</span> <span class="pre">de</span> <span class="pre">sistema')]</span></span><a class="headerlink" href="#pi_core.models.pi_mensaje.PiMensaje.tipo_contenido" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_categoria">
+<dt class="sig sig-object py" id="pi_core.models.pi_categoria.piCategoria">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_categoria.</span></span><span class="sig-name descname"><span class="pre">piCategoria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_categoria.html#piCategoria"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_categoria.piCategoria" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_categoria.piCategoria.productos_ids">
+<span class="sig-name descname"><span class="pre">productos_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_categoria.piCategoria.productos_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_categoria.piCategoria.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_categoria.piCategoria.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_categoria.piCategoria.action_listar_productos">
+<span class="sig-name descname"><span class="pre">action_listar_productos</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_categoria.html#piCategoria.action_listar_productos"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_categoria.piCategoria.action_listar_productos" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_etiqueta">
+<dt class="sig sig-object py" id="pi_core.models.pi_etiqueta.piEtiqueta">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_etiqueta.</span></span><span class="sig-name descname"><span class="pre">piEtiqueta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_etiqueta.html#piEtiqueta"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_etiqueta.piEtiqueta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_etiqueta.piEtiqueta.productos_ids">
+<span class="sig-name descname"><span class="pre">productos_ids</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_etiqueta.piEtiqueta.productos_ids" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-pi_core.models.pi_producto_imagen">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto_imagen.piProductoImagen">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pi_core.models.pi_producto_imagen.</span></span><span class="sig-name descname"><span class="pre">piProductoImagen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pi_core/models/pi_producto_imagen.html#piProductoImagen"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#pi_core.models.pi_producto_imagen.piProductoImagen" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parámetros<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>Any</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Tipo del valor devuelto<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto_imagen.piProductoImagen.producto_id">
+<span class="sig-name descname"><span class="pre">producto_id</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pi.producto'</span></span><a class="headerlink" href="#pi_core.models.pi_producto_imagen.piProductoImagen.producto_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pi_core.models.pi_producto_imagen.piProductoImagen.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pi_core.models.pi_producto_imagen.piProductoImagen.create" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="endpoints_otros.html" class="btn btn-neutral float-left" title="API REST – Comentarios, Compras, Valoraciones y más" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="autoapi_rest.html" class="btn btn-neutral float-right" title="Referencia de código – pi_api_rest" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2025-2026, Adrià &amp; Arnau.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

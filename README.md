@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="doc/assets/logo3.png" alt="Vendoo Logo" width="200"/>
+  <img src="assets/logo3.png" alt="Vendoo Logo" width="200"/>
 </p>
 
 # Vendoo - Marketplace App 🛒 📚
